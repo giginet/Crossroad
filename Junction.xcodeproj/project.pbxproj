@@ -10,6 +10,7 @@
 		546DEA8420AD77F800923325 /* Junction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 546DEA7A20AD77F800923325 /* Junction.framework */; };
 		546DEA9720AD79BA00923325 /* JunctionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEA9520AD79BA00923325 /* JunctionTests.swift */; };
 		546DEA9B20AD7A0300923325 /* Junction.h in Headers */ = {isa = PBXBuildFile; fileRef = 546DEA9920AD7A0300923325 /* Junction.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		546DEA9D20AD7C9000923325 /* Argument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEA9C20AD7C9000923325 /* Argument.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +30,7 @@
 		546DEA9520AD79BA00923325 /* JunctionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JunctionTests.swift; path = Tests/JunctionTests/JunctionTests.swift; sourceTree = SOURCE_ROOT; };
 		546DEA9820AD7A0200923325 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Sources/Junction/Info.plist; sourceTree = SOURCE_ROOT; };
 		546DEA9920AD7A0300923325 /* Junction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Junction.h; path = Sources/Junction/Junction.h; sourceTree = SOURCE_ROOT; };
+		546DEA9C20AD7C9000923325 /* Argument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Argument.swift; path = Sources/Junction/Argument.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 			children = (
 				546DEA9820AD7A0200923325 /* Info.plist */,
 				546DEA9920AD7A0300923325 /* Junction.h */,
+				546DEA9C20AD7C9000923325 /* Argument.swift */,
 			);
 			path = Junction;
 			sourceTree = "<group>";
@@ -148,6 +151,7 @@
 				TargetAttributes = {
 					546DEA7920AD77F800923325 = {
 						CreatedOnToolsVersion = 9.3;
+						LastSwiftMigration = 0930;
 					};
 					546DEA8220AD77F800923325 = {
 						CreatedOnToolsVersion = 9.3;
@@ -194,6 +198,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				546DEA9D20AD7C9000923325 /* Argument.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,6 +344,7 @@
 		546DEA8F20AD77F800923325 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -357,6 +363,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -365,6 +372,7 @@
 		546DEA9020AD77F800923325 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -391,6 +399,7 @@
 		546DEA9220AD77F800923325 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
@@ -411,6 +420,7 @@
 		546DEA9320AD77F800923325 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
