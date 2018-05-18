@@ -1,5 +1,7 @@
 import Foundation
 
+public typealias SimpleRouter = Router<Void>
+
 public final class Router<UserInfo> {
     public let scheme: String
     private var routes: [Route<UserInfo>] = []
@@ -21,7 +23,7 @@ public final class Router<UserInfo> {
             return false
         }
         for route in routes {
-            if route.openIfPossible(url) {
+            if route.openIfPossible(url, userInfo: userInfo) {
                 return true
             }
         }
@@ -33,7 +35,7 @@ public final class Router<UserInfo> {
             return false
         }
         for route in routes {
-            if route.canRespond(to: url) {
+            if route.canRespond(to: url, userInfo: userInfo) {
                 return true
             }
         }

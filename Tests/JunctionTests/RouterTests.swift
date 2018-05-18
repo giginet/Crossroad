@@ -1,35 +1,12 @@
 import Foundation
 import XCTest
-@testable import Junction
+import Junction
 
 final class RouterTest: XCTestCase {
-    func makeRouter() -> Router<Void> {
-        return Router(scheme: "foobar")
-    }
-
-    func testPatternURL() {
-        let checkSameComponents: ((_ string: String) -> Void) = { string in
-            let patternURL = PatternURL(string: string)!
-            let url = URL(string: string)!
-            XCTAssertEqual(patternURL.scheme, url.scheme)
-            XCTAssertEqual(patternURL.host, url.host)
-            XCTAssertEqual(patternURL.pathComponents, url.pathComponents)
-        }
-
-        checkSameComponents("foobar://static")
-        checkSameComponents("foobar://foo/bar")
-        checkSameComponents("foobar://spam/ham")
-        checkSameComponents("foobar://foo/:keyword")
-
-        // URL doesn't like :xxx in host names so check values directly.
-        let patternURL = PatternURL(string: "foobar://:keyword")!
-        XCTAssertEqual(patternURL.scheme, "foobar")
-        XCTAssertEqual(patternURL.host, ":keyword")
-        XCTAssertEqual(patternURL.pathComponents, [])
-    }
+    let schema = "foobar"
 
     func testCanRespond() {
-        let router = makeRouter()
+        let router = SimpleRouter(scheme: schema)
         router.register(routes: [
             ("foobar://static", { _ in true }),
             ("foobar://foo/bar", { _ in true }),
@@ -47,25 +24,30 @@ final class RouterTest: XCTestCase {
     }
 
     func testHandle() {
-        let router = makeRouter()
+        let router = SimpleRouter(scheme: schema)
+        var openedCount = 0
         router.register(routes: [
             ("foobar://static", { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://static")!)
+                openedCount += 1
                 return true
             }),
             ("foobar://foo/bar", { context in
                 XCTAssertEqual(context.parameter(for: "param0"), 123)
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/bar?param0=123")!)
+                openedCount += 1
                 return true
             }),
             ("foobar://:keyword", { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://hoge")!)
                 XCTAssertEqual(try? context.argument(for: "keyword"), "hoge")
+                openedCount += 1
                 return true
             }),
             ("foobar://foo/:keyword", { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/hoge")!)
                 XCTAssertEqual(try? context.argument(for: "keyword"), "hoge")
+                openedCount += 1
                 return true
             }),
             ])
@@ -75,10 +57,11 @@ final class RouterTest: XCTestCase {
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/hoge")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foobar://spam/ham")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "notfoobar://static")!))
+        XCTAssertEqual(openedCount, 4)
     }
 
     func testHandleReturnsFalse() {
-        let router = makeRouter()
+        let router = SimpleRouter(scheme: schema)
         var matchesRoutes = 0
         router.register(routes: [
             ("foobar://foo/bar", { _ in
@@ -93,5 +76,22 @@ final class RouterTest: XCTestCase {
             ])
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/bar")!))
         XCTAssertEqual(matchesRoutes, 2)
+    }
+
+    func testWithUserInfo() {
+        struct UserInfo {
+            let value: Int
+        }
+        let router = Router<UserInfo>(scheme: schema)
+        var userInfo: UserInfo? = nil
+        router.register(routes: [
+            ("foobar://static", { context in
+                XCTAssertEqual(context.url, URL(string: "foobar://static")!)
+                userInfo = context.userInfo
+                return true
+            }),
+        ])
+        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://static")!, userInfo: UserInfo(value: 42)))
+        XCTAssertEqual(userInfo?.value, 42)
     }
 }

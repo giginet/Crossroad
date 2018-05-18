@@ -15,17 +15,17 @@ public struct Route<UserInfo> {
     }
 
     internal func canRespond(to url: URL, userInfo: UserInfo? = nil) -> Bool {
-        return parse(url) != nil
+        return parse(url, with: userInfo) != nil
     }
 
     internal func openIfPossible(_ url: URL, userInfo: UserInfo? = nil) -> Bool {
-        guard let context = parse(url) else {
+        guard let context = parse(url, with: userInfo) else {
             return false
         }
         return handler(context)
     }
 
-    internal func parse(_ url: URL, userInfo: UserInfo? = nil) -> Context<UserInfo>? {
+    internal func parse(_ url: URL, with userInfo: UserInfo? = nil) -> Context<UserInfo>? {
         guard let scheme = url.scheme, let host = url.host else {
             return nil
         }

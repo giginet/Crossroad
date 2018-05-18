@@ -3,6 +3,27 @@ import XCTest
 @testable import Junction
 
 final class PatternURLTests: XCTestCase {
+    func testPatternURL() {
+        let checkSameComponents: ((_ string: String) -> Void) = { string in
+            let patternURL = PatternURL(string: string)!
+            let url = URL(string: string)!
+            XCTAssertEqual(patternURL.scheme, url.scheme)
+            XCTAssertEqual(patternURL.host, url.host)
+            XCTAssertEqual(patternURL.pathComponents, url.pathComponents)
+        }
+
+        checkSameComponents("foobar://static")
+        checkSameComponents("foobar://foo/bar")
+        checkSameComponents("foobar://spam/ham")
+        checkSameComponents("foobar://foo/:keyword")
+
+        // URL doesn't like :xxx in host names so check values directly.
+        let patternURL = PatternURL(string: "foobar://:keyword")!
+        XCTAssertEqual(patternURL.scheme, "foobar")
+        XCTAssertEqual(patternURL.host, ":keyword")
+        XCTAssertEqual(patternURL.pathComponents, [])
+    }
+
     func testParseWithKeyword() {
         let url0 = PatternURL(string: "foobar://search/:keyword")
         XCTAssertEqual(url0?.scheme, "foobar")
