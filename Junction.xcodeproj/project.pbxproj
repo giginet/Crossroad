@@ -15,6 +15,7 @@
 		546DEAA120AE98C600923325 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAA020AE98C600923325 /* Route.swift */; };
 		546DEAA320AE98CE00923325 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAA220AE98CE00923325 /* Router.swift */; };
 		546DEAA520AE993700923325 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAA420AE993700923325 /* Context.swift */; };
+		546DEAA920AEBC8300923325 /* PatternURLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAA820AEBC8300923325 /* PatternURLTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +40,7 @@
 		546DEAA020AE98C600923325 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Route.swift; path = Sources/Junction/Route.swift; sourceTree = SOURCE_ROOT; };
 		546DEAA220AE98CE00923325 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Router.swift; path = Sources/Junction/Router.swift; sourceTree = SOURCE_ROOT; };
 		546DEAA420AE993700923325 /* Context.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Context.swift; path = Sources/Junction/Context.swift; sourceTree = SOURCE_ROOT; };
+		546DEAA820AEBC8300923325 /* PatternURLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PatternURLTests.swift; path = Sources/Junction/PatternURLTests.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 			children = (
 				546DEA9420AD79BA00923325 /* Info.plist */,
 				546DEA9520AD79BA00923325 /* RouterTests.swift */,
+				546DEAA820AEBC8300923325 /* PatternURLTests.swift */,
 			);
 			path = JunctionTests;
 			sourceTree = "<group>";
@@ -222,6 +225,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				546DEAA920AEBC8300923325 /* PatternURLTests.swift in Sources */,
 				546DEA9720AD79BA00923325 /* RouterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
