@@ -1,8 +1,7 @@
 import Foundation
 
-public struct Route {
-    public typealias Handler = (Context) -> Bool
-    internal static let keywordPrefix = ":"
+public struct Route<UserInfo> {
+    public typealias Handler = (Context<UserInfo>) -> Bool
 
     internal let patternURL: PatternURL
     private let handler: Handler
@@ -15,18 +14,18 @@ public struct Route {
         self.handler = handler
     }
 
-    internal func canRespond(to url: URL) -> Bool {
+    internal func canRespond(to url: URL, userInfo: UserInfo? = nil) -> Bool {
         return parse(url) != nil
     }
 
-    internal func openIfPossible(_ url: URL) -> Bool {
+    internal func openIfPossible(_ url: URL, userInfo: UserInfo? = nil) -> Bool {
         guard let context = parse(url) else {
             return false
         }
         return handler(context)
     }
 
-    internal func parse(_ url: URL) -> Context? {
+    internal func parse(_ url: URL, userInfo: UserInfo? = nil) -> Context<UserInfo>? {
         guard let scheme = url.scheme, let host = url.host else {
             return nil
         }
@@ -35,16 +34,16 @@ public struct Route {
         }
 
         var arguments: Arguments = [:]
-        if patternURL.host.hasPrefix(Route.keywordPrefix) {
-            let keyword = String(patternURL.host[Route.keywordPrefix.endIndex...])
+        if patternURL.host.hasPrefix(PatternURL.keywordPrefix) {
+            let keyword = String(patternURL.host[PatternURL.keywordPrefix.endIndex...])
             arguments[keyword] = host
         } else if host != patternURL.host {
             return nil
         }
 
         for (patternComponent, component) in zip(patternURL.pathComponents, url.pathComponents) {
-            if patternComponent.hasPrefix(Route.keywordPrefix) {
-                let keyword = String(patternComponent[Route.keywordPrefix.endIndex...])
+            if patternComponent.hasPrefix(PatternURL.keywordPrefix) {
+                let keyword = String(patternComponent[PatternURL.keywordPrefix.endIndex...])
                 arguments[keyword] = component
             } else if patternComponent == component {
                 continue
@@ -58,6 +57,6 @@ public struct Route {
         } else {
             parameters = []
         }
-        return Context(url: url, arguments: arguments, parameters: parameters)
+        return Context<UserInfo>(url: url, arguments: arguments, parameters: parameters, userInfo: userInfo)
     }
 }

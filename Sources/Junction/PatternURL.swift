@@ -3,6 +3,8 @@ import Foundation
 // A ':' in the host name is not a valid URL (as : is for the port) so we cannot use URL for the pattern and have to parse it ourselves.
 // Note that it's very simple and do not allow complicated patterns with for example queries.
 internal struct PatternURL {
+    static let keywordPrefix = ":"
+
     let scheme: String
     let host: String
     let pathComponents: [String]

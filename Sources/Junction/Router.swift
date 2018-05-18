@@ -1,14 +1,14 @@
 import Foundation
 
-public final class Router {
+public final class Router<UserInfo> {
     public let scheme: String
-    private var routes: [Route] = []
+    private var routes: [Route<UserInfo>] = []
 
     public init(scheme: String) {
         self.scheme = scheme
     }
 
-    internal func register(route: Route) {
+    internal func register(route: Route<UserInfo>) {
         if scheme != route.patternURL.scheme {
             assertionFailure("Router and pattern must have the same schemes")
         } else {
@@ -16,7 +16,7 @@ public final class Router {
         }
     }
 
-    public func openIfPossible(_ url: URL) -> Bool {
+    public func openIfPossible(_ url: URL, userInfo: UserInfo? = nil) -> Bool {
         if scheme != url.scheme {
             return false
         }
@@ -28,7 +28,7 @@ public final class Router {
         return false
     }
 
-    public func canRespond(to url: URL) -> Bool {
+    public func canRespond(to url: URL, userInfo: UserInfo? = nil) -> Bool {
         if scheme != url.scheme {
             return false
         }
@@ -40,7 +40,7 @@ public final class Router {
         return false
     }
 
-    public func register(routes: [(String, Route.Handler)]) {
+    public func register(routes: [(String, Route<UserInfo>.Handler)]) {
         for (pattern, handler) in routes {
             let route = Route(pattern: pattern, handler: handler)
             register(route: route)
