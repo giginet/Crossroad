@@ -11,6 +11,10 @@
 		546DEA9720AD79BA00923325 /* JunctionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEA9520AD79BA00923325 /* JunctionTests.swift */; };
 		546DEA9B20AD7A0300923325 /* Junction.h in Headers */ = {isa = PBXBuildFile; fileRef = 546DEA9920AD7A0300923325 /* Junction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		546DEA9D20AD7C9000923325 /* Argument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEA9C20AD7C9000923325 /* Argument.swift */; };
+		546DEA9F20AE984500923325 /* PatternURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEA9E20AE984500923325 /* PatternURL.swift */; };
+		546DEAA120AE98C600923325 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAA020AE98C600923325 /* Route.swift */; };
+		546DEAA320AE98CE00923325 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAA220AE98CE00923325 /* Router.swift */; };
+		546DEAA520AE993700923325 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAA420AE993700923325 /* Context.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +35,10 @@
 		546DEA9820AD7A0200923325 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Sources/Junction/Info.plist; sourceTree = SOURCE_ROOT; };
 		546DEA9920AD7A0300923325 /* Junction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Junction.h; path = Sources/Junction/Junction.h; sourceTree = SOURCE_ROOT; };
 		546DEA9C20AD7C9000923325 /* Argument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Argument.swift; path = Sources/Junction/Argument.swift; sourceTree = SOURCE_ROOT; };
+		546DEA9E20AE984500923325 /* PatternURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PatternURL.swift; path = Sources/Junction/PatternURL.swift; sourceTree = SOURCE_ROOT; };
+		546DEAA020AE98C600923325 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Route.swift; path = Sources/Junction/Route.swift; sourceTree = SOURCE_ROOT; };
+		546DEAA220AE98CE00923325 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Router.swift; path = Sources/Junction/Router.swift; sourceTree = SOURCE_ROOT; };
+		546DEAA420AE993700923325 /* Context.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Context.swift; path = Sources/Junction/Context.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +84,10 @@
 				546DEA9820AD7A0200923325 /* Info.plist */,
 				546DEA9920AD7A0300923325 /* Junction.h */,
 				546DEA9C20AD7C9000923325 /* Argument.swift */,
+				546DEA9E20AE984500923325 /* PatternURL.swift */,
+				546DEAA020AE98C600923325 /* Route.swift */,
+				546DEAA220AE98CE00923325 /* Router.swift */,
+				546DEAA420AE993700923325 /* Context.swift */,
 			);
 			path = Junction;
 			sourceTree = "<group>";
@@ -198,6 +210,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				546DEAA320AE98CE00923325 /* Router.swift in Sources */,
+				546DEAA120AE98C600923325 /* Route.swift in Sources */,
+				546DEA9F20AE984500923325 /* PatternURL.swift in Sources */,
+				546DEAA520AE993700923325 /* Context.swift in Sources */,
 				546DEA9D20AD7C9000923325 /* Argument.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
