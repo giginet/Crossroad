@@ -30,12 +30,4 @@ extension String: Argument {
     }
 }
 
-extension URL: Argument {
-    public init?(string: String) {
-        if let value = URL(string: string) {
-            self = value
-        } else {
-            return nil
-        }
-    }
-}
+extension URL: Argument { }
