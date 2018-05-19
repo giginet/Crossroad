@@ -17,6 +17,7 @@
 		546DEAC020B0993100923325 /* PatternURLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAB420B0991900923325 /* PatternURLTests.swift */; };
 		546DEAC120B0994800923325 /* RouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAAD20B0990500923325 /* RouterTests.swift */; };
 		54AB581620B09AD800E2FD28 /* ArgumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54AB581420B09AD400E2FD28 /* ArgumentTests.swift */; };
+		54AB581820B0AED300E2FD28 /* OpenURLOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54AB581720B0AED300E2FD28 /* OpenURLOption.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,7 @@
 		546DEAB620B0991900923325 /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		546DEAB720B0991900923325 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54AB581420B09AD400E2FD28 /* ArgumentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArgumentTests.swift; sourceTree = "<group>"; };
+		54AB581720B0AED300E2FD28 /* OpenURLOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenURLOption.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 				546DEAB020B0991800923325 /* PatternURL.swift */,
 				546DEAB620B0991900923325 /* Route.swift */,
 				546DEAB520B0991900923325 /* Router.swift */,
+				54AB581720B0AED300E2FD28 /* OpenURLOption.swift */,
 			);
 			name = Crossroad;
 			path = Sources/Crossroad;
@@ -218,6 +221,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54AB581820B0AED300E2FD28 /* OpenURLOption.swift in Sources */,
 				546DEAB820B0991900923325 /* PatternURL.swift in Sources */,
 				546DEABB20B0991900923325 /* Context.swift in Sources */,
 				546DEAB920B0991900923325 /* Argument.swift in Sources */,

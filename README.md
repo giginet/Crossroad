@@ -4,12 +4,12 @@ Route URL schemes easily.
 
 ## Basic Usage
 
-You can use `SimpleRouter` to define route definitions.
+You can use `DefaultRouter` to define route definitions.
 
 Imagine to implement Pokédex on iOS. You can access somewhere via URL scheme.
 
 ```swift
-router = SimpleRouter(scheme: "pokemon")
+router = DefaultRouter(scheme: "pokemon")
 router.register(routes: [
     ("pokedex://pokemons", { context in 
         let type: Type? = context.parameters(for: "type")
@@ -40,7 +40,7 @@ In general usecase, you should call `router.openIfPossible` on `UIApplicationDel
 
 ```swift
 func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
-    router.openIfPossible(url)
+    router.openIfPossible(url, options: options)
 }
 ```
 
@@ -100,17 +100,17 @@ You can add any payload to `Router`.
 
 ```swift
 struct UserInfo {
-    let sourceApplication: String
+    let userID: Int64
 }
 let router = Router<UserInfo>(scheme: "pokedex")
 router.register(routes: [
     ("pokedex://pokemons", { context in 
         let userInfo: UserInfo = context.userInfo
-        let sourceApplication = userInfo.sourceApplication
+        let userID = userInfo.userID
         return true 
     }),
     // ...
 ])
-let userInfo = UserInfo(sourceApplication: "org.giginet.myapp")
+let userInfo = UserInfo(userID: User.current.id)
 router.openIfPossible(to: url, userInfo: userInfo)
 ```
