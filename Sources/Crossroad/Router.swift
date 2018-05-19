@@ -10,7 +10,7 @@ public final class Router<UserInfo> {
         self.scheme = scheme
     }
 
-    internal func register(route: Route<UserInfo>) {
+    internal func register(_ route: Route<UserInfo>) {
         if scheme != route.patternURL.scheme {
             assertionFailure("Router and pattern must have the same schemes")
         } else {
@@ -43,10 +43,10 @@ public final class Router<UserInfo> {
         return false
     }
 
-    public func register(routes: [(String, Route<UserInfo>.Handler)]) {
+    public func register(_ routes: [(String, Route<UserInfo>.Handler)]) {
         for (pattern, handler) in routes {
             let route = Route(pattern: pattern, handler: handler)
-            register(route: route)
+            register(route)
         }
     }
 }

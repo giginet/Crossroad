@@ -7,7 +7,7 @@ final class RouterTest: XCTestCase {
 
     func testCanRespond() {
         let router = SimpleRouter(scheme: schema)
-        router.register(routes: [
+        router.register([
             ("foobar://static", { _ in true }),
             ("foobar://foo/bar", { _ in true }),
             ("foobar://spam/ham", { _ in false }),
@@ -26,7 +26,7 @@ final class RouterTest: XCTestCase {
     func testHandle() {
         let router = SimpleRouter(scheme: schema)
         var openedCount = 0
-        router.register(routes: [
+        router.register([
             ("foobar://static", { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://static")!)
                 openedCount += 1
@@ -63,7 +63,7 @@ final class RouterTest: XCTestCase {
     func testHandleReturnsFalse() {
         let router = SimpleRouter(scheme: schema)
         var matchesRoutes = 0
-        router.register(routes: [
+        router.register([
             ("foobar://foo/bar", { _ in
                 matchesRoutes += 1
                 return false
@@ -84,7 +84,7 @@ final class RouterTest: XCTestCase {
         }
         let router = Router<UserInfo>(scheme: schema)
         var userInfo: UserInfo? = nil
-        router.register(routes: [
+        router.register([
             ("foobar://static", { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://static")!)
                 userInfo = context.userInfo

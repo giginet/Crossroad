@@ -14,7 +14,7 @@ Imagine to implement Pokédex on iOS. You can access somewhere via URL scheme.
 
 ```swift
 router = DefaultRouter(scheme: "pokedex")
-router.register(routes: [
+router.register([
     ("pokedex://pokemons", { context in 
         let type: Type? = context.parameter(for: "type")
         presentPokedexListViewController(for: type)
@@ -116,7 +116,7 @@ struct UserInfo {
     let userID: Int64
 }
 let router = Router<UserInfo>(scheme: "pokedex")
-router.register(routes: [
+router.register([
     ("pokedex://pokemons", { context in 
         let userInfo: UserInfo = context.userInfo
         let userID = userInfo.userID
