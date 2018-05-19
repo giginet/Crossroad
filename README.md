@@ -85,7 +85,7 @@ let type: Type = context.parameter(for: "type") // .fire
 
 You can treat comma-separated query strings as `Array`.
 
-```
+```swift
 // matches: pokedex://pokemons?types=water,grass
 let types: [Type] = context.parameter(for: "types") // [.water, .grass]
 ```
