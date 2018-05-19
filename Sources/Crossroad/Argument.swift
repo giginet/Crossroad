@@ -31,3 +31,9 @@ extension String: Argument {
 }
 
 extension URL: Argument { }
+
+public extension RawRepresentable where Self: Argument, Self.RawValue == String {
+    public init?(string: String) {
+        self.init(rawValue: string)
+    }
+}
