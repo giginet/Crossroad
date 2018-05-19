@@ -4,9 +4,6 @@ public protocol Argument {
     init?(string: String)
 }
 
-extension CustomStringConvertible {
-}
-
 extension Int: Argument {
     public init?(string: String) {
         self.init(string)
