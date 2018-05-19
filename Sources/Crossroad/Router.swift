@@ -23,24 +23,14 @@ public final class Router<UserInfo> {
         if scheme != url.scheme {
             return false
         }
-        for route in routes {
-            if route.openIfPossible(url, userInfo: userInfo) {
-                return true
-            }
-        }
-        return false
+        return routes.first { $0.openIfPossible(url, userInfo: userInfo) } != nil
     }
 
     public func responds(to url: URL, userInfo: UserInfo? = nil) -> Bool {
         if scheme != url.scheme {
             return false
         }
-        for route in routes {
-            if route.canRespond(to: url, userInfo: userInfo) {
-                return true
-            }
-        }
-        return false
+        return routes.first { $0.canRespond(to: url, userInfo: userInfo) } != nil
     }
 
     public func register(_ routes: [(String, Route<UserInfo>.Handler)]) {
