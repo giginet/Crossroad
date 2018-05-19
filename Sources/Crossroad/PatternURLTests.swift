@@ -1,6 +1,6 @@
 import Foundation
 import XCTest
-@testable import Junction
+@testable import Crossroad
 
 final class PatternURLTests: XCTestCase {
     func testPatternURL() {

@@ -1,6 +1,6 @@
 import Foundation
 import XCTest
-import Junction
+import Crossroad
 
 final class RouterTest: XCTestCase {
     let schema = "foobar"
