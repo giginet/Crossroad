@@ -1,0 +1,10 @@
+included:
+  - Sources
+  - Tests
+disabled_rules:
+  - nesting
+  - line_length
+opt_in_rules:
+  - trailing_comma
+trailing_comma:
+  mandatory_comma: true
