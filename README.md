@@ -1,5 +1,9 @@
 # Crossroad
 
+[![Build Status](https://travis-ci.org/giginet/Crossroad.svg?branch=master)](https://travis-ci.org/giginet/Crossroad)
+[![Language](https://img.shields.io/badge/language-Swift%204.1-orange.svg)](https://swift.org)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) 
+
 Route URL schemes easily.
 
 ## Basic Usage
