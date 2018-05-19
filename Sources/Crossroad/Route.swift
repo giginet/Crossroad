@@ -14,7 +14,7 @@ public struct Route<UserInfo> {
         self.handler = handler
     }
 
-    internal func canRespond(to url: URL, userInfo: UserInfo? = nil) -> Bool {
+    internal func responds(to url: URL, userInfo: UserInfo? = nil) -> Bool {
         return parse(url, with: userInfo) != nil
     }
 

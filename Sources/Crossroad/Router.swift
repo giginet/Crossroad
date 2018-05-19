@@ -30,7 +30,7 @@ public final class Router<UserInfo> {
         if scheme != url.scheme {
             return false
         }
-        return routes.first { $0.canRespond(to: url, userInfo: userInfo) } != nil
+        return routes.first { $0.responds(to: url, userInfo: userInfo) } != nil
     }
 
     public func register(_ routes: [(String, Route<UserInfo>.Handler)]) {
