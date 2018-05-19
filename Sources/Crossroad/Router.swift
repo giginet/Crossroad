@@ -18,6 +18,7 @@ public final class Router<UserInfo> {
         }
     }
 
+    @discardableResult
     public func openIfPossible(_ url: URL, userInfo: UserInfo? = nil) -> Bool {
         if scheme != url.scheme {
             return false
@@ -30,7 +31,7 @@ public final class Router<UserInfo> {
         return false
     }
 
-    public func canRespond(to url: URL, userInfo: UserInfo? = nil) -> Bool {
+    public func responds(to url: URL, userInfo: UserInfo? = nil) -> Bool {
         if scheme != url.scheme {
             return false
         }

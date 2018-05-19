@@ -14,13 +14,13 @@ final class RouterTest: XCTestCase {
             ("foobar://:keyword", { _ in true }),
             ("foobar://foo/:keyword", { _ in true }),
             ])
-        XCTAssertTrue(router.canRespond(to: URL(string: "foobar://static")!))
-        XCTAssertTrue(router.canRespond(to: URL(string: "foobar://foo")!))
-        XCTAssertTrue(router.canRespond(to: URL(string: "foobar://foo/bar")!))
-        XCTAssertTrue(router.canRespond(to: URL(string: "foobar://foo/10000")!))
-        XCTAssertFalse(router.canRespond(to: URL(string: "foobar://aaa/bbb")!))
-        XCTAssertFalse(router.canRespond(to: URL(string: "notfoobar://aaa/bbb")!))
-        XCTAssertTrue(router.canRespond(to: URL(string: "foobar://spam/ham")!))
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://static")!))
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://foo")!))
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/bar")!))
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/10000")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foobar://aaa/bbb")!))
+        XCTAssertFalse(router.responds(to: URL(string: "notfoobar://aaa/bbb")!))
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://spam/ham")!))
     }
 
     func testHandle() {
