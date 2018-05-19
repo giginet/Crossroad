@@ -73,11 +73,11 @@ Currently supported type is `Int`, `Int64`, `Float`, `Double`, `Bool`, `String` 
 You can use enum as arguments by implementing `Argument`.
 
 ```swift
-enum Type: Argument {
-    case .normal
-    case .fire
-    case .water
-    case .grass
+enum Type: String, Argument {
+    case normal
+    case fire
+    case water
+    case grass
     // ....
 }
 
