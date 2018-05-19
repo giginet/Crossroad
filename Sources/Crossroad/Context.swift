@@ -4,7 +4,7 @@ public typealias Arguments = [String: String]
 public typealias Parameters = [URLQueryItem]
 
 public struct Context<UserInfo> {
-    enum Error: Swift.Error {
+    public enum Error: Swift.Error {
         case parsingArgumentFailed
     }
 
