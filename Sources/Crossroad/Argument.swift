@@ -4,23 +4,36 @@ public protocol Argument {
     init?(string: String)
 }
 
+extension CustomStringConvertible {
+}
+
 extension Int: Argument {
     public init?(string: String) {
-        if let value = Int(string) {
-            self = value
-        } else {
-            return nil
-        }
+        self.init(string)
     }
 }
 
 extension Int64: Argument {
     public init?(string: String) {
-        if let value = Int64(string) {
-            self = value
-        } else {
-            return nil
-        }
+        self.init(string)
+    }
+}
+
+extension Float: Argument {
+    public init?(string: String) {
+        self.init(string)
+    }
+}
+
+extension Double: Argument {
+    public init?(string: String) {
+        self.init(string)
+    }
+}
+
+extension Bool: Argument {
+    public init?(string: String) {
+        self.init(string)
     }
 }
 
