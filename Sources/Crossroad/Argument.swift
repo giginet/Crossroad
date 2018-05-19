@@ -43,6 +43,15 @@ extension String: Argument {
     }
 }
 
+extension Array: Argument where Array.Element: Argument {
+    public init?(string: String) {
+        let components = string.split(separator: ",")
+        self = components
+            .map { String($0) }
+            .compactMap(Element.init(string:))
+    }
+}
+
 extension URL: Argument { }
 
 public extension RawRepresentable where Self: Argument, Self.RawValue == String {
