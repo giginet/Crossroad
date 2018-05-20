@@ -25,29 +25,30 @@ final class RouterTest: XCTestCase {
 
     func testHandle() {
         let router = SimpleRouter(scheme: schema)
-        var openedCount = 0
+        let expectation = self.expectation(description: "Should called handler four times")
+        expectation.expectedFulfillmentCount = 4
         router.register([
             ("foobar://static", { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://static")!)
-                openedCount += 1
+                expectation.fulfill()
                 return true
             }),
             ("foobar://foo/bar", { context in
                 XCTAssertEqual(context.parameter(for: "param0"), 123)
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/bar?param0=123")!)
-                openedCount += 1
+                expectation.fulfill()
                 return true
             }),
             ("foobar://:keyword", { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://hoge")!)
                 XCTAssertEqual(try? context.argument(for: "keyword"), "hoge")
-                openedCount += 1
+                expectation.fulfill()
                 return true
             }),
             ("foobar://foo/:keyword", { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/hoge")!)
                 XCTAssertEqual(try? context.argument(for: "keyword"), "hoge")
-                openedCount += 1
+                expectation.fulfill()
                 return true
             }),
             ])
@@ -57,25 +58,26 @@ final class RouterTest: XCTestCase {
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/hoge")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foobar://spam/ham")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "notfoobar://static")!))
-        XCTAssertEqual(openedCount, 4)
+        wait(for: [expectation], timeout: 2.0)
     }
 
     func testHandleReturnsFalse() {
         let router = SimpleRouter(scheme: schema)
-        var matchesRoutes = 0
+        let expectation = self.expectation(description: "Should called handler twice")
+        expectation.expectedFulfillmentCount = 2
         router.register([
             ("foobar://foo/bar", { _ in
-                matchesRoutes += 1
+                expectation.fulfill()
                 return false
             }),
             ("foobar://foo/:keyword", { context in
-                matchesRoutes += 1
                 XCTAssertEqual(try? context.argument(for: "keyword"), "bar")
+                expectation.fulfill()
                 return true
             }),
             ])
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/bar")!))
-        XCTAssertEqual(matchesRoutes, 2)
+        wait(for: [expectation], timeout: 2.0)
     }
 
     func testWithUserInfo() {
