@@ -6,6 +6,9 @@
 
 Route URL schemes easily.
 
+Crossroad is URL router focused on handling Custom URL Scheme.
+Using this, you can route multiple URL schemes and fetch arguments and parameters easily.
+
 ## Basic Usage
 
 You can use `DefaultRouter` to define route definitions.
@@ -40,7 +43,7 @@ router.openIfPossible(URL(string: "pokedex://pokemons/25")) // Open Pikachu page
 router.openIfPossible(URL(string: "pokedex://pokemons?type=fire")) // Open list of fire Pokémons page
 ```
 
-In common usecase, you should call `router.openIfPossible` on `UIApplicationDelegate` method.
+In common use case, you should call `router.openIfPossible` on `UIApplicationDelegate` method.
 
 ```swift
 func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
@@ -120,7 +123,7 @@ router.register([
     ("pokedex://pokemons", { context in 
         let userInfo: UserInfo = context.userInfo
         let userID = userInfo.userID
-        return true 
+        return true
     }),
     // ...
 ])
