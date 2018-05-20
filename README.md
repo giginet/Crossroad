@@ -58,14 +58,14 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpe
 For example, if passed URL matches `pokedex://search/:keyword`, you can get `keyword` from `Context`.
 
 ```swift
-// matches: pokedex://seaches/Pikachu
+// matches: pokedex://search/Pikachu
 let keyword: String = try! context.argument(for: "keyword") // Pikachu
 ```
 
 And more, you can get query parameters if exist.
 
 ```swift
-// matches: pokedex://searche/Pikachu?generation=1
+// matches: pokedex://search/Pikachu?generation=1
 let generation: Int = context.parameter(for: "generation") // 1
 ```
 
