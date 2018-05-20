@@ -1,8 +1,7 @@
-included:
-  - Sources
-  - Tests
 disabled_rules:
-  - line_length
+  - nesting
+  - force_try
+  - identifier_name
 opt_in_rules:
   - trailing_comma
 trailing_comma:
