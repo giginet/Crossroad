@@ -103,9 +103,12 @@ You can also define own arguments by implementing `Argument`.
 This is an example to parse regular expressions.
 
 ```swift
-extension NSRegularExpression: Argument {
+struct User {
+    let name: String
+}
+extension User: Argument {
     init?(string: String) {
-        self = try? NSRegularExpression(pattern: string, options: .caseInsensitive)
+        self.init(name: string)
     }
 }
 ```
