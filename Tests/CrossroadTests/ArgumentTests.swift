@@ -8,7 +8,7 @@ final class ArgumentTests: XCTestCase {
         case grass
         case water
     }
-    
+
     func testWithEnum() {
         XCTAssertEqual(PokemonType(string: "fire"), .fire)
         XCTAssertNil(PokemonType(string: "faily"))
