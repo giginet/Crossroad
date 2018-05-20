@@ -34,13 +34,13 @@ router.register([
     // ...
 ])
 
-let canRespond25 = router.responds(URL(string: "pokedex://pokemons/25")!) // Pikachu(No. 25) is exist! so it returns true
-let canRespond9999 = router.responds(URL(string: "pokedex://pokemons/9999")!) // No. 9999 is unknown. so it returns false
-router.openIfPossible(to: URL(string: "pokedex://pokemons/25")) // Open Pikachu page
-router.openIfPossible(to: URL(string: "pokedex://pokemons?type=fire")) // Open list of fire Pokémons page
+let canRespond25 = router.responds(to: URL(string: "pokedex://pokemons/25")!) // Pikachu(No. 25) is exist! so it returns true
+let canRespond9999 = router.responds(to: URL(string: "pokedex://pokemons/9999")!) // No. 9999 is unknown. so it returns false
+router.openIfPossible(URL(string: "pokedex://pokemons/25")) // Open Pikachu page
+router.openIfPossible(URL(string: "pokedex://pokemons?type=fire")) // Open list of fire Pokémons page
 ```
 
-In general usecase, you should call `router.openIfPossible` on `UIApplicationDelegate` method.
+In common usecase, you should call `router.openIfPossible` on `UIApplicationDelegate` method.
 
 ```swift
 func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
@@ -125,5 +125,5 @@ router.register([
     // ...
 ])
 let userInfo = UserInfo(userID: User.current.id)
-router.openIfPossible(to: url, userInfo: userInfo)
+router.openIfPossible(url, userInfo: userInfo)
 ```
