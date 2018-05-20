@@ -6,10 +6,7 @@ public struct Route<UserInfo> {
     internal let patternURL: PatternURL
     private let handler: Handler
 
-    internal init(pattern: String, handler: @escaping Handler) {
-        guard let patternURL = PatternURL(string: pattern) else {
-            fatalError("Invalid pattern \"\(pattern)\"")
-        }
+    internal init(pattern patternURL: PatternURL, handler: @escaping Handler) {
         self.patternURL = patternURL
         self.handler = handler
     }

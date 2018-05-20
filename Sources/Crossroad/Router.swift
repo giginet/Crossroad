@@ -12,7 +12,7 @@ public final class Router<UserInfo> {
 
     internal func register(_ route: Route<UserInfo>) {
         if scheme != route.patternURL.scheme {
-            assertionFailure("Router and pattern must have the same schemes")
+            assertionFailure("Router and pattern must have the same schemes. expect: \(scheme), actual: \(route.patternURL.scheme)")
         } else {
             routes.append(route)
         }
@@ -35,7 +35,11 @@ public final class Router<UserInfo> {
 
     public func register(_ routes: [(String, Route<UserInfo>.Handler)]) {
         for (pattern, handler) in routes {
-            let route = Route(pattern: pattern, handler: handler)
+            guard let patternURL = PatternURL(string: pattern) else {
+                assertionFailure("\(pattern) is invalid")
+                continue
+            }
+            let route = Route(pattern: patternURL, handler: handler)
             register(route)
         }
     }
