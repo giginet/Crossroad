@@ -11,9 +11,9 @@ public struct Context<UserInfo> {
     public let url: URL
     private let arguments: Arguments
     private let parameters: Parameters
-    public let userInfo: UserInfo?
+    public let userInfo: UserInfo
 
-    internal init(url: URL, arguments: Arguments, parameters: Parameters, userInfo: UserInfo? = nil) {
+    internal init(url: URL, arguments: Arguments, parameters: Parameters, userInfo: UserInfo) {
         self.url = url
         self.arguments = arguments
         self.parameters = parameters

@@ -11,18 +11,18 @@ public struct Route<UserInfo> {
         self.handler = handler
     }
 
-    internal func responds(to url: URL, userInfo: UserInfo? = nil) -> Bool {
+    internal func responds(to url: URL, userInfo: UserInfo) -> Bool {
         return parse(url, with: userInfo) != nil
     }
 
-    internal func openIfPossible(_ url: URL, userInfo: UserInfo? = nil) -> Bool {
+    internal func openIfPossible(_ url: URL, userInfo: UserInfo) -> Bool {
         guard let context = parse(url, with: userInfo) else {
             return false
         }
         return handler(context)
     }
 
-    internal func parse(_ url: URL, with userInfo: UserInfo? = nil) -> Context<UserInfo>? {
+    internal func parse(_ url: URL, with userInfo: UserInfo) -> Context<UserInfo>? {
         guard let scheme = url.scheme, let host = url.host else {
             return nil
         }

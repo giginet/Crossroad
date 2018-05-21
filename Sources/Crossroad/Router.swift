@@ -19,14 +19,14 @@ public final class Router<UserInfo> {
     }
 
     @discardableResult
-    public func openIfPossible(_ url: URL, userInfo: UserInfo? = nil) -> Bool {
+    public func openIfPossible(_ url: URL, userInfo: UserInfo) -> Bool {
         if scheme != url.scheme {
             return false
         }
         return routes.first { $0.openIfPossible(url, userInfo: userInfo) } != nil
     }
 
-    public func responds(to url: URL, userInfo: UserInfo? = nil) -> Bool {
+    public func responds(to url: URL, userInfo: UserInfo) -> Bool {
         if scheme != url.scheme {
             return false
         }
@@ -42,5 +42,16 @@ public final class Router<UserInfo> {
             let route = Route(pattern: patternURL, handler: handler)
             register(route)
         }
+    }
+}
+
+public extension Router where UserInfo == Void {
+    @discardableResult
+    public func openIfPossible(_ url: URL) -> Bool {
+        return openIfPossible(url, userInfo: ())
+    }
+
+    public func responds(to url: URL) -> Bool {
+        return responds(to: url, userInfo: ())
     }
 }
