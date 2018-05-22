@@ -12,7 +12,7 @@ Route URL schemes easily.
 Crossroad is URL router focused on handling Custom URL Scheme.
 Using this, you can route multiple URL schemes and fetch arguments and parameters easily.
 
-## Instlattion
+## Installation
 
 ### CocoaPods
 
