@@ -64,7 +64,7 @@ In common use case, you should call `router.openIfPossible` on `UIApplicationDel
 
 ```swift
 func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
-    router.openIfPossible(url, options: options)
+    return router.openIfPossible(url, options: options)
 }
 ```
 
