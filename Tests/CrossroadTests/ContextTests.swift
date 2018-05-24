@@ -8,7 +8,7 @@ final class ContextTests: XCTestCase {
     enum Region: String, Argument {
         case kanto
         case johto
-        case hoeen
+        case hoenn
     }
 
     var context: Context<Void> {
