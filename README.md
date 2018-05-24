@@ -5,7 +5,7 @@
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) 
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/Crossroad.svg)](http://cocoadocs.org/docsets/Crossroad)
 [![Platform](https://img.shields.io/cocoapods/p/Crossroad.svg?style=flat)](http://cocoadocs.org/docsets/Crossroad)
-[![License](https://cocoapod-badges.herokuapp.com/l/Crossroad/badge.svg)](https://github.com/cookpad/Crossroad/blob/master/LICENSE)
+[![License](https://cocoapod-badges.herokuapp.com/l/Crossroad/badge.svg)](https://github.com/giginet/Crossroad/blob/master/LICENSE)
 
 Route URL schemes easily.
 
@@ -17,6 +17,8 @@ Using this, you can route multiple URL schemes and fetch arguments and parameter
 ### CocoaPods
 
 ```ruby
+use_frameworks!
+
 pod 'Crossroad'
 ```
 
