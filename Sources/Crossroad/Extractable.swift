@@ -41,7 +41,7 @@ extension String: Extractable {
 }
 
 extension Array: Extractable where Array.Element: Extractable {
-    public static func extract(from string: String) -> Array<Element>? {
+    public static func extract(from string: String) -> [Element]? {
         let components = string.split(separator: ",")
         return components
             .map { String($0) }
