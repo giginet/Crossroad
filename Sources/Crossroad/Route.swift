@@ -30,7 +30,7 @@ public struct Route<UserInfo> {
             return nil
         }
 
-        var arguments: Arguments = [:]
+        var arguments: [String: String] = [:]
         if patternURL.host.hasPrefix(PatternURL.keywordPrefix) {
             let keyword = String(patternURL.host[PatternURL.keywordPrefix.endIndex...])
             arguments[keyword] = host
@@ -48,7 +48,7 @@ public struct Route<UserInfo> {
                 return nil
             }
         }
-        let parameters: Parameters
+        let parameters: [URLQueryItem]
         if let components = URLComponents(url: url, resolvingAgainstBaseURL: true) {
             parameters = components.queryItems ?? []
         } else {

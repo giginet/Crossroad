@@ -1,35 +1,36 @@
 import Foundation
 
-public typealias Arguments = [String: String]
-public typealias Parameters = [URLQueryItem]
+@dynamicMemberLookup
+struct Argument {
+    private let arguments: [String: String]
 
-public struct Context<UserInfo> {
-    public enum Error: Swift.Error {
-        case parsingArgumentFailed
-    }
-
-    public let url: URL
-    private let arguments: Arguments
-    private let parameters: Parameters
-    public let userInfo: UserInfo
-
-    internal init(url: URL, arguments: Arguments, parameters: Parameters, userInfo: UserInfo) {
-        self.url = url
+    fileprivate init(_ arguments: [String: String]) {
         self.arguments = arguments
-        self.parameters = parameters
-        self.userInfo = userInfo
     }
 
-    public func argument<T: Extractable>(for key: String) throws -> T {
-        if let argument = arguments[key] {
+    subscript<T: Extractable>(dynamicMember member: String) -> T? {
+        if let argument = arguments[member] {
             if let value = T.extract(from: argument) {
                 return value
             }
         }
-        throw Error.parsingArgumentFailed
+        return nil
+    }
+}
+
+@dynamicMemberLookup
+struct Parameter {
+    private let parameters: [URLQueryItem]
+
+    fileprivate init(_ parameters: [URLQueryItem]) {
+        self.parameters = parameters
     }
 
-    public func parameter<T: Extractable>(for key: String, caseInsensitive: Bool = false) -> T? {
+    subscript<T: Extractable>(dynamicMember member: String) -> T? {
+        return fetch(for: member)
+    }
+
+    public func fetch<T: Extractable>(for key: String, caseInsensitive: Bool = false) -> T? {
         if let queryItem = queryItem(from: key, caseInsensitive: caseInsensitive) {
             if let queryValue = queryItem.value,
                 let value = T.extract(from: queryValue) {
@@ -39,7 +40,7 @@ public struct Context<UserInfo> {
         return nil
     }
 
-    public func parameter<T: Extractable>(matchesIn regexp: NSRegularExpression) -> T? {
+    public func fetch<T: Extractable>(matchesIn regexp: NSRegularExpression) -> T? {
         if let queryItem = queryItem(matchesIn: regexp) {
             if let queryValue = queryItem.value,
                 let value = T.extract(from: queryValue) {
@@ -66,5 +67,25 @@ public struct Context<UserInfo> {
                                    options: [],
                                    range: NSRange(location: 0, length: item.name.utf16.count)).isEmpty
         }
+    }
+}
+
+public struct Context<UserInfo> {
+    public enum Error: Swift.Error {
+        case parsingArgumentFailed
+    }
+
+    public let url: URL
+    public let userInfo: UserInfo
+    private let arguments: Argument
+    private let parameters: Parameter
+
+    internal init(url: URL, arguments: [String: String],
+                  parameters: [URLQueryItem],
+                  userInfo: UserInfo) {
+        self.url = url
+        self.userInfo = userInfo
+        self.arguments = Argument(arguments)
+        self.parameters = Parameter(parameters)
     }
 }
