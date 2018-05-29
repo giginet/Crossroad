@@ -15,5 +15,5 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/giginet/Crossroad.git", :tag => "#{s.version}" }
   s.source_files  = "Sources/Crossroad/**/*.{h,swift}"
   s.requires_arc = true
-  s.swift_version = "4.1"
+  s.swift_version = "4.2"
 end
