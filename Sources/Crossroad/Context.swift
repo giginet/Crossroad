@@ -20,29 +20,29 @@ public struct Context<UserInfo> {
         self.userInfo = userInfo
     }
 
-    public func argument<T: Argument>(for key: String) throws -> T {
+    public func argument<T: Extractable>(for key: String) throws -> T {
         if let argument = arguments[key] {
-            if let value = T(string: argument) {
+            if let value = T.extract(from: argument) {
                 return value
             }
         }
         throw Error.parsingArgumentFailed
     }
 
-    public func parameter<T: Argument>(for key: String, caseInsensitive: Bool = false) -> T? {
+    public func parameter<T: Extractable>(for key: String, caseInsensitive: Bool = false) -> T? {
         if let queryItem = queryItem(from: key, caseInsensitive: caseInsensitive) {
             if let queryValue = queryItem.value,
-                let value = T(string: queryValue) {
+                let value = T.extract(from: queryValue) {
                 return value
             }
         }
         return nil
     }
 
-    public func parameter<T: Argument>(matchesIn regexp: NSRegularExpression) -> T? {
+    public func parameter<T: Extractable>(matchesIn regexp: NSRegularExpression) -> T? {
         if let queryItem = queryItem(matchesIn: regexp) {
             if let queryValue = queryItem.value,
-                let value = T(string: queryValue) {
+                let value = T.extract(from: queryValue) {
                 return value
             }
         }

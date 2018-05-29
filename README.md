@@ -118,16 +118,16 @@ let types: [Type] = context.parameter(for: "types") // [.water, .grass]
 
 ### Custom argument
 
-You can also define own arguments by implementing `Argument`.
+You can also define own arguments by implementing `Extractable`.
 This is an example to parse custom struct.
 
 ```swift
 struct User {
     let name: String
 }
-extension User: Argument {
-    init?(string: String) {
-        self.init(name: string)
+extension User: Extractable {
+    static func extract(from string: String) -> User? {
+        return User(name: string)
     }
 }
 ```
