@@ -2,7 +2,13 @@ import Foundation
 import XCTest
 @testable import Crossroad
 
-final class ArgumentTests: XCTestCase {
+extension NSRegularExpression: Extractable {
+    public static func extract(from string: String) -> Self? {
+        return try? .init(pattern: string, options: .caseInsensitive)
+    }
+}
+
+final class ExtractableTests: XCTestCase {
     enum PokemonType: String, Extractable {
         case fire
         case grass
@@ -19,5 +25,9 @@ final class ArgumentTests: XCTestCase {
         XCTAssertEqual([String].extract(from: "a,,c,d,,,,f"), ["a", "c", "d", "f"])
         XCTAssertEqual([Double].extract(from: "1.1"), [1.1])
         XCTAssertEqual([PokemonType].extract(from: "water,grass"), [.water, .grass])
+    }
+
+    func testWithCustomClass() {
+        XCTAssertNotNil(NSRegularExpression.extract(from: ".+"))
     }
 }
