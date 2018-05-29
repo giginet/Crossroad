@@ -28,20 +28,20 @@ final class ContextTests: XCTestCase {
     }
 
     func testParameter() {
-        XCTAssertEqual(context.parameter(for: "name"), "Pikachu")
-        XCTAssertNil(context.parameter(for: "foo") as String?)
-        XCTAssertEqual(context.parameter(for: "region"), Region.kanto)
-        XCTAssertNil(context.parameter(for: "NaMe") as String?)
-        XCTAssertEqual(context.parameter(for: "NaMe", caseInsensitive: true), "Pikachu")
-        XCTAssertEqual(context.parameter(for: "NAME2", caseInsensitive: true), "Mewtwo")
+        XCTAssertEqual(context.parameters.name, "Pikachu")
+        XCTAssertNil(context.parameters.foo as String?)
+        XCTAssertEqual(context.parameters.region, Region.kanto)
+        XCTAssertNil(context.parameters.fetch(for: "NaMe") as String?)
+        XCTAssertEqual(context.parameters.fetch(for: "NaMe", caseInsensitive: true), "Pikachu")
+        XCTAssertEqual(context.parameters.fetch(for: "NAME2", caseInsensitive: true), "Mewtwo")
     }
 
     func testParametersByRegexp() {
-        XCTAssertEqual(context.parameter(matchesIn: regexp("name")), "Pikachu")
-        XCTAssertEqual(context.parameter(matchesIn: regexp("2$")), "Mewtwo")
-        XCTAssertEqual(context.parameter(matchesIn: regexp("^t")), "electric")
-        XCTAssertEqual(context.parameter(matchesIn: regexp(".*")), "Pikachu")
-        XCTAssertEqual(context.parameter(matchesIn: regexp("region")), Region.kanto)
-        XCTAssertNil(context.parameter(matchesIn: regexp("foo")) as String?)
+        XCTAssertEqual(context.parameters.fetch(matchesIn: regexp("name")), "Pikachu")
+        XCTAssertEqual(context.parameters.fetch(matchesIn: regexp("2$")), "Mewtwo")
+        XCTAssertEqual(context.parameters.fetch(matchesIn: regexp("^t")), "electric")
+        XCTAssertEqual(context.parameters.fetch(matchesIn: regexp(".*")), "Pikachu")
+        XCTAssertEqual(context.parameters.fetch(matchesIn: regexp("region")), Region.kanto)
+        XCTAssertNil(context.parameters.fetch(matchesIn: regexp("foo")) as String?)
     }
 }

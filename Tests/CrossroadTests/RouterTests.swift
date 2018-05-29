@@ -63,21 +63,21 @@ final class RouterTest: XCTestCase {
                 return true
             }),
             ("foobar://foo/bar", { context in
-                XCTAssertEqual(context.parameter(for: "param0"), 123)
+                XCTAssertEqual(context.parameters.fetch(for: "param0"), 123)
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/bar?param0=123")!)
                 expectation.fulfill()
                 return true
             }),
             ("foobar://:keyword", { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://hoge")!)
-                XCTAssertEqual(try? context.argument(for: "keyword"), "hoge")
+                XCTAssertEqual(try? context.arguments.fetch(for: "keyword"), "hoge")
                 expectation.fulfill()
                 return true
             }),
             ("foobar://foo/:keyword/:keyword2", { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/hoge/fuga")!)
-                XCTAssertEqual(try? context.argument(for: "keyword"), "hoge")
-                XCTAssertEqual(try? context.argument(for: "keyword2"), "fuga")
+                XCTAssertEqual(try? context.arguments.fetch(for: "keyword"), "hoge")
+                XCTAssertEqual(try? context.arguments.fetch(for: "keyword2"), "fuga")
                 expectation.fulfill()
                 return true
             }),
@@ -146,7 +146,7 @@ final class RouterTest: XCTestCase {
         let keywordExpectation = self.expectation(description: "Should called handler with keyword")
         router.register([
             ("foobar://foo/:id", { context in
-                guard let id: Int = try? context.argument(for: "id") else {
+                guard let id: Int = try? context.arguments.fetch(for: "id") else {
                     return false
                 }
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/42")!)
@@ -155,7 +155,7 @@ final class RouterTest: XCTestCase {
                 return true
             }),
             ("foobar://foo/:keyword", { context in
-                let keyword: String = try! context.argument(for: "keyword")
+                let keyword: String = try! context.arguments.fetch(for: "keyword")
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/bar")!)
                 XCTAssertEqual(keyword, "bar")
                 keywordExpectation.fulfill()
@@ -208,7 +208,7 @@ final class RouterTest: XCTestCase {
                 return false
             }),
             ("foobar://foo/:keyword", { context in
-                XCTAssertEqual(try? context.argument(for: "keyword"), "bar")
+                XCTAssertEqual(try? context.arguments.fetch(for: "keyword"), "bar")
                 expectation.fulfill()
                 return true
             }),

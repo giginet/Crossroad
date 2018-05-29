@@ -1,32 +1,39 @@
 import Foundation
 
 @dynamicMemberLookup
-struct Argument {
+public struct Argument {
+    public enum Error: Swift.Error {
+        case parsingArgumentFailed
+    }
     private let arguments: [String: String]
 
     fileprivate init(_ arguments: [String: String]) {
         self.arguments = arguments
     }
 
-    subscript<T: Extractable>(dynamicMember member: String) -> T? {
-        if let argument = arguments[member] {
+    public func fetch<T: Extractable>(for key: String) throws -> T {
+        if let argument = arguments[key] {
             if let value = T.extract(from: argument) {
                 return value
             }
         }
-        return nil
+        throw Error.parsingArgumentFailed
+    }
+
+    public subscript<T: Extractable>(dynamicMember member: String) -> T? {
+        return try? fetch(for: member)
     }
 }
 
 @dynamicMemberLookup
-struct Parameter {
+public struct Parameter {
     private let parameters: [URLQueryItem]
 
     fileprivate init(_ parameters: [URLQueryItem]) {
         self.parameters = parameters
     }
 
-    subscript<T: Extractable>(dynamicMember member: String) -> T? {
+    public subscript<T: Extractable>(dynamicMember member: String) -> T? {
         return fetch(for: member)
     }
 
@@ -71,14 +78,10 @@ struct Parameter {
 }
 
 public struct Context<UserInfo> {
-    public enum Error: Swift.Error {
-        case parsingArgumentFailed
-    }
-
     public let url: URL
     public let userInfo: UserInfo
-    private let arguments: Argument
-    private let parameters: Parameter
+    public let arguments: Argument
+    public let parameters: Parameter
 
     internal init(url: URL, arguments: [String: String],
                   parameters: [URLQueryItem],
