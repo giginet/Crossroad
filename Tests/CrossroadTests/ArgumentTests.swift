@@ -3,21 +3,21 @@ import XCTest
 @testable import Crossroad
 
 final class ArgumentTests: XCTestCase {
-    enum PokemonType: String, Argument {
+    enum PokemonType: String, Extractable {
         case fire
         case grass
         case water
     }
 
     func testWithEnum() {
-        XCTAssertEqual(PokemonType(string: "fire"), .fire)
-        XCTAssertNil(PokemonType(string: "faily"))
+        XCTAssertEqual(PokemonType.extract(from: "fire"), .fire)
+        XCTAssertNil(PokemonType.extract(from: "faily"))
     }
 
     func testWithCommaSeparatedList() {
-        XCTAssertEqual([Int].init(string: "1,2,3,4,5"), [1, 2, 3, 4, 5])
-        XCTAssertEqual([String].init(string: "a,,c,d,,,,f"), ["a", "c", "d", "f"])
-        XCTAssertEqual([Double].init(string: "1.1"), [1.1])
-        XCTAssertEqual([PokemonType].init(string: "water,grass"), [.water, .grass])
+        XCTAssertEqual([Int].extract(from: "1,2,3,4,5"), [1, 2, 3, 4, 5])
+        XCTAssertEqual([String].extract(from: "a,,c,d,,,,f"), ["a", "c", "d", "f"])
+        XCTAssertEqual([Double].extract(from: "1.1"), [1.1])
+        XCTAssertEqual([PokemonType].extract(from: "water,grass"), [.water, .grass])
     }
 }
