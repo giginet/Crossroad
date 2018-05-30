@@ -14,7 +14,8 @@ script:
 - |
   if [ "$NAME" = "Xcode" ]
   then
-    xcodebuild test -project Crossroad.xcodeproj -scheme Crossroad -destination "${DESTINATION}" 
+    TOOLCHAIN=`swiftenv which ../../`
+    xcodebuild test -project Crossroad.xcodeproj -scheme Crossroad -destination "${DESTINATION}" -toolchain ${TOOLCHAIN}
   else
     swift test
   fi
