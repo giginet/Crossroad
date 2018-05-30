@@ -1,3 +1,5 @@
+#if os(iOS)
+
 import Foundation
 import UIKit
 
@@ -27,3 +29,4 @@ public extension Router where UserInfo == OpenURLOption {
         return responds(to: url, userInfo: OpenURLOption(options: options))
     }
 }
+#endif
