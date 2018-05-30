@@ -1,3 +1,5 @@
+#if os(iOS)
+
 import Foundation
 import XCTest
 import UIKit
@@ -15,3 +17,5 @@ final class OpenURLOptionTests: XCTestCase {
         XCTAssertEqual(option.openInPlace, true)
     }
 }
+
+#endif
