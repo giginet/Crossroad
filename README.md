@@ -92,10 +92,10 @@ Currently supported type is `Int`, `Int64`, `Float`, `Double`, `Bool`, `String` 
 
 ### Enum argument
 
-You can use enum as arguments by implementing `Argument`.
+You can use enum as arguments by implementing `Extractable`.
 
 ```swift
-enum Type: String, Argument {
+enum Type: String, Extractable {
     case normal
     case fire
     case water
