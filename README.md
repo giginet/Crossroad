@@ -12,6 +12,8 @@ Route URL schemes easily.
 Crossroad is URL router focused on handling Custom URL Scheme.
 Using this, you can route multiple URL schemes and fetch arguments and parameters easily.
 
+This library is developed in working time for Cookpad.
+
 ## Installation
 
 ### CocoaPods
