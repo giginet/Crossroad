@@ -85,7 +85,7 @@ And more, you can get query parameters if exist.
 
 ```swift
 // matches: pokedex://search/Pikachu?generation=1
-let generation: Int = context.parameter(for: "generation") // 1
+let generation: Int? = context.parameter(for: "generation") // 1
 ```
 
 Currently supported type is `Int`, `Int64`, `Float`, `Double`, `Bool`, `String` and `URL`.
