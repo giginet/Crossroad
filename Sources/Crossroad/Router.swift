@@ -10,6 +10,14 @@ public final class Router<UserInfo> {
         self.scheme = scheme
     }
   
+    internal func register(_ route: Route<UserInfo>) {
+        if scheme != route.patternURL.scheme {
+            assertionFailure("Router and pattern must have the same schemes. expect: \(scheme), actual: \(route.patternURL.scheme)")
+        } else {
+            routes.append(route)
+        }
+    }
+    
     @discardableResult
     public func openIfPossible(_ url: URL, userInfo: UserInfo) -> Bool {
         if scheme != url.scheme {
@@ -24,20 +32,21 @@ public final class Router<UserInfo> {
         }
         return routes.first { $0.responds(to: url, userInfo: userInfo) } != nil
     }
-
+    
     public func register(_ routes: [(String, Route<UserInfo>.Handler)]) {
         for (pattern, handler) in routes {
-            var pattern = pattern
-            let value = URL(string: pattern)?.scheme
-            if value == nil || value?.isEmpty ?? true {
-                pattern = scheme + "://" + pattern
+            let patternURLString: String
+            if pattern.hasPrefix("\(scheme)://") {
+                patternURLString = pattern
+            } else {
+                patternURLString = "\(scheme)://\(pattern)"
             }
-            guard let patternURL = PatternURL(string: pattern) else {
+            guard let patternURL = PatternURL(string: patternURLString) else {
                 assertionFailure("\(pattern) is invalid")
                 continue
             }
             let route = Route(pattern: patternURL, handler: handler)
-            self.routes.append(route)
+            register(route)
         }
     }
 }
