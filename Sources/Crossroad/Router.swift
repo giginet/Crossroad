@@ -9,7 +9,7 @@ public final class Router<UserInfo> {
     public init(scheme: String) {
         self.scheme = scheme
     }
-  
+
     internal func register(_ route: Route<UserInfo>) {
         if scheme != route.patternURL.scheme {
             assertionFailure("Router and pattern must have the same schemes. expect: \(scheme), actual: \(route.patternURL.scheme)")
@@ -17,7 +17,7 @@ public final class Router<UserInfo> {
             routes.append(route)
         }
     }
-    
+
     @discardableResult
     public func openIfPossible(_ url: URL, userInfo: UserInfo) -> Bool {
         if scheme != url.scheme {
@@ -32,7 +32,7 @@ public final class Router<UserInfo> {
         }
         return routes.first { $0.responds(to: url, userInfo: userInfo) } != nil
     }
-    
+
     public func register(_ routes: [(String, Route<UserInfo>.Handler)]) {
         for (pattern, handler) in routes {
             let patternURLString: String
