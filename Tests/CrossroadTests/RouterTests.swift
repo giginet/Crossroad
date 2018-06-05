@@ -21,6 +21,12 @@ final class RouterTest: XCTestCase {
         XCTAssertFalse(router.responds(to: URL(string: "foobar://aaa/bbb")!))
         XCTAssertFalse(router.responds(to: URL(string: "notfoobar://aaa/bbb")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://spam/ham")!))
+        XCTAssertFalse(router.responds(to: URL(string: "static")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foo")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foo/bar")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foo/10000")!))
+        XCTAssertFalse(router.responds(to: URL(string: "aaa/bbb")!))
+        XCTAssertFalse(router.responds(to: URL(string: "spam/ham")!))
     }
     
     func testCanRespondWithoutScheme() {
@@ -38,6 +44,12 @@ final class RouterTest: XCTestCase {
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/10000")!))
         XCTAssertFalse(router.responds(to: URL(string: "notfoobar://aaa/bbb")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://spam/ham")!))
+        XCTAssertFalse(router.responds(to: URL(string: "static")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foo")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foo/bar")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foo/10000")!))
+        XCTAssertFalse(router.responds(to: URL(string: "aaa/bbb")!))
+        XCTAssertFalse(router.responds(to: URL(string: "spam/ham")!))
     }
 
     func testHandle() {
@@ -76,6 +88,11 @@ final class RouterTest: XCTestCase {
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/hoge/fuga")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foobar://spam/ham")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "notfoobar://static")!))
+        XCTAssertFalse(router.openIfPossible(URL(string: "static")!))
+        XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar?param0=123")!))
+        XCTAssertFalse(router.openIfPossible(URL(string: "hoge")!))
+        XCTAssertFalse(router.openIfPossible(URL(string: "foo/hoge/fuga")!))
+        XCTAssertFalse(router.openIfPossible(URL(string: "spam/ham")!))
         wait(for: [expectation], timeout: 2.0)
     }
     
@@ -115,6 +132,11 @@ final class RouterTest: XCTestCase {
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/hoge/fuga")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foobar://spam/ham")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "notfoobar://static")!))
+        XCTAssertFalse(router.openIfPossible(URL(string: "static")!))
+        XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar?param0=123")!))
+        XCTAssertFalse(router.openIfPossible(URL(string: "hoge")!))
+        XCTAssertFalse(router.openIfPossible(URL(string: "foo/hoge/fuga")!))
+        XCTAssertFalse(router.openIfPossible(URL(string: "spam/ham")!))
         wait(for: [expectation], timeout: 2.0)
     }
 
@@ -142,6 +164,8 @@ final class RouterTest: XCTestCase {
             ])
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/42")!))
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/bar")!))
+        XCTAssertFalse(router.openIfPossible(URL(string: "foo/42")!))
+        XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [idExpectation, keywordExpectation], timeout: 2.0)
     }
     
@@ -169,6 +193,8 @@ final class RouterTest: XCTestCase {
             ])
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/42")!))
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/bar")!))
+        XCTAssertFalse(router.openIfPossible(URL(string: "foo/42")!))
+        XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [idExpectation, keywordExpectation], timeout: 2.0)
     }
 
@@ -188,6 +214,7 @@ final class RouterTest: XCTestCase {
             }),
             ])
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/bar")!))
+        XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [expectation], timeout: 2.0)
     }
     
@@ -207,6 +234,7 @@ final class RouterTest: XCTestCase {
             }),
             ])
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/bar")!))
+        XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [expectation], timeout: 2.0)
     }
 
@@ -224,6 +252,7 @@ final class RouterTest: XCTestCase {
             }),
         ])
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://static")!, userInfo: UserInfo(value: 42)))
+        XCTAssertFalse(router.openIfPossible(URL(string: "static")!, userInfo: UserInfo(value: 42)))
         XCTAssertEqual(userInfo?.value, 42)
     }
     
@@ -241,6 +270,7 @@ final class RouterTest: XCTestCase {
             }),
             ])
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://static")!, userInfo: UserInfo(value: 42)))
+        XCTAssertFalse(router.openIfPossible(URL(string: "static")!, userInfo: UserInfo(value: 42)))
         XCTAssertEqual(userInfo?.value, 42)
     }
 }
