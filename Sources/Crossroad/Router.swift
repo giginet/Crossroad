@@ -3,7 +3,7 @@ import Foundation
 public typealias SimpleRouter = Router<Void>
 
 public final class Router<UserInfo> {
-    public let scheme: String
+    private let scheme: String
     private var routes: [Route<UserInfo>] = []
 
     public init(scheme: String) {
@@ -35,7 +35,13 @@ public final class Router<UserInfo> {
 
     public func register(_ routes: [(String, Route<UserInfo>.Handler)]) {
         for (pattern, handler) in routes {
-            guard let patternURL = PatternURL(string: pattern) else {
+            let patternURLString: String
+            if pattern.hasPrefix("\(scheme)://") {
+                patternURLString = pattern
+            } else {
+                patternURLString = "\(scheme)://\(pattern)"
+            }
+            guard let patternURL = PatternURL(string: patternURLString) else {
                 assertionFailure("\(pattern) is invalid")
                 continue
             }
