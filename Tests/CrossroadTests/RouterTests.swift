@@ -28,7 +28,7 @@ final class RouterTest: XCTestCase {
         XCTAssertFalse(router.responds(to: URL(string: "aaa/bbb")!))
         XCTAssertFalse(router.responds(to: URL(string: "spam/ham")!))
     }
-    
+
     func testCanRespondWithoutScheme() {
         let router = SimpleRouter(scheme: scheme)
         router.register([
@@ -95,7 +95,7 @@ final class RouterTest: XCTestCase {
         XCTAssertFalse(router.openIfPossible(URL(string: "spam/ham")!))
         wait(for: [expectation], timeout: 2.0)
     }
-    
+
     func testHandleWithoutScheme() {
         let router = SimpleRouter(scheme: scheme)
         let expectation = self.expectation(description: "Should called handler four times")
@@ -168,7 +168,7 @@ final class RouterTest: XCTestCase {
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [idExpectation, keywordExpectation], timeout: 2.0)
     }
-    
+
     func testHandlerWithSamePatternsWithoutScheme() {
         let router = SimpleRouter(scheme: scheme)
         let idExpectation = self.expectation(description: "Should called handler with ID")
@@ -217,7 +217,7 @@ final class RouterTest: XCTestCase {
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [expectation], timeout: 2.0)
     }
-    
+
     func testHandleReturnsFalseWithoutScheme() {
         let router = SimpleRouter(scheme: scheme)
         let expectation = self.expectation(description: "Should called handler twice")
@@ -255,7 +255,7 @@ final class RouterTest: XCTestCase {
         XCTAssertFalse(router.openIfPossible(URL(string: "static")!, userInfo: UserInfo(value: 42)))
         XCTAssertEqual(userInfo?.value, 42)
     }
-    
+
     func testWithUserInfoWithoutScheme() {
         struct UserInfo {
             let value: Int
