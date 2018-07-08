@@ -7,5 +7,3 @@ opt_in_rules:
   - trailing_comma
 trailing_comma:
   mandatory_comma: true
-trailing_whitespace:
-  severity: error
