@@ -9,7 +9,7 @@
 
 Route URL schemes easily.
 
-Crossroad is URL router focused on handling Custom URL Scheme.
+Crossroad is an URL router focused on handling Custom URL Scheme.
 Using this, you can route multiple URL schemes and fetch arguments and parameters easily.
 
 This library is developed in working time for Cookpad.
@@ -45,14 +45,14 @@ router.register([
         return true 
     }),
     ("pokedex://pokemons/:pokedexID", { context in 
-        guard let pokedexID: Int = try? context.argument(for: "pokedexID") else {
+        guard let pokedexID: Int? = try? context.argument(for: "pokedexID") else {
             // pokedexID must be Int
             return false
         }
         if !Pokedex.isExist(pokedexID) { // Find the Pokémon by ID
             return false
         }
-        presentPokedexDetailViewController(for: pokedex)
+        presentPokedexDetailViewController(for: pokedexID)
         return true 
     }),
     // ...
@@ -60,8 +60,8 @@ router.register([
 
 let canRespond25 = router.responds(to: URL(string: "pokedex://pokemons/25")!) // Pikachu(No. 25) is exist! so it returns true
 let canRespond9999 = router.responds(to: URL(string: "pokedex://pokemons/9999")!) // No. 9999 is unknown. so it returns false
-router.openIfPossible(URL(string: "pokedex://pokemons/25")) // Open Pikachu page
-router.openIfPossible(URL(string: "pokedex://pokemons?type=fire")) // Open list of fire Pokémons page
+router.openIfPossible(URL(string: "pokedex://pokemons/25")!) // Open Pikachu page
+router.openIfPossible(URL(string: "pokedex://pokemons?type=fire")!) // Open list of fire Pokémons page
 ```
 
 In common use case, you should call `router.openIfPossible` on `UIApplicationDelegate` method.
@@ -92,6 +92,8 @@ let generation: Int? = context.parameter(for: "generation") // 1
 
 Currently supported type is `Int`, `Int64`, `Float`, `Double`, `Bool`, `String` and `URL`.
 
+You can also skip schemes on URLs. URLPattern `/search/:keyword` means `pokedex://search/:keyword` on the router.
+
 ### Enum argument
 
 You can use enum as arguments by implementing `Extractable`.
@@ -106,7 +108,7 @@ enum Type: String, Extractable {
 }
 
 // matches: pokedex://pokemons?type=fire
-let type: Type = context.parameter(for: "type") // .fire
+let type: Type? = context.parameter(for: "type") // .fire
 ```
 
 ### Comma-separated list
