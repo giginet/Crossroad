@@ -1,4 +1,4 @@
-# Crossroad
+![Crossroad](Documentation/logo.png)
 
 [![Build Status](https://travis-ci.org/giginet/Crossroad.svg?branch=master)](https://travis-ci.org/giginet/Crossroad)
 [![Language](https://img.shields.io/badge/language-Swift%204.1-orange.svg)](https://swift.org)
