@@ -1,4 +1,4 @@
-![Crossroad](Documentation/logo.png)
+[![Crossroad](Documentation/logo.png)](https://github.com/giginet/Crossroad)
 
 [![Build Status](https://travis-ci.org/giginet/Crossroad.svg?branch=master)](https://travis-ci.org/giginet/Crossroad)
 [![Language](https://img.shields.io/badge/language-Swift%204.1-orange.svg)](https://swift.org)
@@ -156,3 +156,9 @@ router.register([
 let userInfo = UserInfo(userID: User.current.id)
 router.openIfPossible(url, userInfo: userInfo)
 ```
+
+## License
+
+Crossroad is released under the MIT License.
+
+Header logo is released under the [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) license. Original design by [@Arslanshn](https://github.com/Arslanshn).
