@@ -26,11 +26,20 @@ final class ContextTests: XCTestCase {
     func regexp(_ string: String) -> NSRegularExpression {
         return try! NSRegularExpression(pattern: string, options: [])
     }
-    
-    func testArgument() {
+
+    func testArguments() {
         XCTAssertEqual(context.arguments.pokedexID, 25)
         if let _: Int = context.arguments.unknownArgument {
             XCTFail("unknownArgument should not be found.")
+        }
+    }
+
+    func testArgumentsWithFetch() {
+        XCTAssertEqual(try! context.arguments.fetch(for: "pokedexID"), 25)
+        XCTAssertThrowsError(try context.arguments.fetch(for: "unknownArgument") as Int) { error in
+            guard case ArgumentContainer.Error.parsingArgumentFailed = error else {
+                return XCTFail("Error must be parsingArgumentFailed.")
+            }
         }
     }
 
