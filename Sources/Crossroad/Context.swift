@@ -11,7 +11,7 @@ public struct ArgumentContainer {
         self.arguments = arguments
     }
 
-    private func fetch<T: Extractable>(for key: String) throws -> T {
+    public func fetch<T: Extractable>(for key: String) throws -> T {
         if let argument = arguments[key] {
             if let value = T.extract(from: argument) {
                 return value

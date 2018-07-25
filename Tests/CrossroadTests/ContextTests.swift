@@ -13,7 +13,7 @@ final class ContextTests: XCTestCase {
 
     var context: Context<Void> {
         return  Context<Void>(url: url,
-                              arguments: [:],
+                              arguments: ["pokedexID": "25"],
                               parameters: [
                                 URLQueryItem(name: "name", value: "Pikachu"),
                                 URLQueryItem(name: "type", value: "electric"),
@@ -25,6 +25,13 @@ final class ContextTests: XCTestCase {
 
     func regexp(_ string: String) -> NSRegularExpression {
         return try! NSRegularExpression(pattern: string, options: [])
+    }
+    
+    func testArgument() {
+        XCTAssertEqual(context.arguments.pokedexID, 25)
+        if let _: Int = context.arguments.unknownArgument {
+            XCTFail("unknownArgument should not be found.")
+        }
     }
 
     func testParameter() {
