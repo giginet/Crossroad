@@ -1,7 +1,7 @@
 [![Crossroad](Documentation/logo.png)](https://github.com/giginet/Crossroad)
 
 [![Build Status](https://travis-ci.org/giginet/Crossroad.svg?branch=master)](https://travis-ci.org/giginet/Crossroad)
-[![Language](https://img.shields.io/badge/language-Swift%204.1-orange.svg)](https://swift.org)
+[![Language](https://img.shields.io/badge/language-Swift%204.2-orange.svg)](https://swift.org)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) 
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/Crossroad.svg)](http://cocoapods.org/pods/Crossroad)
 [![Platform](https://img.shields.io/cocoapods/p/Crossroad.svg?style=flat)](http://cocoapods.org/pods/Crossroad)
@@ -40,19 +40,19 @@ Imagine to implement Pokédex on iOS. You can access somewhere via URL scheme.
 router = DefaultRouter(scheme: "pokedex")
 router.register([
     ("pokedex://pokemons", { context in 
-        let type: Type? = context.parameter(for: "type")
+        let type: Type? = context.parameters.type
         presentPokedexListViewController(for: type)
         return true 
     }),
     ("pokedex://pokemons/:pokedexID", { context in 
-        guard let pokedexID: Int? = try? context.argument(for: "pokedexID") else {
+        guard let pokedexID: Int? = context.arguments.pokedexID else {
             // pokedexID must be Int
             return false
         }
         if !Pokedex.isExist(pokedexID) { // Find the Pokémon by ID
             return false
         }
-        presentPokedexDetailViewController(for: pokedexID)
+        presentPokedexDetailViewController(of: pokedexID)
         return true 
     }),
     // ...
@@ -64,10 +64,12 @@ router.openIfPossible(URL(string: "pokedex://pokemons/25")!) // Open Pikachu pag
 router.openIfPossible(URL(string: "pokedex://pokemons?type=fire")!) // Open list of fire Pokémons page
 ```
 
+You can also skip schemes on URLs. URLPattern `/search/:keyword` means `pokedex://search/:keyword` on the router.
+
 In common use case, you should call `router.openIfPossible` on `UIApplicationDelegate` method.
 
 ```swift
-func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
+func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool {
     return router.openIfPossible(url, options: options)
 }
 ```
@@ -80,19 +82,17 @@ For example, if passed URL matches `pokedex://search/:keyword`, you can get `key
 
 ```swift
 // matches: pokedex://search/Pikachu
-let keyword: String = try! context.argument(for: "keyword") // Pikachu
+let keyword: String? = context.arguments.keyword // Pikachu
 ```
 
 And more, you can get query parameters if exist.
 
 ```swift
 // matches: pokedex://search/Pikachu?generation=1
-let generation: Int? = context.parameter(for: "generation") // 1
+let generation: Int? = context.parameters.generation // 1
 ```
 
 Currently supported type is `Int`, `Int64`, `Float`, `Double`, `Bool`, `String` and `URL`.
-
-You can also skip schemes on URLs. URLPattern `/search/:keyword` means `pokedex://search/:keyword` on the router.
 
 ### Enum argument
 
@@ -108,7 +108,7 @@ enum Type: String, Extractable {
 }
 
 // matches: pokedex://pokemons?type=fire
-let type: Type? = context.parameter(for: "type") // .fire
+let type: Type? = context.parameters.type // .fire
 ```
 
 ### Comma-separated list
@@ -117,7 +117,7 @@ You can treat comma-separated query strings as `Array`.
 
 ```swift
 // matches: pokedex://pokemons?types=water,grass
-let types: [Type] = context.parameter(for: "types") // [.water, .grass]
+let types: [Type]? = context.parameters.types // [.water, .grass]
 ```
 
 ### Custom argument
@@ -156,6 +156,17 @@ router.register([
 let userInfo = UserInfo(userID: User.current.id)
 router.openIfPossible(url, userInfo: userInfo)
 ```
+
+## Supported version
+
+Latest version of Crossroad requires Swift 4.2 or above.
+
+Use 1.x instead on Swift 4.1 or lower.
+
+|Crossroad Version|Swift Version|Xcode Version|
+|-----------------|-------------|-------------|
+|2.x              |4.2+         |Xcode 10+    |
+|1.x              |4.0 ~ 4.1    |Xcode 9.4    |
 
 ## License
 
