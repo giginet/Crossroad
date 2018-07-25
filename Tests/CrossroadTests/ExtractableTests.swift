@@ -14,6 +14,16 @@ final class ExtractableTests: XCTestCase {
         case grass
         case water
     }
+    
+    func testWithRawValues() {
+        XCTAssertEqual(Int.extract(from: "25"), 25)
+        XCTAssertEqual(Int64.extract(from: "25"), 25)
+        XCTAssertEqual(Float.extract(from: "25.5"), 25.5)
+        XCTAssertEqual(Double.extract(from: "25.5"), 25.5)
+        XCTAssertEqual(Bool.extract(from: "true"), true)
+        XCTAssertEqual(String.extract(from: "25"), "25")
+        XCTAssertEqual(URL.extract(from: "https://example.com"), URL(string: "https://example.com")!)
+    }
 
     func testWithEnum() {
         XCTAssertEqual(PokemonType.extract(from: "fire"), .fire)
