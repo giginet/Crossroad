@@ -11,7 +11,7 @@ public struct ArgumentContainer {
         self.arguments = arguments
     }
 
-    public func fetch<T: Extractable>(for key: String) throws -> T {
+    private func fetch<T: Extractable>(for key: String) throws -> T {
         if let argument = arguments[key] {
             if let value = T.extract(from: argument) {
                 return value
@@ -20,7 +20,9 @@ public struct ArgumentContainer {
         throw Error.parsingArgumentFailed
     }
 
-    public subscript<T: Extractable>(dynamicMember member: String) -> T? {
+    // Argument must be exists on URL pattern.
+    // So it returns IUO values
+    public subscript<T: Extractable>(dynamicMember member: String) -> T! {
         return try? fetch(for: member)
     }
 }
