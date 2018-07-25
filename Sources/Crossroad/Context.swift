@@ -1,7 +1,7 @@
 import Foundation
 
 @dynamicMemberLookup
-public struct Argument {
+public struct ArgumentContainer {
     public enum Error: Swift.Error {
         case parsingArgumentFailed
     }
@@ -26,7 +26,7 @@ public struct Argument {
 }
 
 @dynamicMemberLookup
-public struct Parameter {
+public struct ParameterContainer {
     private let parameters: [URLQueryItem]
 
     fileprivate init(_ parameters: [URLQueryItem]) {
@@ -80,15 +80,15 @@ public struct Parameter {
 public struct Context<UserInfo> {
     public let url: URL
     public let userInfo: UserInfo
-    public let arguments: Argument
-    public let parameters: Parameter
+    public let arguments: ArgumentContainer
+    public let parameters: ParameterContainer
 
     internal init(url: URL, arguments: [String: String],
                   parameters: [URLQueryItem],
                   userInfo: UserInfo) {
         self.url = url
         self.userInfo = userInfo
-        self.arguments = Argument(arguments)
-        self.parameters = Parameter(parameters)
+        self.arguments = ArgumentContainer(arguments)
+        self.parameters = ParameterContainer(parameters)
     }
 }
