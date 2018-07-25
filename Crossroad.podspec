@@ -1,9 +1,9 @@
 Pod::Spec.new do |s|
   s.name         = "Crossroad"
-  s.version      = "1.0.1"
+  s.version      = "2.0.0"
   s.summary      = "Route URL schemes easily"
   s.description  = <<-DESC
-  Crossroad is URL router focused on handling Custom URL Scheme.
+  Crossroad is an URL router focused on handling Custom URL Scheme.
   Using this, you can route multiple URL schemes and fetch arguments and parameters easily.
                    DESC
 
