@@ -3,7 +3,7 @@
 import Foundation
 import UIKit
 
-public typealias ApplicationOpenURLOptions = [UIApplicationOpenURLOptionsKey: Any]
+public typealias ApplicationOpenURLOptions = [UIApplication.OpenURLOptionsKey: Any]
 
 // https://developer.apple.com/documentation/uikit/uiapplicationopenurloptionskey
 public struct OpenURLOption {
