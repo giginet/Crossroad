@@ -243,7 +243,7 @@ final class RouterTest: XCTestCase {
             let value: Int
         }
         let router = Router<UserInfo>(scheme: scheme)
-        var userInfo: UserInfo? = nil
+        var userInfo: UserInfo?
         router.register([
             ("foobar://static", { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://static")!)
@@ -261,7 +261,7 @@ final class RouterTest: XCTestCase {
             let value: Int
         }
         let router = Router<UserInfo>(scheme: scheme)
-        var userInfo: UserInfo? = nil
+        var userInfo: UserInfo?
         router.register([
             ("static", { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://static")!)

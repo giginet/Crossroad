@@ -14,7 +14,7 @@ final class ExtractableTests: XCTestCase {
         case grass
         case water
     }
-    
+
     func testWithRawValues() {
         XCTAssertEqual(Int.extract(from: "25"), 25)
         XCTAssertEqual(Int64.extract(from: "25"), 25)
