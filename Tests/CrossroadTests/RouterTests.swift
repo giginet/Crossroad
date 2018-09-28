@@ -6,7 +6,7 @@ final class RouterTest: XCTestCase {
     let scheme = "foobar"
 
     func testCanRespond() {
-        let router = SimpleRouter(scheme: scheme)
+        let router = SimpleRouter(accepts: [.scheme(scheme)])
         router.register([
             ("foobar://static", { _ in true }),
             ("foobar://foo/bar", { _ in true }),
@@ -30,7 +30,7 @@ final class RouterTest: XCTestCase {
     }
 
     func testCanRespondWithoutScheme() {
-        let router = SimpleRouter(scheme: scheme)
+        let router = SimpleRouter(accepts: [.scheme(scheme)])
         router.register([
             ("static", { _ in true }),
             ("foo/bar", { _ in true }),
@@ -53,7 +53,7 @@ final class RouterTest: XCTestCase {
     }
 
     func testHandle() {
-        let router = SimpleRouter(scheme: scheme)
+        let router = SimpleRouter(accepts: [.scheme(scheme)])
         let expectation = self.expectation(description: "Should called handler four times")
         expectation.expectedFulfillmentCount = 4
         router.register([
@@ -97,7 +97,7 @@ final class RouterTest: XCTestCase {
     }
 
     func testHandleWithoutScheme() {
-        let router = SimpleRouter(scheme: scheme)
+        let router = SimpleRouter(accepts: [.scheme(scheme)])
         let expectation = self.expectation(description: "Should called handler four times")
         expectation.expectedFulfillmentCount = 4
         router.register([
@@ -141,7 +141,7 @@ final class RouterTest: XCTestCase {
     }
 
     func testHandlerWithSamePatterns() {
-        let router = SimpleRouter(scheme: scheme)
+        let router = SimpleRouter(accepts: [.scheme(scheme)])
         let idExpectation = self.expectation(description: "Should called handler with ID")
         let keywordExpectation = self.expectation(description: "Should called handler with keyword")
         router.register([
@@ -170,7 +170,7 @@ final class RouterTest: XCTestCase {
     }
 
     func testHandlerWithSamePatternsWithoutScheme() {
-        let router = SimpleRouter(scheme: scheme)
+        let router = SimpleRouter(accepts: [.scheme(scheme)])
         let idExpectation = self.expectation(description: "Should called handler with ID")
         let keywordExpectation = self.expectation(description: "Should called handler with keyword")
         router.register([
@@ -199,7 +199,7 @@ final class RouterTest: XCTestCase {
     }
 
     func testHandleReturnsFalse() {
-        let router = SimpleRouter(scheme: scheme)
+        let router = SimpleRouter(accepts: [.scheme(scheme)])
         let expectation = self.expectation(description: "Should called handler twice")
         expectation.expectedFulfillmentCount = 2
         router.register([
@@ -219,7 +219,7 @@ final class RouterTest: XCTestCase {
     }
 
     func testHandleReturnsFalseWithoutScheme() {
-        let router = SimpleRouter(scheme: scheme)
+        let router = SimpleRouter(accepts: [.scheme(scheme)])
         let expectation = self.expectation(description: "Should called handler twice")
         expectation.expectedFulfillmentCount = 2
         router.register([
@@ -242,7 +242,7 @@ final class RouterTest: XCTestCase {
         struct UserInfo {
             let value: Int
         }
-        let router = Router<UserInfo>(scheme: scheme)
+        let router = Router<UserInfo>(accepts: [.scheme(scheme)])
         var userInfo: UserInfo? = nil
         router.register([
             ("foobar://static", { context in
@@ -260,7 +260,7 @@ final class RouterTest: XCTestCase {
         struct UserInfo {
             let value: Int
         }
-        let router = Router<UserInfo>(scheme: scheme)
+        let router = Router<UserInfo>(accepts: [.scheme(scheme)])
         var userInfo: UserInfo? = nil
         router.register([
             ("static", { context in

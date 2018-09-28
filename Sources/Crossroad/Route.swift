@@ -4,10 +4,12 @@ public struct Route<UserInfo> {
     public typealias Handler = (Context<UserInfo>) -> Bool
 
     internal let patternURL: PatternURL
+    private let acceptSchemes: Set<String>?
     private let handler: Handler
 
-    internal init(pattern patternURL: PatternURL, handler: @escaping Handler) {
+    internal init(pattern patternURL: PatternURL, acceptSchemes: Set<String>? = nil, handler: @escaping Handler) {
         self.patternURL = patternURL
+        self.acceptSchemes = acceptSchemes
         self.handler = handler
     }
 
@@ -55,5 +57,14 @@ public struct Route<UserInfo> {
             parameters = []
         }
         return Context<UserInfo>(url: url, arguments: arguments, parameters: parameters, userInfo: userInfo)
+    }
+    
+    internal func match(routingType: RoutingType) -> Bool {
+        switch routingType {
+        case .scheme(let scheme):
+            return patternURL.scheme == scheme
+        case .baseURL(let url):
+            return true
+        }
     }
 }
