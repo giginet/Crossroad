@@ -11,8 +11,10 @@ internal struct PatternURL {
 
     private static let schemeSeparator = "://"
     private static let pathSeparator = "/"
+    private let absoluteString: String
 
     init?(string: String) {
+        absoluteString = string
         let firstSplit = string.components(separatedBy: PatternURL.schemeSeparator)
         guard let scheme = firstSplit.first, !scheme.isEmpty else {
             return nil

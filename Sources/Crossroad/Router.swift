@@ -51,7 +51,18 @@ public final class Router<UserInfo> {
                     let route = Route(pattern: patternURL, handler: handler)
                     register(route)
                 case .baseURL(let baseURL):
-                    break
+                    let patternURLString: String
+                    if pattern.hasPrefix(baseURL.absoluteString) {
+                        patternURLString = pattern
+                    } else {
+                        patternURLString = baseURL.appendingPathComponent(pattern).absoluteString
+                    }
+                    guard let patternURL = PatternURL(string: patternURLString) else {
+                        assertionFailure("\(pattern) is invalid")
+                        continue
+                    }
+                    let route = Route(pattern: patternURL, handler: handler)
+                    register(route)
                 }
             }
         }
