@@ -7,7 +7,7 @@ import Crossroad
 
 final class OpenURLOptionTests: XCTestCase {
     func testInit() {
-        let options: [UIApplicationOpenURLOptionsKey: Any] = [
+        let options: [UIApplication.OpenURLOptionsKey: Any] = [
             .sourceApplication: "org.giginet.myapp",
             .openInPlace: true,
         ]

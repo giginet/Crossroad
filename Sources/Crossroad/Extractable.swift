@@ -56,7 +56,7 @@ extension URL: Extractable {
 }
 
 public extension RawRepresentable where Self: Extractable, Self.RawValue == String {
-    public static func extract(from string: String) -> Self? {
+    static func extract(from string: String) -> Self? {
         return Self(rawValue: string)
     }
 }
