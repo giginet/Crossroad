@@ -53,11 +53,11 @@ public final class Router<UserInfo> {
 
 public extension Router where UserInfo == Void {
     @discardableResult
-    public func openIfPossible(_ url: URL) -> Bool {
+    func openIfPossible(_ url: URL) -> Bool {
         return openIfPossible(url, userInfo: ())
     }
 
-    public func responds(to url: URL) -> Bool {
+    func responds(to url: URL) -> Bool {
         return responds(to: url, userInfo: ())
     }
 }

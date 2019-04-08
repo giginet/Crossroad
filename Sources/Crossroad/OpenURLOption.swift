@@ -3,7 +3,7 @@
 import Foundation
 import UIKit
 
-public typealias ApplicationOpenURLOptions = [UIApplicationOpenURLOptionsKey: Any]
+public typealias ApplicationOpenURLOptions = [UIApplication.OpenURLOptionsKey: Any]
 
 // https://developer.apple.com/documentation/uikit/uiapplicationopenurloptionskey
 public struct OpenURLOption {
@@ -21,11 +21,11 @@ public struct OpenURLOption {
 public typealias DefaultRouter = Router<OpenURLOption>
 
 public extension Router where UserInfo == OpenURLOption {
-    public func openIfPossible(_ url: URL, options: ApplicationOpenURLOptions) -> Bool {
+    func openIfPossible(_ url: URL, options: ApplicationOpenURLOptions) -> Bool {
         return openIfPossible(url, userInfo: OpenURLOption(options: options))
     }
 
-    public func responds(to url: URL, options: ApplicationOpenURLOptions) -> Bool {
+    func responds(to url: URL, options: ApplicationOpenURLOptions) -> Bool {
         return responds(to: url, userInfo: OpenURLOption(options: options))
     }
 }
