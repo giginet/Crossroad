@@ -1,11 +1,11 @@
 [![Crossroad](Documentation/logo.png)](https://github.com/giginet/Crossroad)
 
-[![Build Status](https://travis-ci.org/giginet/Crossroad.svg?branch=master)](https://travis-ci.org/giginet/Crossroad)
-[![Language](https://img.shields.io/badge/language-Swift%205-orange.svg)](https://swift.org)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) 
-[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/Crossroad.svg)](http://cocoapods.org/pods/Crossroad)
-[![Platform](https://img.shields.io/cocoapods/p/Crossroad.svg?style=flat)](http://cocoapods.org/pods/Crossroad)
-[![License](https://cocoapod-badges.herokuapp.com/l/Crossroad/badge.svg)](https://github.com/giginet/Crossroad/blob/master/LICENSE)
+[![Build Status](https://img.shields.io/travis/giginet/Crossroad.svg?branch=master&style=flat-square)](https://travis-ci.org/giginet/Crossroad)
+[![Language](https://img.shields.io/static/v1.svg?label=language&message=Swift%205&color=FA7343&logo=swift&style=flat-square)](https://swift.org)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat-square)](https://github.com/Carthage/Carthage) 
+[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/Crossroad.svg?style=flat-square)](http://cocoapods.org/pods/Crossroad)
+[![Platform](https://img.shields.io/static/v1.svg?label=platform&message=iOS&color=grey&logo=apple&style=flat-square)](http://cocoapods.org/pods/Crossroad)
+[![License](https://img.shields.io/cocoapods/l/Crossroad.svg?style=flat-square)](https://github.com/giginet/Crossroad/blob/master/LICENSE)
 
 Route URL schemes easily.
 
