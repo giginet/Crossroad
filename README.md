@@ -166,7 +166,7 @@ Use 1.x instead on Swift 4.1 or lower.
 |Crossroad Version|Swift Version|Xcode Version|
 |-----------------|-------------|-------------|
 |2.x              |5.0          |Xcode 10.2   |
-|1.x              |4.0 ~ 4.1    |Xcode 9.4    |
+|1.x              |4.0 ~ 4.2    |~ Xcode 10.1  |
 
 ## License
 
