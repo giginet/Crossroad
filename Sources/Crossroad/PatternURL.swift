@@ -37,4 +37,12 @@ internal struct PatternURL {
             pathComponents = []
         }
     }
+
+    var fullPath: String {
+        return "\(scheme)\(PatternURL.schemeSeparator)\(host)\(PatternURL.pathSeparator)\(pathComponents.joined(separator: "/"))"
+    }
+
+    func hasPrefix(url: URL) -> Bool {
+        return fullPath.hasPrefix(url.absoluteString)
+    }
 }
