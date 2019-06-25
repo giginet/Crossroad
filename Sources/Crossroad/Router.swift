@@ -21,21 +21,26 @@ public final class Router<UserInfo> {
     private func isValidURLPattern(_ patternURL: PatternURL) -> Bool {
         switch prefix {
         case .scheme(let scheme):
-            return scheme != patternURL.scheme
+            return scheme == patternURL.scheme
         case .url(let url):
             return patternURL.hasPrefix(url: url)
         }
     }
 
     private func canRespond(to url: URL) -> Bool {
-        return true
+        switch prefix {
+        case .scheme(let scheme):
+            return scheme == url.scheme
+        case .url(let prefixURL):
+            return url.absoluteString.hasPrefix(prefixURL.absoluteString)
+        }
     }
 
     internal func register(_ route: Route<UserInfo>) {
         if isValidURLPattern(route.patternURL) {
-            assertionFailure("Unexpected URL Pattern")
-        } else {
             routes.append(route)
+        } else {
+            assertionFailure("Unexpected URL Pattern")
         }
     }
 
