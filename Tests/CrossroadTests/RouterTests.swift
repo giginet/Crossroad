@@ -29,6 +29,30 @@ final class RouterTest: XCTestCase {
         XCTAssertFalse(router.responds(to: URL(string: "spam/ham")!))
     }
 
+    func testCanRespondWithURLPrefix() {
+        let router = SimpleRouter(url: URL(string: "https://example.com")!)
+        router.register([
+            ("https://example.com/static", { _ in true }),
+            ("https://example.com/foo/bar", { _ in true }),
+            ("https://example.com/spam/ham", { _ in false }),
+            ("https://example.com/:keyword", { _ in true }),
+            ("https://example.com/foo/:keyword", { _ in true }),
+            ])
+        XCTAssertTrue(router.responds(to: URL(string: "https://example.com/static")!))
+        XCTAssertTrue(router.responds(to: URL(string: "https://example.com/foo")!))
+        XCTAssertTrue(router.responds(to: URL(string: "https://example.com/foo/bar")!))
+        XCTAssertTrue(router.responds(to: URL(string: "https://example.com/foo/10000")!))
+        XCTAssertFalse(router.responds(to: URL(string: "https://example.com/aaa/bbb")!))
+        XCTAssertFalse(router.responds(to: URL(string: "nothttps://example.com/aaa/bbb")!))
+        XCTAssertTrue(router.responds(to: URL(string: "https://example.com/spam/ham")!))
+        XCTAssertFalse(router.responds(to: URL(string: "static")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foo")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foo/bar")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foo/10000")!))
+        XCTAssertFalse(router.responds(to: URL(string: "aaa/bbb")!))
+        XCTAssertFalse(router.responds(to: URL(string: "spam/ham")!))
+    }
+
     func testCanRespondWithoutScheme() {
         let router = SimpleRouter(scheme: scheme)
         router.register([
@@ -44,6 +68,29 @@ final class RouterTest: XCTestCase {
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/10000")!))
         XCTAssertFalse(router.responds(to: URL(string: "notfoobar://aaa/bbb")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://spam/ham")!))
+        XCTAssertFalse(router.responds(to: URL(string: "static")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foo")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foo/bar")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foo/10000")!))
+        XCTAssertFalse(router.responds(to: URL(string: "aaa/bbb")!))
+        XCTAssertFalse(router.responds(to: URL(string: "spam/ham")!))
+    }
+
+    func testCanRespondWithoutSchemeWithURLPrefix() {
+        let router = SimpleRouter(url: URL(string: "https://example.com/")!)
+        router.register([
+            ("static", { _ in true }),
+            ("foo/bar", { _ in true }),
+            ("spam/ham", { _ in false }),
+            (":keyword", { _ in true }),
+            ("foo/:keyword", { _ in true }),
+            ])
+        XCTAssertTrue(router.responds(to: URL(string: "https://example.com/static")!))
+        XCTAssertTrue(router.responds(to: URL(string: "https://example.com/foo")!))
+        XCTAssertTrue(router.responds(to: URL(string: "https://example.com/foo/bar")!))
+        XCTAssertTrue(router.responds(to: URL(string: "https://example.com/foo/10000")!))
+        XCTAssertFalse(router.responds(to: URL(string: "nothttps://example.com/aaa/bbb")!))
+        XCTAssertTrue(router.responds(to: URL(string: "https://example.com/spam/ham")!))
         XCTAssertFalse(router.responds(to: URL(string: "static")!))
         XCTAssertFalse(router.responds(to: URL(string: "foo")!))
         XCTAssertFalse(router.responds(to: URL(string: "foo/bar")!))
