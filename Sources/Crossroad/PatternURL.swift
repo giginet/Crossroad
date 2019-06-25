@@ -8,6 +8,7 @@ internal struct PatternURL {
     let scheme: String
     let host: String
     let pathComponents: [String]
+    let patternString: String
 
     private static let schemeSeparator = "://"
     private static let pathSeparator = "/"
@@ -24,6 +25,7 @@ internal struct PatternURL {
         }
         self.scheme = scheme
         self.host = host
+        self.patternString = string
         if components.count > 1 {
             let left = components[1 ..< components.count]
             // In URL, pathComponents includes the starting "/" so do the same.
@@ -38,11 +40,7 @@ internal struct PatternURL {
         }
     }
 
-    var fullPath: String {
-        return "\(scheme)\(PatternURL.schemeSeparator)\(host)\(PatternURL.pathSeparator)\(pathComponents.joined(separator: "/"))"
-    }
-
     func hasPrefix(url: URL) -> Bool {
-        return fullPath.hasPrefix(url.absoluteString)
+        return patternString.hasPrefix(url.absoluteString)
     }
 }
