@@ -3,6 +3,7 @@ disabled_rules:
   - force_try
   - identifier_name
   - type_body_length
+  - file_length
 opt_in_rules:
   - trailing_comma
 trailing_comma:
