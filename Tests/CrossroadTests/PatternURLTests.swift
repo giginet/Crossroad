@@ -45,4 +45,15 @@ final class PatternURLTests: XCTestCase {
         assertShouldFailed("without_schema")
         assertShouldFailed("invalid_schema://////aaaaaaa")
     }
+
+    func testHasPrefix() {
+        XCTAssertTrue(PatternURL(string: "https://example.com")!.hasPrefix(url: URL(string: "https://example.com")!))
+        XCTAssertTrue(PatternURL(string: "https://example.com/")!.hasPrefix(url: URL(string: "https://example.com/")!))
+        XCTAssertTrue(PatternURL(string: "https://example.com/")!.hasPrefix(url: URL(string: "https://example.com")!))
+        XCTAssertTrue(PatternURL(string: "https://example.com/users/:id")!.hasPrefix(url: URL(string: "https://example.com")!))
+        XCTAssertTrue(PatternURL(string: "https://example.com/users/:id")!.hasPrefix(url: URL(string: "https://example.com/")!))
+        XCTAssertTrue(PatternURL(string: "https://example.com/users/:id")!.hasPrefix(url: URL(string: "https://example.com/users")!))
+        XCTAssertTrue(PatternURL(string: "https://example.com/users/:id")!.hasPrefix(url: URL(string: "https://example.com/users/")!))
+        XCTAssertFalse(PatternURL(string: "https://example.com/users/:id")!.hasPrefix(url: URL(string: "https://example.com/users/10")!))
+    }
 }

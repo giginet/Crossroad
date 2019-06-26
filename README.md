@@ -157,6 +157,16 @@ let userInfo = UserInfo(userID: User.current.id)
 router.openIfPossible(url, userInfo: userInfo)
 ```
 
+## Universal Links
+
+You can make routers handle with Universal Links.
+
+Of course, you can also use [Firebase Dynamic Link](https://firebase.google.com/docs/dynamic-links) or other similar services.
+
+```swift
+let router = DefaultRouter(url: URL(string: "https://my-awesome-pokedex.com")!)
+```
+
 ## Supported version
 
 Latest version of Crossroad requires Swift 5.0 or above.

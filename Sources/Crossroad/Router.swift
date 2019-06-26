@@ -3,31 +3,57 @@ import Foundation
 public typealias SimpleRouter = Router<Void>
 
 public final class Router<UserInfo> {
-    private let scheme: String
+    private enum Prefix {
+        case scheme(String)
+        case url(URL)
+    }
+    private let prefix: Prefix
     private var routes: [Route<UserInfo>] = []
 
     public init(scheme: String) {
-        self.scheme = scheme
+        prefix = .scheme(scheme)
+    }
+
+    public init(url: URL) {
+        prefix = .url(url)
+    }
+
+    private func isValidURLPattern(_ patternURL: PatternURL) -> Bool {
+        switch prefix {
+        case .scheme(let scheme):
+            return scheme == patternURL.scheme
+        case .url(let url):
+            return patternURL.hasPrefix(url: url)
+        }
+    }
+
+    private func canRespond(to url: URL) -> Bool {
+        switch prefix {
+        case .scheme(let scheme):
+            return scheme == url.scheme
+        case .url(let prefixURL):
+            return url.absoluteString.hasPrefix(prefixURL.absoluteString)
+        }
     }
 
     internal func register(_ route: Route<UserInfo>) {
-        if scheme != route.patternURL.scheme {
-            assertionFailure("Router and pattern must have the same schemes. expect: \(scheme), actual: \(route.patternURL.scheme)")
-        } else {
+        if isValidURLPattern(route.patternURL) {
             routes.append(route)
+        } else {
+            assertionFailure("Unexpected URL Pattern")
         }
     }
 
     @discardableResult
     public func openIfPossible(_ url: URL, userInfo: UserInfo) -> Bool {
-        if scheme != url.scheme {
+        if !canRespond(to: url) {
             return false
         }
         return routes.first { $0.openIfPossible(url, userInfo: userInfo) } != nil
     }
 
     public func responds(to url: URL, userInfo: UserInfo) -> Bool {
-        if scheme != url.scheme {
+        if !canRespond(to: url) {
             return false
         }
         return routes.first { $0.responds(to: url, userInfo: userInfo) } != nil
@@ -36,10 +62,19 @@ public final class Router<UserInfo> {
     public func register(_ routes: [(String, Route<UserInfo>.Handler)]) {
         for (pattern, handler) in routes {
             let patternURLString: String
-            if pattern.hasPrefix("\(scheme)://") {
-                patternURLString = pattern
-            } else {
-                patternURLString = "\(scheme)://\(pattern)"
+            switch prefix {
+            case .scheme(let scheme):
+                if pattern.hasPrefix("\(scheme)://") {
+                    patternURLString = pattern
+                } else {
+                    patternURLString = "\(scheme)://\(pattern)"
+                }
+            case .url(let url):
+                if pattern.hasPrefix(url.absoluteString) {
+                    patternURLString = pattern
+                } else {
+                    patternURLString = url.appendingPathComponent(pattern).absoluteString
+                }
             }
             guard let patternURL = PatternURL(string: patternURLString) else {
                 assertionFailure("\(pattern) is invalid")
