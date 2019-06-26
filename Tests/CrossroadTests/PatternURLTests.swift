@@ -48,6 +48,9 @@ final class PatternURLTests: XCTestCase {
 
     func testHasPrefix() {
         XCTAssertTrue(PatternURL(string: "https://example.com")!.hasPrefix(url: URL(string: "https://example.com")!))
+        XCTAssertTrue(PatternURL(string: "https://example.com/")!.hasPrefix(url: URL(string: "https://example.com/")!))
+        XCTAssertTrue(PatternURL(string: "https://example.com")!.hasPrefix(url: URL(string: "https://example.com/")!))
+        XCTAssertTrue(PatternURL(string: "https://example.com/")!.hasPrefix(url: URL(string: "https://example.com")!))
         XCTAssertTrue(PatternURL(string: "https://example.com/users/:id")!.hasPrefix(url: URL(string: "https://example.com")!))
         XCTAssertTrue(PatternURL(string: "https://example.com/users/:id")!.hasPrefix(url: URL(string: "https://example.com/")!))
         XCTAssertTrue(PatternURL(string: "https://example.com/users/:id")!.hasPrefix(url: URL(string: "https://example.com/users")!))
