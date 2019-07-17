@@ -21,7 +21,7 @@ public final class Router<UserInfo> {
     private func isValidURLPattern(_ patternURL: PatternURL) -> Bool {
         switch prefix {
         case .scheme(let scheme):
-            return scheme == patternURL.scheme
+            return scheme.lowercased() == patternURL.scheme.lowercased()
         case .url(let url):
             return patternURL.hasPrefix(url: url)
         }
@@ -30,9 +30,9 @@ public final class Router<UserInfo> {
     private func canRespond(to url: URL) -> Bool {
         switch prefix {
         case .scheme(let scheme):
-            return scheme == url.scheme
+            return scheme.lowercased() == url.scheme?.lowercased()
         case .url(let prefixURL):
-            return url.absoluteString.hasPrefix(prefixURL.absoluteString)
+            return url.absoluteString.lowercased().hasPrefix(prefixURL.absoluteString.lowercased())
         }
     }
 

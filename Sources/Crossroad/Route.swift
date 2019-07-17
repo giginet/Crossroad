@@ -23,26 +23,26 @@ public struct Route<UserInfo> {
     }
 
     internal func parse(_ url: URL, with userInfo: UserInfo) -> Context<UserInfo>? {
-        guard let scheme = url.scheme, let host = url.host else {
+        guard let scheme = url.scheme?.lowercased(), let host = url.host else {
             return nil
         }
-        if scheme != patternURL.scheme || patternURL.pathComponents.count != url.pathComponents.count {
+        if scheme != patternURL.scheme.lowercased() || patternURL.pathComponents.count != url.pathComponents.count {
             return nil
         }
 
         var arguments: Arguments = [:]
-        if patternURL.host.hasPrefix(PatternURL.keywordPrefix) {
+        if patternURL.host.lowercased().hasPrefix(PatternURL.keywordPrefix.lowercased()) {
             let keyword = String(patternURL.host[PatternURL.keywordPrefix.endIndex...])
             arguments[keyword] = host
-        } else if host != patternURL.host {
+        } else if host.lowercased() != patternURL.host.lowercased() {
             return nil
         }
 
         for (patternComponent, component) in zip(patternURL.pathComponents, url.pathComponents) {
-            if patternComponent.hasPrefix(PatternURL.keywordPrefix) {
+            if patternComponent.lowercased().hasPrefix(PatternURL.keywordPrefix.lowercased()) {
                 let keyword = String(patternComponent[PatternURL.keywordPrefix.endIndex...])
                 arguments[keyword] = component
-            } else if patternComponent == component {
+            } else if patternComponent.lowercased() == component.lowercased() {
                 continue
             } else {
                 return nil

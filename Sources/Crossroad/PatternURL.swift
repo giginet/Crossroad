@@ -41,6 +41,6 @@ internal struct PatternURL {
     }
 
     func hasPrefix(url: URL) -> Bool {
-        return patternString.hasPrefix(url.absoluteString)
+        return patternString.lowercased().hasPrefix(url.absoluteString.lowercased())
     }
 }
