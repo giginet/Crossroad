@@ -36,3 +36,9 @@ public struct URLParser<UserInfo> {
         return Context<UserInfo>(url: url, arguments: arguments, parameters: parameters, userInfo: userInfo)
     }
 }
+
+extension URLParser where UserInfo == Void {
+    func parse(_ url: URL, in patternURL: PatternURL) -> Context<UserInfo>? {
+        return parse(url, in: patternURL, userInfo: ())
+    }
+}
