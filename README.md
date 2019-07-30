@@ -167,6 +167,17 @@ Of course, you can also use [Firebase Dynamic Link](https://firebase.google.com/
 let router = DefaultRouter(url: URL(string: "https://my-awesome-pokedex.com")!)
 ```
 
+## Parse URL patterns
+
+If you maintain a complex application and you want to use independent URL pattern parsers without Router.
+You can use `URLParser`.
+
+```swift
+let parser = URLParser<Void>()
+let context = parser.parse(URL(string: "pokedex:/pokemons/25")!, 
+                           in: URLPattern("pokedex://pokemons/:id")))
+```
+
 ## Supported version
 
 Latest version of Crossroad requires Swift 5.0 or above.
