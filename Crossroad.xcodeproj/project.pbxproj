@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		079956D722F0304200FC48CF /* URLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079956D622F0304200FC48CF /* URLParser.swift */; };
 		07CBB57520B7074B00C272A5 /* ContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CBB57320B705A600C272A5 /* ContextTests.swift */; };
 		546DEA8420AD77F800923325 /* Crossroad.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 546DEA7A20AD77F800923325 /* Crossroad.framework */; };
 		546DEAB820B0991900923325 /* PatternURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAB020B0991800923325 /* PatternURL.swift */; };
@@ -33,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		079956D622F0304200FC48CF /* URLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLParser.swift; sourceTree = "<group>"; };
 		07CBB57320B705A600C272A5 /* ContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextTests.swift; sourceTree = "<group>"; };
 		546DEA7A20AD77F800923325 /* Crossroad.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Crossroad.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		546DEA8320AD77F800923325 /* CrossroadTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CrossroadTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,6 +101,7 @@
 				546DEAB020B0991800923325 /* PatternURL.swift */,
 				546DEAB620B0991900923325 /* Route.swift */,
 				546DEAB520B0991900923325 /* Router.swift */,
+				079956D622F0304200FC48CF /* URLParser.swift */,
 			);
 			name = Crossroad;
 			path = Sources/Crossroad;
@@ -229,6 +232,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				079956D722F0304200FC48CF /* URLParser.swift in Sources */,
 				54AB581820B0AED300E2FD28 /* OpenURLOption.swift in Sources */,
 				546DEAB820B0991900923325 /* PatternURL.swift in Sources */,
 				546DEABB20B0991900923325 /* Context.swift in Sources */,
