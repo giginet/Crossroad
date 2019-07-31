@@ -2,6 +2,26 @@ import Foundation
 import XCTest
 @testable import Crossroad
 
+private extension PatternURL {
+    var scheme: String? {
+        switch pathType {
+        case .absolute(let scheme, _):
+            return scheme
+        default:
+            return nil
+        }
+    }
+    
+    var host: String? {
+        switch pathType {
+        case .absolute(_, let host):
+            return host
+        default:
+            return nil
+        }
+    }
+}
+
 final class PatternURLTests: XCTestCase {
     func testPatternURL() {
         let checkSameComponents: ((_ string: String) -> Void) = { string in
