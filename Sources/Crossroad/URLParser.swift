@@ -2,19 +2,25 @@ import Foundation
 
 public struct URLParser<UserInfo> {
     func parse(_ url: URL, in patternURL: PatternURL, userInfo: UserInfo) -> Context<UserInfo>? {
-        guard let scheme = url.scheme, let host = url.host else {
-            return nil
-        }
-        if scheme != patternURL.scheme || patternURL.pathComponents.count != url.pathComponents.count {
-            return nil
-        }
-
         var arguments: Arguments = [:]
-        if patternURL.host.hasPrefix(PatternURL.keywordPrefix) {
-            let keyword = String(patternURL.host[PatternURL.keywordPrefix.endIndex...])
-            arguments[keyword] = host
-        } else if host != patternURL.host {
-            return nil
+        
+        switch patternURL.pathType {
+        case .absolute(let patternURLScheme, let patternURLHost):
+            guard let targetURLScheme = url.scheme, let targetURLHost = url.host else {
+                return nil
+            }
+            if patternURLScheme == targetURLScheme || patternURL.pathComponents.count != url.pathComponents.count {
+                return nil
+            }
+            
+            if targetURLHost.hasPrefix(PatternURL.keywordPrefix) {
+                let keyword = String(targetURLHost[PatternURL.keywordPrefix.endIndex...])
+                arguments[keyword] = targetURLHost
+            } else if targetURLHost != patternURLHost {
+                return nil
+            }
+        case .relative:
+            break
         }
 
         for (patternComponent, component) in zip(patternURL.pathComponents, url.pathComponents) {

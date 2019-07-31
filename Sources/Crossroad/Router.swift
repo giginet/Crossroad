@@ -18,15 +18,6 @@ public final class Router<UserInfo> {
         prefix = .url(url)
     }
 
-    private func isValidURLPattern(_ patternURL: PatternURL) -> Bool {
-        switch prefix {
-        case .scheme(let scheme):
-            return scheme == patternURL.scheme
-        case .url(let url):
-            return patternURL.hasPrefix(url: url)
-        }
-    }
-
     private func canRespond(to url: URL) -> Bool {
         switch prefix {
         case .scheme(let scheme):
@@ -37,11 +28,7 @@ public final class Router<UserInfo> {
     }
 
     internal func register(_ route: Route<UserInfo>) {
-        if isValidURLPattern(route.patternURL) {
-            routes.append(route)
-        } else {
-            assertionFailure("Unexpected URL Pattern")
-        }
+        routes.append(route)
     }
 
     @discardableResult
