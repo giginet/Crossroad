@@ -2,10 +2,11 @@ import Foundation
 
 public struct URLParser<UserInfo> {
     func parse(_ url: URL, in patternURL: PatternURL, userInfo: UserInfo) -> Context<UserInfo>? {
-        guard let scheme = url.scheme, let host = url.host else {
+        let caseInsensitiveURL = URL(string: url.absoluteString.lowercased()) ?? url
+        guard let scheme = caseInsensitiveURL.scheme, let host = caseInsensitiveURL.host else {
             return nil
         }
-        if scheme != patternURL.scheme || patternURL.pathComponents.count != url.pathComponents.count {
+        if scheme != patternURL.scheme || patternURL.pathComponents.count != caseInsensitiveURL.pathComponents.count {
             return nil
         }
 
@@ -17,7 +18,7 @@ public struct URLParser<UserInfo> {
             return nil
         }
 
-        for (patternComponent, component) in zip(patternURL.pathComponents, url.pathComponents) {
+        for (patternComponent, component) in zip(patternURL.pathComponents, caseInsensitiveURL.pathComponents) {
             if patternComponent.hasPrefix(PatternURL.keywordPrefix) {
                 let keyword = String(patternComponent[PatternURL.keywordPrefix.endIndex...])
                 arguments[keyword] = component
@@ -28,12 +29,12 @@ public struct URLParser<UserInfo> {
             }
         }
         let parameters: Parameters
-        if let components = URLComponents(url: url, resolvingAgainstBaseURL: true) {
+        if let components = URLComponents(url: caseInsensitiveURL, resolvingAgainstBaseURL: true) {
             parameters = components.queryItems ?? []
         } else {
             parameters = []
         }
-        return Context<UserInfo>(url: url, arguments: arguments, parameters: parameters, userInfo: userInfo)
+        return Context<UserInfo>(url: caseInsensitiveURL, arguments: arguments, parameters: parameters, userInfo: userInfo)
     }
 }
 

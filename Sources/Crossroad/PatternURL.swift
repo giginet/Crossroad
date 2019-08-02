@@ -14,7 +14,8 @@ internal struct PatternURL {
     private static let pathSeparator = "/"
 
     init?(string: String) {
-        let firstSplit = string.components(separatedBy: PatternURL.schemeSeparator)
+        self.patternString = string.lowercased()
+        let firstSplit = patternString.components(separatedBy: PatternURL.schemeSeparator)
         guard let scheme = firstSplit.first, !scheme.isEmpty else {
             return nil
         }
@@ -25,7 +26,6 @@ internal struct PatternURL {
         }
         self.scheme = scheme
         self.host = host
-        self.patternString = string
         if components.count > 1 {
             let left = components[1 ..< components.count]
             // In URL, pathComponents includes the starting "/" so do the same.
