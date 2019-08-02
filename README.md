@@ -39,12 +39,12 @@ Imagine to implement Pokédex on iOS. You can access somewhere via URL scheme.
 ```swift
 router = DefaultRouter(scheme: "pokedex")
 router.register([
-    ("pokedex://pokemons", { context in 
+    ("/pokemons", { context in 
         let type: Type? = context.parameter(for: "type")
         presentPokedexListViewController(for: type)
         return true 
     }),
-    ("pokedex://pokemons/:pokedexID", { context in 
+    ("/pokemons/:pokedexID", { context in 
         guard let pokedexID: Int? = try? context.argument(for: "pokedexID") else {
             // pokedexID must be Int
             return false

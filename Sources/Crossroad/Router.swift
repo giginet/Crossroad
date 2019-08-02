@@ -59,21 +59,28 @@ public final class Router<UserInfo> {
         return routes.first { $0.responds(to: url, userInfo: userInfo) } != nil
     }
 
+    private func canonicalizePattern(_ pattern: String) -> String {
+        if pattern.hasPrefix("/") {
+            return String(pattern.dropFirst())
+        }
+        return pattern
+    }
+
     public func register(_ routes: [(String, Route<UserInfo>.Handler)]) {
         for (pattern, handler) in routes {
             let patternURLString: String
             switch prefix {
             case .scheme(let scheme):
                 if pattern.hasPrefix("\(scheme)://") {
-                    patternURLString = pattern
+                    patternURLString = canonicalizePattern(pattern)
                 } else {
-                    patternURLString = "\(scheme)://\(pattern)"
+                    patternURLString = "\(scheme)://\(canonicalizePattern(pattern))"
                 }
             case .url(let url):
                 if pattern.hasPrefix(url.absoluteString) {
-                    patternURLString = pattern
+                    patternURLString = canonicalizePattern(pattern)
                 } else {
-                    patternURLString = url.appendingPathComponent(pattern).absoluteString
+                    patternURLString = url.appendingPathComponent(canonicalizePattern(pattern)).absoluteString
                 }
             }
             guard let patternURL = PatternURL(string: patternURLString) else {

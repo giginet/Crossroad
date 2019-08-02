@@ -76,6 +76,29 @@ final class RouterTest: XCTestCase {
         XCTAssertFalse(router.responds(to: URL(string: "spam/ham")!))
     }
 
+    func testCanRespondWithRelativePath() {
+        let router = SimpleRouter(scheme: scheme)
+        router.register([
+            ("/static", { _ in true }),
+            ("/foo/bar", { _ in true }),
+            ("/spam/ham", { _ in false }),
+            ("/:keyword", { _ in true }),
+            ("/foo/:keyword", { _ in true }),
+            ])
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://static")!))
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://foo")!))
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/bar")!))
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/10000")!))
+        XCTAssertFalse(router.responds(to: URL(string: "notfoobar://aaa/bbb")!))
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://spam/ham")!))
+        XCTAssertFalse(router.responds(to: URL(string: "static")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foo")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foo/bar")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foo/10000")!))
+        XCTAssertFalse(router.responds(to: URL(string: "aaa/bbb")!))
+        XCTAssertFalse(router.responds(to: URL(string: "spam/ham")!))
+    }
+
     func testCanRespondWithoutPrefixWithURLPrefix() {
         let router = SimpleRouter(url: URL(string: "https://example.com/")!)
         router.register([
@@ -210,6 +233,50 @@ final class RouterTest: XCTestCase {
                 return true
             }),
             ("foo/:keyword/:keyword2", { context in
+                XCTAssertEqual(context.url, URL(string: "foobar://foo/hoge/fuga")!)
+                XCTAssertEqual(try? context.argument(for: "keyword"), "hoge")
+                XCTAssertEqual(try? context.argument(for: "keyword2"), "fuga")
+                expectation.fulfill()
+                return true
+            }),
+            ])
+        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://static")!))
+        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/bar?param0=123")!))
+        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://hoge")!))
+        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/hoge/fuga")!))
+        XCTAssertFalse(router.openIfPossible(URL(string: "foobar://spam/ham")!))
+        XCTAssertFalse(router.openIfPossible(URL(string: "notfoobar://static")!))
+        XCTAssertFalse(router.openIfPossible(URL(string: "static")!))
+        XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar?param0=123")!))
+        XCTAssertFalse(router.openIfPossible(URL(string: "hoge")!))
+        XCTAssertFalse(router.openIfPossible(URL(string: "foo/hoge/fuga")!))
+        XCTAssertFalse(router.openIfPossible(URL(string: "spam/ham")!))
+        wait(for: [expectation], timeout: 2.0)
+    }
+
+    func testHandleWithSlashPrefix() {
+        let router = SimpleRouter(scheme: scheme)
+        let expectation = self.expectation(description: "Should called handler four times")
+        expectation.expectedFulfillmentCount = 4
+        router.register([
+            ("/static", { context in
+                XCTAssertEqual(context.url, URL(string: "foobar://static")!)
+                expectation.fulfill()
+                return true
+            }),
+            ("/foo/bar", { context in
+                XCTAssertEqual(context.parameter(for: "param0"), 123)
+                XCTAssertEqual(context.url, URL(string: "foobar://foo/bar?param0=123")!)
+                expectation.fulfill()
+                return true
+            }),
+            ("/:keyword", { context in
+                XCTAssertEqual(context.url, URL(string: "foobar://hoge")!)
+                XCTAssertEqual(try? context.argument(for: "keyword"), "hoge")
+                expectation.fulfill()
+                return true
+            }),
+            ("/foo/:keyword/:keyword2", { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/hoge/fuga")!)
                 XCTAssertEqual(try? context.argument(for: "keyword"), "hoge")
                 XCTAssertEqual(try? context.argument(for: "keyword2"), "fuga")
