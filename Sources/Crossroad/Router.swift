@@ -11,7 +11,7 @@ public final class Router<UserInfo> {
     private var routes: [Route<UserInfo>] = []
 
     public init(scheme: String) {
-        prefix = .scheme(scheme)
+        prefix = .scheme(scheme.lowercased())
     }
 
     public init(url: URL) {
@@ -27,15 +27,6 @@ public final class Router<UserInfo> {
         }
     }
 
-    private func canRespond(to url: URL) -> Bool {
-        switch prefix {
-        case .scheme(let scheme):
-            return scheme == url.scheme
-        case .url(let prefixURL):
-            return url.absoluteString.hasPrefix(prefixURL.absoluteString)
-        }
-    }
-
     internal func register(_ route: Route<UserInfo>) {
         if isValidURLPattern(route.patternURL) {
             routes.append(route)
@@ -46,16 +37,10 @@ public final class Router<UserInfo> {
 
     @discardableResult
     public func openIfPossible(_ url: URL, userInfo: UserInfo) -> Bool {
-        if !canRespond(to: url) {
-            return false
-        }
         return routes.first { $0.openIfPossible(url, userInfo: userInfo) } != nil
     }
 
     public func responds(to url: URL, userInfo: UserInfo) -> Bool {
-        if !canRespond(to: url) {
-            return false
-        }
         return routes.first { $0.responds(to: url, userInfo: userInfo) } != nil
     }
 

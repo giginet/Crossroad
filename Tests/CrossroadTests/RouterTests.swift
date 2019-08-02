@@ -17,6 +17,32 @@ final class RouterTest: XCTestCase {
         XCTAssertTrue(router.responds(to: URL(string: "foobar://static")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/bar")!))
+        XCTAssertTrue(router.responds(to: URL(string: "FOOBAR://FOO/BAR")!))
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/10000")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foobar://aaa/bbb")!))
+        XCTAssertFalse(router.responds(to: URL(string: "notfoobar://aaa/bbb")!))
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://spam/ham")!))
+        XCTAssertFalse(router.responds(to: URL(string: "static")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foo")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foo/bar")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foo/10000")!))
+        XCTAssertFalse(router.responds(to: URL(string: "aaa/bbb")!))
+        XCTAssertFalse(router.responds(to: URL(string: "spam/ham")!))
+    }
+
+    func _testCanRespondWithCapitalCase() {
+        let router = SimpleRouter(scheme: "FOOBAR")
+        router.register([
+            ("foobar://static", { _ in true }),
+            ("foobar://foo/bar", { _ in true }),
+            ("foobar://spam/ham", { _ in false }),
+            ("foobar://:keyword", { _ in true }),
+            ("foobar://foo/:keyword", { _ in true }),
+            ])
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://static")!))
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://foo")!))
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/bar")!))
+        XCTAssertTrue(router.responds(to: URL(string: "FOOBAR://FOO/BAR")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/10000")!))
         XCTAssertFalse(router.responds(to: URL(string: "foobar://aaa/bbb")!))
         XCTAssertFalse(router.responds(to: URL(string: "notfoobar://aaa/bbb")!))
@@ -65,6 +91,7 @@ final class RouterTest: XCTestCase {
         XCTAssertTrue(router.responds(to: URL(string: "foobar://static")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/bar")!))
+        XCTAssertTrue(router.responds(to: URL(string: "FOOBAR://FOO/BAR")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/10000")!))
         XCTAssertFalse(router.responds(to: URL(string: "notfoobar://aaa/bbb")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://spam/ham")!))
@@ -88,6 +115,7 @@ final class RouterTest: XCTestCase {
         XCTAssertTrue(router.responds(to: URL(string: "foobar://static")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/bar")!))
+        XCTAssertTrue(router.responds(to: URL(string: "FOOBAR://FOO/BAR")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/10000")!))
         XCTAssertFalse(router.responds(to: URL(string: "notfoobar://aaa/bbb")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://spam/ham")!))
@@ -213,7 +241,7 @@ final class RouterTest: XCTestCase {
     func testHandleWithoutPrefix() {
         let router = SimpleRouter(scheme: scheme)
         let expectation = self.expectation(description: "Should called handler four times")
-        expectation.expectedFulfillmentCount = 4
+        expectation.expectedFulfillmentCount = 5
         router.register([
             ("static", { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://static")!)
@@ -243,6 +271,7 @@ final class RouterTest: XCTestCase {
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://static")!))
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/bar?param0=123")!))
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://hoge")!))
+        XCTAssertTrue(router.openIfPossible(URL(string: "FOOBAR://HOGE")!))
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/hoge/fuga")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foobar://spam/ham")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "notfoobar://static")!))
@@ -257,7 +286,7 @@ final class RouterTest: XCTestCase {
     func testHandleWithSlashPrefix() {
         let router = SimpleRouter(scheme: scheme)
         let expectation = self.expectation(description: "Should called handler four times")
-        expectation.expectedFulfillmentCount = 4
+        expectation.expectedFulfillmentCount = 5
         router.register([
             ("/static", { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://static")!)
@@ -287,6 +316,7 @@ final class RouterTest: XCTestCase {
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://static")!))
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/bar?param0=123")!))
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://hoge")!))
+        XCTAssertTrue(router.openIfPossible(URL(string: "FOOBAR://HOGE")!))
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/hoge/fuga")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foobar://spam/ham")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "notfoobar://static")!))
@@ -301,7 +331,7 @@ final class RouterTest: XCTestCase {
     func testHandleWithoutPrefixWithURLPrefix() {
         let router = SimpleRouter(url: URL(string: "https://example.com")!)
         let expectation = self.expectation(description: "Should called handler four times")
-        expectation.expectedFulfillmentCount = 4
+        expectation.expectedFulfillmentCount = 5
         router.register([
             ("static", { context in
                 XCTAssertEqual(context.url, URL(string: "https://example.com/static")!)
@@ -331,6 +361,7 @@ final class RouterTest: XCTestCase {
         XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/static")!))
         XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/foo/bar?param0=123")!))
         XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/hoge")!))
+        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/HOGE")!))
         XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/foo/hoge/fuga")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "https://example.com/spam/ham")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "nothttps://example.com/static")!))
@@ -346,6 +377,7 @@ final class RouterTest: XCTestCase {
         let router = SimpleRouter(scheme: scheme)
         let idExpectation = self.expectation(description: "Should called handler with ID")
         let keywordExpectation = self.expectation(description: "Should called handler with keyword")
+        keywordExpectation.expectedFulfillmentCount = 2
         router.register([
             ("foobar://foo/:id", { context in
                 guard let id: Int = try? context.argument(for: "id") else {
@@ -366,6 +398,7 @@ final class RouterTest: XCTestCase {
             ])
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/42")!))
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/bar")!))
+        XCTAssertTrue(router.openIfPossible(URL(string: "FOOBAR://FOO/BAR")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/42")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [idExpectation, keywordExpectation], timeout: 2.0)
@@ -375,6 +408,7 @@ final class RouterTest: XCTestCase {
         let router = SimpleRouter(url: URL(string: "https://example.com/")!)
         let idExpectation = self.expectation(description: "Should called handler with ID")
         let keywordExpectation = self.expectation(description: "Should called handler with keyword")
+        keywordExpectation.expectedFulfillmentCount = 2
         router.register([
             ("https://example.com/foo/:id", { context in
                 guard let id: Int = try? context.argument(for: "id") else {
@@ -395,6 +429,7 @@ final class RouterTest: XCTestCase {
             ])
         XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/foo/42")!))
         XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/foo/bar")!))
+        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/FOO/BAR")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/42")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [idExpectation, keywordExpectation], timeout: 2.0)
@@ -404,6 +439,7 @@ final class RouterTest: XCTestCase {
         let router = SimpleRouter(scheme: scheme)
         let idExpectation = self.expectation(description: "Should called handler with ID")
         let keywordExpectation = self.expectation(description: "Should called handler with keyword")
+        keywordExpectation.expectedFulfillmentCount = 2
         router.register([
             ("foo/:id", { context in
                 guard let id: Int = try? context.argument(for: "id") else {
@@ -424,6 +460,7 @@ final class RouterTest: XCTestCase {
             ])
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/42")!))
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/bar")!))
+        XCTAssertTrue(router.openIfPossible(URL(string: "FOOBAR://FOO/BAR")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/42")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [idExpectation, keywordExpectation], timeout: 2.0)
@@ -433,6 +470,7 @@ final class RouterTest: XCTestCase {
         let router = SimpleRouter(url: URL(string: "https://example.com/")!)
         let idExpectation = self.expectation(description: "Should called handler with ID")
         let keywordExpectation = self.expectation(description: "Should called handler with keyword")
+        keywordExpectation.expectedFulfillmentCount = 2
         router.register([
             ("foo/:id", { context in
                 guard let id: Int = try? context.argument(for: "id") else {
@@ -453,6 +491,7 @@ final class RouterTest: XCTestCase {
             ])
         XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/foo/42")!))
         XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/foo/bar")!))
+        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/FOO/BAR")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/42")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [idExpectation, keywordExpectation], timeout: 2.0)
@@ -461,19 +500,20 @@ final class RouterTest: XCTestCase {
     func testHandleReturnsFalse() {
         let router = SimpleRouter(scheme: scheme)
         let expectation = self.expectation(description: "Should called handler twice")
-        expectation.expectedFulfillmentCount = 2
+        expectation.expectedFulfillmentCount = 4
         router.register([
             ("foobar://foo/bar", { _ in
                 expectation.fulfill()
                 return false
             }),
-            ("foobar://foo/:keyword", { context in
+            ("/foo/:keyword", { context in
                 XCTAssertEqual(try? context.argument(for: "keyword"), "bar")
                 expectation.fulfill()
                 return true
             }),
             ])
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/bar")!))
+        XCTAssertTrue(router.openIfPossible(URL(string: "FOOBAR://FOO/BAR")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [expectation], timeout: 2.0)
     }
@@ -481,19 +521,20 @@ final class RouterTest: XCTestCase {
     func testHandleReturnsFalseWithURLPrefix() {
         let router = SimpleRouter(url: URL(string: "https://example.com/")!)
         let expectation = self.expectation(description: "Should called handler twice")
-        expectation.expectedFulfillmentCount = 2
+        expectation.expectedFulfillmentCount = 4
         router.register([
             ("https://example.com/foo/bar", { _ in
                 expectation.fulfill()
                 return false
             }),
-            ("https://example.com/foo/:keyword", { context in
+            ("/foo/:keyword", { context in
                 XCTAssertEqual(try? context.argument(for: "keyword"), "bar")
                 expectation.fulfill()
                 return true
             }),
             ])
         XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/foo/bar")!))
+        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/FOO/BAR")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [expectation], timeout: 2.0)
     }
@@ -501,19 +542,20 @@ final class RouterTest: XCTestCase {
     func testHandleReturnsFalseWithoutPrefix() {
         let router = SimpleRouter(scheme: scheme)
         let expectation = self.expectation(description: "Should called handler twice")
-        expectation.expectedFulfillmentCount = 2
+        expectation.expectedFulfillmentCount = 4
         router.register([
             ("foo/bar", { _ in
                 expectation.fulfill()
                 return false
             }),
-            ("foo/:keyword", { context in
+            ("/foo/:keyword", { context in
                 XCTAssertEqual(try? context.argument(for: "keyword"), "bar")
                 expectation.fulfill()
                 return true
             }),
             ])
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/bar")!))
+        XCTAssertTrue(router.openIfPossible(URL(string: "FOOBAR://FOO/BAR")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [expectation], timeout: 2.0)
     }
@@ -521,19 +563,20 @@ final class RouterTest: XCTestCase {
     func testHandleReturnsFalseWithoutPrefixWithURLPrefix() {
         let router = SimpleRouter(url: URL(string: "https://example.com/")!)
         let expectation = self.expectation(description: "Should called handler twice")
-        expectation.expectedFulfillmentCount = 2
+        expectation.expectedFulfillmentCount = 4
         router.register([
             ("foo/bar", { _ in
                 expectation.fulfill()
                 return false
             }),
-            ("foo/:keyword", { context in
+            ("/foo/:keyword", { context in
                 XCTAssertEqual(try? context.argument(for: "keyword"), "bar")
                 expectation.fulfill()
                 return true
             }),
             ])
         XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/foo/bar")!))
+        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/FOO/BAR")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [expectation], timeout: 2.0)
     }
