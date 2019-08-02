@@ -58,7 +58,7 @@ public final class Router<UserInfo> {
         }
         return routes.first { $0.responds(to: url, userInfo: userInfo) } != nil
     }
-    
+
     private func canonicalizePattern(_ pattern: String) -> String {
         if pattern.hasPrefix("/") {
             return String(pattern.dropFirst())
