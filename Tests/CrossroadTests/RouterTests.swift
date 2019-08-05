@@ -10,13 +10,39 @@ final class RouterTest: XCTestCase {
         router.register([
             ("foobar://static", { _ in true }),
             ("foobar://foo/bar", { _ in true }),
-            ("foobar://spam/ham", { _ in false }),
+            ("FOOBAR://SPAM/HAM", { _ in false }),
             ("foobar://:keyword", { _ in true }),
             ("foobar://foo/:keyword", { _ in true }),
             ])
         XCTAssertTrue(router.responds(to: URL(string: "foobar://static")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/bar")!))
+        XCTAssertTrue(router.responds(to: URL(string: "FOOBAR://FOO/BAR")!))
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/10000")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foobar://aaa/bbb")!))
+        XCTAssertFalse(router.responds(to: URL(string: "notfoobar://aaa/bbb")!))
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://spam/ham")!))
+        XCTAssertFalse(router.responds(to: URL(string: "static")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foo")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foo/bar")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foo/10000")!))
+        XCTAssertFalse(router.responds(to: URL(string: "aaa/bbb")!))
+        XCTAssertFalse(router.responds(to: URL(string: "spam/ham")!))
+    }
+
+    func testCanRespondWithCapitalCase() {
+        let router = SimpleRouter(scheme: "FOOBAR")
+        router.register([
+            ("FOOBAR://STATIC", { _ in true }),
+            ("FOOBAR://FOO/BAR", { _ in true }),
+            ("FOOBAR://SPAM/HAM", { _ in false }),
+            ("FOOBAR://:keyword", { _ in true }),
+            ("FOOBAR://FOO/:keyword", { _ in true }),
+            ])
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://sTATic")!))
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://foo")!))
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/bar")!))
+        XCTAssertTrue(router.responds(to: URL(string: "FOOBAR://FOO/BAR")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/10000")!))
         XCTAssertFalse(router.responds(to: URL(string: "foobar://aaa/bbb")!))
         XCTAssertFalse(router.responds(to: URL(string: "notfoobar://aaa/bbb")!))
@@ -34,7 +60,7 @@ final class RouterTest: XCTestCase {
         router.register([
             ("https://example.com/static", { _ in true }),
             ("https://example.com/foo/bar", { _ in true }),
-            ("https://example.com/spam/ham", { _ in false }),
+            ("HTTPS://EXAMPLE.COM/SPAM/HAM", { _ in false }),
             ("https://example.com/:keyword", { _ in true }),
             ("https://example.com/foo/:keyword", { _ in true }),
             ])
@@ -58,13 +84,14 @@ final class RouterTest: XCTestCase {
         router.register([
             ("static", { _ in true }),
             ("foo/bar", { _ in true }),
-            ("spam/ham", { _ in false }),
+            ("SPAM/HAM", { _ in false }),
             (":keyword", { _ in true }),
             ("foo/:keyword", { _ in true }),
             ])
         XCTAssertTrue(router.responds(to: URL(string: "foobar://static")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/bar")!))
+        XCTAssertTrue(router.responds(to: URL(string: "FOOBAR://FOO/BAR")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/10000")!))
         XCTAssertFalse(router.responds(to: URL(string: "notfoobar://aaa/bbb")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://spam/ham")!))
@@ -81,13 +108,14 @@ final class RouterTest: XCTestCase {
         router.register([
             ("/static", { _ in true }),
             ("/foo/bar", { _ in true }),
-            ("/spam/ham", { _ in false }),
+            ("/SPAM/HAM", { _ in false }),
             ("/:keyword", { _ in true }),
             ("/foo/:keyword", { _ in true }),
             ])
         XCTAssertTrue(router.responds(to: URL(string: "foobar://static")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/bar")!))
+        XCTAssertTrue(router.responds(to: URL(string: "FOOBAR://FOO/BAR")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/10000")!))
         XCTAssertFalse(router.responds(to: URL(string: "notfoobar://aaa/bbb")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://spam/ham")!))
@@ -104,7 +132,7 @@ final class RouterTest: XCTestCase {
         router.register([
             ("static", { _ in true }),
             ("foo/bar", { _ in true }),
-            ("spam/ham", { _ in false }),
+            ("SPAM/HAM", { _ in false }),
             (":keyword", { _ in true }),
             ("foo/:keyword", { _ in true }),
             ])
@@ -227,8 +255,8 @@ final class RouterTest: XCTestCase {
                 return true
             }),
             (":keyword", { context in
-                XCTAssertEqual(context.url, URL(string: "foobar://hoge")!)
-                XCTAssertEqual(try? context.argument(for: "keyword"), "hoge")
+                XCTAssertEqual(context.url, URL(string: "FOOBAR://HOGE")!)
+                XCTAssertEqual(try? context.argument(for: "keyword"), "HOGE")
                 expectation.fulfill()
                 return true
             }),
@@ -242,7 +270,7 @@ final class RouterTest: XCTestCase {
             ])
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://static")!))
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/bar?param0=123")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://hoge")!))
+        XCTAssertTrue(router.openIfPossible(URL(string: "FOOBAR://HOGE")!))
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/hoge/fuga")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foobar://spam/ham")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "notfoobar://static")!))
@@ -271,8 +299,8 @@ final class RouterTest: XCTestCase {
                 return true
             }),
             ("/:keyword", { context in
-                XCTAssertEqual(context.url, URL(string: "foobar://hoge")!)
-                XCTAssertEqual(try? context.argument(for: "keyword"), "hoge")
+                XCTAssertEqual(context.url, URL(string: "FOOBAR://HOGE")!)
+                XCTAssertEqual(try? context.argument(for: "keyword"), "HOGE")
                 expectation.fulfill()
                 return true
             }),
@@ -286,7 +314,7 @@ final class RouterTest: XCTestCase {
             ])
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://static")!))
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/bar?param0=123")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://hoge")!))
+        XCTAssertTrue(router.openIfPossible(URL(string: "FOOBAR://HOGE")!))
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/hoge/fuga")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foobar://spam/ham")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "notfoobar://static")!))
@@ -315,8 +343,8 @@ final class RouterTest: XCTestCase {
                 return true
             }),
             (":keyword", { context in
-                XCTAssertEqual(context.url, URL(string: "https://example.com/hoge")!)
-                XCTAssertEqual(try? context.argument(for: "keyword"), "hoge")
+                XCTAssertEqual(context.url, URL(string: "https://example.com/HOGE")!)
+                XCTAssertEqual(try? context.argument(for: "keyword"), "HOGE")
                 expectation.fulfill()
                 return true
             }),
@@ -330,7 +358,7 @@ final class RouterTest: XCTestCase {
             ])
         XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/static")!))
         XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/foo/bar?param0=123")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/hoge")!))
+        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/HOGE")!))
         XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/foo/hoge/fuga")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "https://example.com/spam/ham")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "nothttps://example.com/static")!))
@@ -358,14 +386,14 @@ final class RouterTest: XCTestCase {
             }),
             ("foobar://foo/:keyword", { context in
                 let keyword: String = try! context.argument(for: "keyword")
-                XCTAssertEqual(context.url, URL(string: "foobar://foo/bar")!)
-                XCTAssertEqual(keyword, "bar")
+                XCTAssertEqual(context.url, URL(string: "FOOBAR://FOO/BAR")!)
+                XCTAssertEqual(keyword, "BAR")
                 keywordExpectation.fulfill()
                 return true
             }),
             ])
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/42")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/bar")!))
+        XCTAssertTrue(router.openIfPossible(URL(string: "FOOBAR://FOO/BAR")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/42")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [idExpectation, keywordExpectation], timeout: 2.0)
@@ -387,14 +415,14 @@ final class RouterTest: XCTestCase {
             }),
             ("https://example.com/foo/:keyword", { context in
                 let keyword: String = try! context.argument(for: "keyword")
-                XCTAssertEqual(context.url, URL(string: "https://example.com/foo/bar")!)
-                XCTAssertEqual(keyword, "bar")
+                XCTAssertEqual(context.url, URL(string: "https://example.com/FOO/BAR")!)
+                XCTAssertEqual(keyword, "BAR")
                 keywordExpectation.fulfill()
                 return true
             }),
             ])
         XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/foo/42")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/foo/bar")!))
+        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/FOO/BAR")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/42")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [idExpectation, keywordExpectation], timeout: 2.0)
@@ -416,14 +444,14 @@ final class RouterTest: XCTestCase {
             }),
             ("foo/:keyword", { context in
                 let keyword: String = try! context.argument(for: "keyword")
-                XCTAssertEqual(context.url, URL(string: "foobar://foo/bar")!)
-                XCTAssertEqual(keyword, "bar")
+                XCTAssertEqual(context.url, URL(string: "FOOBAR://FOO/BAR")!)
+                XCTAssertEqual(keyword, "BAR")
                 keywordExpectation.fulfill()
                 return true
             }),
             ])
         XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/42")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/bar")!))
+        XCTAssertTrue(router.openIfPossible(URL(string: "FOOBAR://FOO/BAR")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/42")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [idExpectation, keywordExpectation], timeout: 2.0)
@@ -445,14 +473,14 @@ final class RouterTest: XCTestCase {
             }),
             ("foo/:keyword", { context in
                 let keyword: String = try! context.argument(for: "keyword")
-                XCTAssertEqual(context.url, URL(string: "https://example.com/foo/bar")!)
-                XCTAssertEqual(keyword, "bar")
+                XCTAssertEqual(context.url, URL(string: "https://example.com/FOO/BAR")!)
+                XCTAssertEqual(keyword, "BAR")
                 keywordExpectation.fulfill()
                 return true
             }),
             ])
         XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/foo/42")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/foo/bar")!))
+        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/FOO/BAR")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/42")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [idExpectation, keywordExpectation], timeout: 2.0)
@@ -467,13 +495,13 @@ final class RouterTest: XCTestCase {
                 expectation.fulfill()
                 return false
             }),
-            ("foobar://foo/:keyword", { context in
-                XCTAssertEqual(try? context.argument(for: "keyword"), "bar")
+            ("/foo/:keyword", { context in
+                XCTAssertEqual(try? context.argument(for: "keyword"), "BAR")
                 expectation.fulfill()
                 return true
             }),
             ])
-        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/bar")!))
+        XCTAssertTrue(router.openIfPossible(URL(string: "FOOBAR://FOO/BAR")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [expectation], timeout: 2.0)
     }
@@ -487,13 +515,13 @@ final class RouterTest: XCTestCase {
                 expectation.fulfill()
                 return false
             }),
-            ("https://example.com/foo/:keyword", { context in
-                XCTAssertEqual(try? context.argument(for: "keyword"), "bar")
+            ("/foo/:keyword", { context in
+                XCTAssertEqual(try? context.argument(for: "keyword"), "BAR")
                 expectation.fulfill()
                 return true
             }),
             ])
-        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/foo/bar")!))
+        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/FOO/BAR")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [expectation], timeout: 2.0)
     }
@@ -507,14 +535,29 @@ final class RouterTest: XCTestCase {
                 expectation.fulfill()
                 return false
             }),
-            ("foo/:keyword", { context in
-                XCTAssertEqual(try? context.argument(for: "keyword"), "bar")
+            ("/foo/:keyword", { context in
+                XCTAssertEqual(try? context.argument(for: "keyword"), "BAR")
                 expectation.fulfill()
                 return true
             }),
             ])
-        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/bar")!))
+        XCTAssertTrue(router.openIfPossible(URL(string: "FOOBAR://FOO/BAR")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
+        wait(for: [expectation], timeout: 2.0)
+    }
+
+    func testHandleCapitalCasedHostKeyword() {
+        let router = SimpleRouter(scheme: scheme)
+        let expectation = self.expectation(description: "Should called handler")
+        router.register([
+            (":keyword", { context in
+                XCTAssertEqual(context.url.absoluteString, "FOOBAR://FOO")
+                XCTAssertEqual(try! context.argument(for: "keyword"), "FOO")
+                expectation.fulfill()
+                return true
+            }),
+        ])
+        XCTAssertTrue(router.openIfPossible(URL(string: "FOOBAR://FOO")!))
         wait(for: [expectation], timeout: 2.0)
     }
 
@@ -527,13 +570,13 @@ final class RouterTest: XCTestCase {
                 expectation.fulfill()
                 return false
             }),
-            ("foo/:keyword", { context in
-                XCTAssertEqual(try? context.argument(for: "keyword"), "bar")
+            ("/foo/:keyword", { context in
+                XCTAssertEqual(try? context.argument(for: "keyword"), "BAR")
                 expectation.fulfill()
                 return true
             }),
             ])
-        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/foo/bar")!))
+        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/FOO/BAR")!))
         XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [expectation], timeout: 2.0)
     }

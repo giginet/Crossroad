@@ -31,9 +31,8 @@ final class ContextTests: XCTestCase {
         XCTAssertEqual(context.parameter(for: "name"), "Pikachu")
         XCTAssertNil(context.parameter(for: "foo") as String?)
         XCTAssertEqual(context.parameter(for: "region"), Region.kanto)
-        XCTAssertNil(context.parameter(for: "NaMe") as String?)
-        XCTAssertEqual(context.parameter(for: "NaMe", caseInsensitive: true), "Pikachu")
-        XCTAssertEqual(context.parameter(for: "NAME2", caseInsensitive: true), "Mewtwo")
+        XCTAssertEqual(context.parameter(for: "NaMe"), "Pikachu")
+        XCTAssertEqual(context.parameter(for: "NAME2"), "Mewtwo")
     }
 
     func testParametersByRegexp() {
