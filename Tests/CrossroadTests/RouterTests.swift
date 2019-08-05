@@ -546,6 +546,21 @@ final class RouterTest: XCTestCase {
         wait(for: [expectation], timeout: 2.0)
     }
 
+    func testHandleCapitalCasedHostKeyword() {
+        let router = SimpleRouter(scheme: scheme)
+        let expectation = self.expectation(description: "Should called handler")
+        router.register([
+            (":keyword", { context in
+                XCTAssertEqual(context.url.absoluteString, "FOOBAR://FOO")
+                XCTAssertEqual(try! context.argument(for: "keyword"), "FOO")
+                expectation.fulfill()
+                return true
+            }),
+        ])
+        XCTAssertTrue(router.openIfPossible(URL(string: "FOOBAR://FOO")!))
+        wait(for: [expectation], timeout: 2.0)
+    }
+
     func testHandleReturnsFalseWithoutPrefixWithURLPrefix() {
         let router = SimpleRouter(url: URL(string: "https://example.com/")!)
         let expectation = self.expectation(description: "Should called handler twice")
