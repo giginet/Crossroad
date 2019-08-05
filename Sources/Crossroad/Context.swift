@@ -20,11 +20,11 @@ public struct Context<UserInfo> {
         self.userInfo = userInfo
     }
 
-    subscript<T: Parsable>(argument keyword: String) -> T? {
+    public subscript<T: Parsable>(argument keyword: String) -> T? {
         return try? argument(for: keyword)
     }
 
-    subscript<T: Parsable>(parameter key: String) -> T? {
+    public subscript<T: Parsable>(parameter key: String) -> T? {
         return parameter(for: key)
     }
 
