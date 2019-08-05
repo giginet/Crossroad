@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0751010D22F8270400DFA53F /* URLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0751010B22F8270200DFA53F /* URLParserTests.swift */; };
 		079956D722F0304200FC48CF /* URLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079956D622F0304200FC48CF /* URLParser.swift */; };
 		07CBB57520B7074B00C272A5 /* ContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CBB57320B705A600C272A5 /* ContextTests.swift */; };
 		546DEA8420AD77F800923325 /* Crossroad.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 546DEA7A20AD77F800923325 /* Crossroad.framework */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0751010B22F8270200DFA53F /* URLParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLParserTests.swift; sourceTree = "<group>"; };
 		079956D622F0304200FC48CF /* URLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLParser.swift; sourceTree = "<group>"; };
 		07CBB57320B705A600C272A5 /* ContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextTests.swift; sourceTree = "<group>"; };
 		546DEA7A20AD77F800923325 /* Crossroad.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Crossroad.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,8 +99,8 @@
 				546DEAB220B0991900923325 /* Crossroad.h */,
 				546DEAB720B0991900923325 /* Info.plist */,
 				54AB581720B0AED300E2FD28 /* OpenURLOption.swift */,
-				546DEAB020B0991800923325 /* PatternURL.swift */,
 				54D5D48622F8013E00317EBF /* Parsable.swift */,
+				546DEAB020B0991800923325 /* PatternURL.swift */,
 				546DEAB620B0991900923325 /* Route.swift */,
 				546DEAB520B0991900923325 /* Router.swift */,
 				079956D622F0304200FC48CF /* URLParser.swift */,
@@ -113,9 +115,10 @@
 				07CBB57320B705A600C272A5 /* ContextTests.swift */,
 				546DEAAC20B0990500923325 /* Info.plist */,
 				54AB581920B0B29700E2FD28 /* OpenURLOptionTests.swift */,
-				546DEAB420B0991900923325 /* PatternURLTests.swift */,
 				54D5D48822F8015500317EBF /* ParsableTests.swift */,
+				546DEAB420B0991900923325 /* PatternURLTests.swift */,
 				546DEAAD20B0990500923325 /* RouterTests.swift */,
+				0751010B22F8270200DFA53F /* URLParserTests.swift */,
 			);
 			name = CrossroadTests;
 			path = Tests/CrossroadTests;
@@ -250,6 +253,7 @@
 				546DEAC120B0994800923325 /* RouterTests.swift in Sources */,
 				546DEAC020B0993100923325 /* PatternURLTests.swift in Sources */,
 				07CBB57520B7074B00C272A5 /* ContextTests.swift in Sources */,
+				0751010D22F8270400DFA53F /* URLParserTests.swift in Sources */,
 				54D5D48922F8015500317EBF /* ParsableTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
