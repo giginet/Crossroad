@@ -11,16 +11,16 @@
 		07CBB57520B7074B00C272A5 /* ContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CBB57320B705A600C272A5 /* ContextTests.swift */; };
 		546DEA8420AD77F800923325 /* Crossroad.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 546DEA7A20AD77F800923325 /* Crossroad.framework */; };
 		546DEAB820B0991900923325 /* PatternURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAB020B0991800923325 /* PatternURL.swift */; };
-		546DEAB920B0991900923325 /* Extractable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAB120B0991900923325 /* Extractable.swift */; };
 		546DEABA20B0991900923325 /* Crossroad.h in Headers */ = {isa = PBXBuildFile; fileRef = 546DEAB220B0991900923325 /* Crossroad.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		546DEABB20B0991900923325 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAB320B0991900923325 /* Context.swift */; };
 		546DEABD20B0991900923325 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAB520B0991900923325 /* Router.swift */; };
 		546DEABE20B0991900923325 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAB620B0991900923325 /* Route.swift */; };
 		546DEAC020B0993100923325 /* PatternURLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAB420B0991900923325 /* PatternURLTests.swift */; };
 		546DEAC120B0994800923325 /* RouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAAD20B0990500923325 /* RouterTests.swift */; };
-		54AB581620B09AD800E2FD28 /* ExtractableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54AB581420B09AD400E2FD28 /* ExtractableTests.swift */; };
 		54AB581820B0AED300E2FD28 /* OpenURLOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54AB581720B0AED300E2FD28 /* OpenURLOption.swift */; };
 		54AB581A20B0B29700E2FD28 /* OpenURLOptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54AB581920B0B29700E2FD28 /* OpenURLOptionTests.swift */; };
+		54D5D48722F8013F00317EBF /* Parsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D5D48622F8013E00317EBF /* Parsable.swift */; };
+		54D5D48922F8015500317EBF /* ParsableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D5D48822F8015500317EBF /* ParsableTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,16 +41,16 @@
 		546DEAAC20B0990500923325 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		546DEAAD20B0990500923325 /* RouterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterTests.swift; sourceTree = "<group>"; };
 		546DEAB020B0991800923325 /* PatternURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatternURL.swift; sourceTree = "<group>"; };
-		546DEAB120B0991900923325 /* Extractable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extractable.swift; sourceTree = "<group>"; };
 		546DEAB220B0991900923325 /* Crossroad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crossroad.h; sourceTree = "<group>"; };
 		546DEAB320B0991900923325 /* Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
 		546DEAB420B0991900923325 /* PatternURLTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatternURLTests.swift; sourceTree = "<group>"; };
 		546DEAB520B0991900923325 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		546DEAB620B0991900923325 /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		546DEAB720B0991900923325 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		54AB581420B09AD400E2FD28 /* ExtractableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtractableTests.swift; sourceTree = "<group>"; };
 		54AB581720B0AED300E2FD28 /* OpenURLOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenURLOption.swift; sourceTree = "<group>"; };
 		54AB581920B0B29700E2FD28 /* OpenURLOptionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenURLOptionTests.swift; sourceTree = "<group>"; };
+		54D5D48622F8013E00317EBF /* Parsable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parsable.swift; sourceTree = "<group>"; };
+		54D5D48822F8015500317EBF /* ParsableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParsableTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,10 +95,10 @@
 			children = (
 				546DEAB320B0991900923325 /* Context.swift */,
 				546DEAB220B0991900923325 /* Crossroad.h */,
-				546DEAB120B0991900923325 /* Extractable.swift */,
 				546DEAB720B0991900923325 /* Info.plist */,
 				54AB581720B0AED300E2FD28 /* OpenURLOption.swift */,
 				546DEAB020B0991800923325 /* PatternURL.swift */,
+				54D5D48622F8013E00317EBF /* Parsable.swift */,
 				546DEAB620B0991900923325 /* Route.swift */,
 				546DEAB520B0991900923325 /* Router.swift */,
 				079956D622F0304200FC48CF /* URLParser.swift */,
@@ -111,10 +111,10 @@
 			isa = PBXGroup;
 			children = (
 				07CBB57320B705A600C272A5 /* ContextTests.swift */,
-				54AB581420B09AD400E2FD28 /* ExtractableTests.swift */,
 				546DEAAC20B0990500923325 /* Info.plist */,
 				54AB581920B0B29700E2FD28 /* OpenURLOptionTests.swift */,
 				546DEAB420B0991900923325 /* PatternURLTests.swift */,
+				54D5D48822F8015500317EBF /* ParsableTests.swift */,
 				546DEAAD20B0990500923325 /* RouterTests.swift */,
 			);
 			name = CrossroadTests;
@@ -236,7 +236,7 @@
 				54AB581820B0AED300E2FD28 /* OpenURLOption.swift in Sources */,
 				546DEAB820B0991900923325 /* PatternURL.swift in Sources */,
 				546DEABB20B0991900923325 /* Context.swift in Sources */,
-				546DEAB920B0991900923325 /* Extractable.swift in Sources */,
+				54D5D48722F8013F00317EBF /* Parsable.swift in Sources */,
 				546DEABD20B0991900923325 /* Router.swift in Sources */,
 				546DEABE20B0991900923325 /* Route.swift in Sources */,
 			);
@@ -250,7 +250,7 @@
 				546DEAC120B0994800923325 /* RouterTests.swift in Sources */,
 				546DEAC020B0993100923325 /* PatternURLTests.swift in Sources */,
 				07CBB57520B7074B00C272A5 /* ContextTests.swift in Sources */,
-				54AB581620B09AD800E2FD28 /* ExtractableTests.swift in Sources */,
+				54D5D48922F8015500317EBF /* ParsableTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
