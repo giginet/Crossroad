@@ -5,7 +5,7 @@ import XCTest
 final class ContextTests: XCTestCase {
     let url = URL(string: "pokedex://searches")!
 
-    enum Region: String, Extractable {
+    enum Region: String, Parsable {
         case kanto
         case johto
         case hoenn
