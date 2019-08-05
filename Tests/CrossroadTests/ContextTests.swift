@@ -13,7 +13,7 @@ final class ContextTests: XCTestCase {
 
     var context: Context<Void> {
         return  Context<Void>(url: url,
-                              arguments: [:],
+                              arguments: ["pokedexID": "25", "name": "Pikachu"],
                               parameters: [
                                 URLQueryItem(name: "name", value: "Pikachu"),
                                 URLQueryItem(name: "type", value: "electric"),
@@ -42,5 +42,18 @@ final class ContextTests: XCTestCase {
         XCTAssertEqual(context.parameter(matchesIn: regexp(".*")), "Pikachu")
         XCTAssertEqual(context.parameter(matchesIn: regexp("region")), Region.kanto)
         XCTAssertNil(context.parameter(matchesIn: regexp("foo")) as String?)
+    }
+
+    func testSubscriptArgument() {
+        XCTAssertEqual(context[argument: "name"], "Pikachu")
+        XCTAssertEqual(context[argument: "pokedexID"], 25)
+        XCTAssertNil(context[argument: "region"] as Region?)
+    }
+
+    func testSubscriptKeyword() {
+        XCTAssertEqual(context[parameter: "name"], "Pikachu")
+        XCTAssertEqual(context[parameter: "type"], "electric")
+        XCTAssertEqual(context[parameter: "region"], Region.kanto)
+        XCTAssertNil(context[parameter: "moves"] as [String]?)
     }
 }
