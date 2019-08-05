@@ -45,7 +45,7 @@ extension Double: Parsable {
 
 extension Bool: Parsable {
     public init?(from string: String) {
-        self.init(string, conversion: Bool.init(from:))
+        self.init(string, conversion: Bool.init(_:))
     }
 }
 
@@ -66,10 +66,7 @@ extension Array: Parsable where Array.Element: Parsable {
 
 extension URL: Parsable {
     public init?(from string: String) {
-        guard let url = URL(string: string) else {
-            return nil
-        }
-        self = url
+        self.init(string, conversion: URL.init(string:))
     }
 }
 

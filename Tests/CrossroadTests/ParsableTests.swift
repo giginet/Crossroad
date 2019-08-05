@@ -19,6 +19,16 @@ final class ParsableTests: XCTestCase {
         case water
     }
 
+    func testWithPrimitives() {
+        XCTAssertEqual(Int(from: "10"), 10)
+        XCTAssertEqual(Double(from: "10.0"), 10.0)
+        XCTAssertEqual(Int64(from: "10"), 10)
+        XCTAssertEqual(Float(from: "10.0"), 10.0)
+        XCTAssertFalse(Bool(from: "false")!)
+        XCTAssertEqual(String(from: "pokèball"), "pokèball")
+        XCTAssertEqual(URL(from: "https://pokedex.com")!, URL(string: "https://pokedex.com"))
+    }
+
     func testWithEnum() {
         XCTAssertEqual(PokemonType(from: "fire"), .fire)
         XCTAssertNil(PokemonType(from: "faily"))
