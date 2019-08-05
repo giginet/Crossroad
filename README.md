@@ -186,8 +186,9 @@ Use 1.x instead on Swift 4.1 or lower.
 
 |Crossroad Version|Swift Version|Xcode Version|
 |-----------------|-------------|-------------|
+|3.x              |5.0          |Xcode 10.3   |
 |2.x              |5.0          |Xcode 10.2   |
-|1.x              |4.0 ~ 4.2    |~ Xcode 10.1  |
+|1.x              |4.0 ~ 4.2    |~ Xcode 10.1 |
 
 ## License
 
