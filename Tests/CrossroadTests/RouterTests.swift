@@ -30,16 +30,16 @@ final class RouterTest: XCTestCase {
         XCTAssertFalse(router.responds(to: URL(string: "spam/ham")!))
     }
 
-    func _testCanRespondWithCapitalCase() {
+    func testCanRespondWithCapitalCase() {
         let router = SimpleRouter(scheme: "FOOBAR")
         router.register([
-            ("foobar://static", { _ in true }),
-            ("foobar://foo/bar", { _ in true }),
+            ("FOOBAR://STATIC", { _ in true }),
+            ("FOOBAR://FOO/BAR", { _ in true }),
             ("FOOBAR://SPAM/HAM", { _ in false }),
-            ("foobar://:keyword", { _ in true }),
-            ("foobar://foo/:keyword", { _ in true }),
+            ("FOOBAR://:keyword", { _ in true }),
+            ("FOOBAR://FOO/:keyword", { _ in true }),
             ])
-        XCTAssertTrue(router.responds(to: URL(string: "foobar://static")!))
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://sTATic")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/bar")!))
         XCTAssertTrue(router.responds(to: URL(string: "FOOBAR://FOO/BAR")!))
