@@ -96,10 +96,10 @@ Currently supported type is `Int`, `Int64`, `Float`, `Double`, `Bool`, `String` 
 
 ### Enum argument
 
-You can use enum as arguments by implementing `Extractable`.
+You can use enum as arguments by implementing `Parsable`.
 
 ```swift
-enum Type: String, Extractable {
+enum Type: String, Parsable {
     case normal
     case fire
     case water
@@ -122,16 +122,16 @@ let types: [Type]? = context.parameter(for: "types") // [.water, .grass]
 
 ### Custom argument
 
-You can also define own arguments by implementing `Extractable`.
+You can also define own arguments by implementing `Parsable`.
 This is an example to parse custom struct.
 
 ```swift
 struct User {
     let name: String
 }
-extension User: Extractable {
-    static func extract(from string: String) -> User? {
-        return User(name: string)
+extension User: Parsable {
+    init?(from string: String) {
+        self.name = string
     }
 }
 ```
