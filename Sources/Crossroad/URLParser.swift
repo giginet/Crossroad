@@ -14,7 +14,7 @@ public struct URLParser<UserInfo> {
         guard let scheme = url.scheme, let host = url.host else {
             return nil
         }
-        if scheme.lowercased() != patternURL.scheme || patternURL.pathComponents.count != url.pathComponents.count {
+        if scheme.lowercased() != patternURL.scheme.lowercased() || patternURL.pathComponents.count != url.pathComponents.count {
             return nil
         }
 
@@ -22,7 +22,7 @@ public struct URLParser<UserInfo> {
         if patternURL.host.hasPrefix(PatternURL.keywordPrefix) {
             let keyword = String(patternURL.host[PatternURL.keywordPrefix.endIndex...])
             arguments[keyword] = url.host
-        } else if host.lowercased() != patternURL.host {
+        } else if host.lowercased() != patternURL.host.lowercased() {
             return nil
         }
 
@@ -30,7 +30,7 @@ public struct URLParser<UserInfo> {
             if patternComponent.hasPrefix(PatternURL.keywordPrefix) {
                 let keyword = String(patternComponent[PatternURL.keywordPrefix.endIndex...])
                 arguments[keyword] = component
-            } else if patternComponent == component.lowercased() {
+            } else if patternComponent.lowercased() == component.lowercased() {
                 continue
             } else {
                 return nil

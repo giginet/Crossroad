@@ -14,7 +14,7 @@ internal struct PatternURL {
     private static let pathSeparator = "/"
 
     init?(string: String) {
-        self.patternString = string.lowercased()
+        self.patternString = string
         let firstSplit = patternString.components(separatedBy: PatternURL.schemeSeparator)
         guard let scheme = firstSplit.first, !scheme.isEmpty else {
             return nil
@@ -41,6 +41,6 @@ internal struct PatternURL {
     }
 
     func hasPrefix(url: URL) -> Bool {
-        return patternString.hasPrefix(url.absoluteString)
+        return patternString.lowercased().hasPrefix(url.absoluteString.lowercased())
     }
 }
