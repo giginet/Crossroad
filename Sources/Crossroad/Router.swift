@@ -56,13 +56,13 @@ public final class Router<UserInfo> {
             let patternURLString: String
             switch prefix {
             case .scheme(let scheme):
-                if pattern.hasPrefix("\(scheme)://") {
+                if pattern.lowercased().hasPrefix("\(scheme)://") {
                     patternURLString = canonicalizePattern(pattern)
                 } else {
                     patternURLString = "\(scheme)://\(canonicalizePattern(pattern))"
                 }
             case .url(let url):
-                if pattern.hasPrefix(url.absoluteString) {
+                if pattern.lowercased().hasPrefix(url.absoluteString) {
                     patternURLString = canonicalizePattern(pattern)
                 } else {
                     patternURLString = url.appendingPathComponent(canonicalizePattern(pattern)).absoluteString

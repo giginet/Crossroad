@@ -10,7 +10,7 @@ final class RouterTest: XCTestCase {
         router.register([
             ("foobar://static", { _ in true }),
             ("foobar://foo/bar", { _ in true }),
-            ("foobar://spam/ham", { _ in false }),
+            ("FOOBAR://SPAM/HAM", { _ in false }),
             ("foobar://:keyword", { _ in true }),
             ("foobar://foo/:keyword", { _ in true }),
             ])
@@ -35,7 +35,7 @@ final class RouterTest: XCTestCase {
         router.register([
             ("foobar://static", { _ in true }),
             ("foobar://foo/bar", { _ in true }),
-            ("foobar://spam/ham", { _ in false }),
+            ("FOOBAR://SPAM/HAM", { _ in false }),
             ("foobar://:keyword", { _ in true }),
             ("foobar://foo/:keyword", { _ in true }),
             ])
@@ -60,7 +60,7 @@ final class RouterTest: XCTestCase {
         router.register([
             ("https://example.com/static", { _ in true }),
             ("https://example.com/foo/bar", { _ in true }),
-            ("https://example.com/spam/ham", { _ in false }),
+            ("HTTPS://EXAMPLE.COM/SPAM/HAM", { _ in false }),
             ("https://example.com/:keyword", { _ in true }),
             ("https://example.com/foo/:keyword", { _ in true }),
             ])
@@ -84,7 +84,7 @@ final class RouterTest: XCTestCase {
         router.register([
             ("static", { _ in true }),
             ("foo/bar", { _ in true }),
-            ("spam/ham", { _ in false }),
+            ("SPAM/HAM", { _ in false }),
             (":keyword", { _ in true }),
             ("foo/:keyword", { _ in true }),
             ])
@@ -108,7 +108,7 @@ final class RouterTest: XCTestCase {
         router.register([
             ("/static", { _ in true }),
             ("/foo/bar", { _ in true }),
-            ("/spam/ham", { _ in false }),
+            ("/SPAM/HAM", { _ in false }),
             ("/:keyword", { _ in true }),
             ("/foo/:keyword", { _ in true }),
             ])
@@ -132,7 +132,7 @@ final class RouterTest: XCTestCase {
         router.register([
             ("static", { _ in true }),
             ("foo/bar", { _ in true }),
-            ("spam/ham", { _ in false }),
+            ("SPAM/HAM", { _ in false }),
             (":keyword", { _ in true }),
             ("foo/:keyword", { _ in true }),
             ])
