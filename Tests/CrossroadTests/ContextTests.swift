@@ -50,7 +50,7 @@ final class ContextTests: XCTestCase {
         XCTAssertNil(context[argument: "region"] as Region?)
     }
 
-    func testSubscriptKeyword() {
+    func testSubscriptParameter() {
         XCTAssertEqual(context[parameter: "name"], "Pikachu")
         XCTAssertEqual(context[parameter: "type"], "electric")
         XCTAssertEqual(context[parameter: "region"], Region.kanto)
