@@ -30,7 +30,7 @@ public struct URLParser<UserInfo> {
             if patternComponent.hasPrefix(PatternURL.keywordPrefix) {
                 let keyword = String(patternComponent[PatternURL.keywordPrefix.endIndex...])
                 arguments[keyword] = component
-            } else if patternComponent.lowercased() == component.lowercased() {
+            } else if patternComponent == component {
                 continue
             } else {
                 return nil
