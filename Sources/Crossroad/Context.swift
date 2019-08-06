@@ -20,6 +20,14 @@ public struct Context<UserInfo> {
         self.userInfo = userInfo
     }
 
+    public subscript<T: Parsable>(argument keyword: String) -> T? {
+        return try? argument(for: keyword)
+    }
+
+    public subscript<T: Parsable>(parameter key: String) -> T? {
+        return parameter(for: key)
+    }
+
     public func argument<T: Parsable>(for key: String) throws -> T {
         if let argument = arguments[key] {
             if let value = T(from: argument) {

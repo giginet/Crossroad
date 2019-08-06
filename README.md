@@ -40,12 +40,12 @@ Imagine to implement Pokédex on iOS. You can access somewhere via URL scheme.
 router = DefaultRouter(scheme: "pokedex")
 router.register([
     ("/pokemons", { context in 
-        let type: Type? = context.parameter(for: "type")
+        let type: Type? = context[parameter: "type"]
         presentPokedexListViewController(for: type)
         return true 
     }),
     ("/pokemons/:pokedexID", { context in 
-        guard let pokedexID: Int? = try? context.argument(for: "pokedexID") else {
+        guard let pokedexID: Int? = context[argument: "pokedexID"] else {
             // pokedexID must be Int
             return false
         }
@@ -82,14 +82,14 @@ For example, if passed URL matches `pokedex://search/:keyword`, you can get `key
 
 ```swift
 // matches: pokedex://search/Pikachu
-let keyword: String = try! context.argument(for: "keyword") // Pikachu
+let keyword: String = context[argument: "keyword"] // Pikachu
 ```
 
 And more, you can get query parameters if exist.
 
 ```swift
 // matches: pokedex://search/Pikachu?generation=1
-let generation: Int? = context.parameter(for: "generation") // 1
+let generation: Int? = context[parameter: "generation"] // 1
 ```
 
 Currently supported type is `Int`, `Int64`, `Float`, `Double`, `Bool`, `String` and `URL`.
@@ -108,7 +108,7 @@ enum Type: String, Parsable {
 }
 
 // matches: pokedex://pokemons?type=fire
-let type: Type? = context.parameter(for: "type") // .fire
+let type: Type? = context[parameter: "type"] // .fire
 ```
 
 ### Comma-separated list
@@ -117,7 +117,7 @@ You can treat comma-separated query strings as `Array`.
 
 ```swift
 // matches: pokedex://pokemons?types=water,grass
-let types: [Type]? = context.parameter(for: "types") // [.water, .grass]
+let types: [Type]? = context[parameter: "types"] // [.water, .grass]
 ```
 
 ### Custom argument
