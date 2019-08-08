@@ -24,6 +24,15 @@ final class PatternURLTests: XCTestCase {
         XCTAssertEqual(patternURL.pathComponents, [])
     }
 
+    func testCapitalCase() {
+        let subject = PatternURL(string: "FOOBAR://FOO/BAR")!
+        XCTAssertEqual(subject.patternString,
+                       "FOOBAR://FOO/BAR")
+        XCTAssertEqual(subject.scheme, "FOOBAR")
+        XCTAssertEqual(subject.host, "FOO")
+        XCTAssertEqual(subject.pathComponents, ["/", "BAR"])
+    }
+
     func testParseWithKeyword() {
         let url0 = PatternURL(string: "foobar://search/:keyword")
         XCTAssertEqual(url0?.scheme, "foobar")

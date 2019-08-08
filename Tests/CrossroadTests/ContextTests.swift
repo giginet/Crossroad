@@ -5,7 +5,7 @@ import XCTest
 final class ContextTests: XCTestCase {
     let url = URL(string: "pokedex://searches")!
 
-    enum Region: String, Extractable {
+    enum Region: String, Parsable {
         case kanto
         case johto
         case hoenn
@@ -13,7 +13,7 @@ final class ContextTests: XCTestCase {
 
     var context: Context<Void> {
         return  Context<Void>(url: url,
-                              arguments: [:],
+                              arguments: ["pokedexID": "25", "name": "Pikachu"],
                               parameters: [
                                 URLQueryItem(name: "name", value: "Pikachu"),
                                 URLQueryItem(name: "type", value: "electric"),
@@ -31,9 +31,8 @@ final class ContextTests: XCTestCase {
         XCTAssertEqual(context.parameter(for: "name"), "Pikachu")
         XCTAssertNil(context.parameter(for: "foo") as String?)
         XCTAssertEqual(context.parameter(for: "region"), Region.kanto)
-        XCTAssertNil(context.parameter(for: "NaMe") as String?)
-        XCTAssertEqual(context.parameter(for: "NaMe", caseInsensitive: true), "Pikachu")
-        XCTAssertEqual(context.parameter(for: "NAME2", caseInsensitive: true), "Mewtwo")
+        XCTAssertEqual(context.parameter(for: "NaMe"), "Pikachu")
+        XCTAssertEqual(context.parameter(for: "NAME2"), "Mewtwo")
     }
 
     func testParametersByRegexp() {
@@ -43,5 +42,18 @@ final class ContextTests: XCTestCase {
         XCTAssertEqual(context.parameter(matchesIn: regexp(".*")), "Pikachu")
         XCTAssertEqual(context.parameter(matchesIn: regexp("region")), Region.kanto)
         XCTAssertNil(context.parameter(matchesIn: regexp("foo")) as String?)
+    }
+
+    func testSubscriptArgument() {
+        XCTAssertEqual(context[argument: "name"], "Pikachu")
+        XCTAssertEqual(context[argument: "pokedexID"], 25)
+        XCTAssertNil(context[argument: "region"] as Region?)
+    }
+
+    func testSubscriptParameter() {
+        XCTAssertEqual(context[parameter: "name"], "Pikachu")
+        XCTAssertEqual(context[parameter: "type"], "electric")
+        XCTAssertEqual(context[parameter: "region"], Region.kanto)
+        XCTAssertNil(context[parameter: "moves"] as [String]?)
     }
 }

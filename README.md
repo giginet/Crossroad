@@ -39,13 +39,13 @@ Imagine to implement Pokédex on iOS. You can access somewhere via URL scheme.
 ```swift
 router = DefaultRouter(scheme: "pokedex")
 router.register([
-    ("pokedex://pokemons", { context in 
-        let type: Type? = context.parameter(for: "type")
+    ("/pokemons", { context in 
+        let type: Type? = context[parameter: "type"]
         presentPokedexListViewController(for: type)
         return true 
     }),
-    ("pokedex://pokemons/:pokedexID", { context in 
-        guard let pokedexID: Int? = try? context.argument(for: "pokedexID") else {
+    ("/pokemons/:pokedexID", { context in 
+        guard let pokedexID: Int? = context[argument: "pokedexID"] else {
             // pokedexID must be Int
             return false
         }
@@ -82,24 +82,24 @@ For example, if passed URL matches `pokedex://search/:keyword`, you can get `key
 
 ```swift
 // matches: pokedex://search/Pikachu
-let keyword: String = try! context.argument(for: "keyword") // Pikachu
+let keyword: String = context[argument: "keyword"] // Pikachu
 ```
 
 And more, you can get query parameters if exist.
 
 ```swift
 // matches: pokedex://search/Pikachu?generation=1
-let generation: Int? = context.parameter(for: "generation") // 1
+let generation: Int? = context[parameter: "generation"] // 1
 ```
 
 Currently supported type is `Int`, `Int64`, `Float`, `Double`, `Bool`, `String` and `URL`.
 
 ### Enum argument
 
-You can use enum as arguments by implementing `Extractable`.
+You can use enum as arguments by implementing `Parsable`.
 
 ```swift
-enum Type: String, Extractable {
+enum Type: String, Parsable {
     case normal
     case fire
     case water
@@ -108,7 +108,7 @@ enum Type: String, Extractable {
 }
 
 // matches: pokedex://pokemons?type=fire
-let type: Type? = context.parameter(for: "type") // .fire
+let type: Type? = context[parameter: "type"] // .fire
 ```
 
 ### Comma-separated list
@@ -117,21 +117,21 @@ You can treat comma-separated query strings as `Array`.
 
 ```swift
 // matches: pokedex://pokemons?types=water,grass
-let types: [Type]? = context.parameter(for: "types") // [.water, .grass]
+let types: [Type]? = context[parameter: "types"] // [.water, .grass]
 ```
 
 ### Custom argument
 
-You can also define own arguments by implementing `Extractable`.
+You can also define own arguments by implementing `Parsable`.
 This is an example to parse custom struct.
 
 ```swift
 struct User {
     let name: String
 }
-extension User: Extractable {
-    static func extract(from string: String) -> User? {
-        return User(name: string)
+extension User: Parsable {
+    init?(from string: String) {
+        self.name = string
     }
 }
 ```
@@ -167,6 +167,17 @@ Of course, you can also use [Firebase Dynamic Link](https://firebase.google.com/
 let router = DefaultRouter(url: URL(string: "https://my-awesome-pokedex.com")!)
 ```
 
+## Parse URL patterns
+
+If you maintain a complex application and you want to use independent URL pattern parsers without Router.
+You can use `URLParser`.
+
+```swift
+let parser = URLParser<Void>()
+let context = parser.parse(URL(string: "pokedex:/pokemons/25")!, 
+                           in: URLPattern("pokedex://pokemons/:id")))
+```
+
 ## Supported version
 
 Latest version of Crossroad requires Swift 5.0 or above.
@@ -175,8 +186,9 @@ Use 1.x instead on Swift 4.1 or lower.
 
 |Crossroad Version|Swift Version|Xcode Version|
 |-----------------|-------------|-------------|
+|3.x              |5.0          |Xcode 10.3   |
 |2.x              |5.0          |Xcode 10.2   |
-|1.x              |4.0 ~ 4.2    |~ Xcode 10.1  |
+|1.x              |4.0 ~ 4.2    |~ Xcode 10.1 |
 
 ## License
 

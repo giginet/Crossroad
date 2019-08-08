@@ -20,44 +20,48 @@ public struct Context<UserInfo> {
         self.userInfo = userInfo
     }
 
-    public func argument<T: Extractable>(for key: String) throws -> T {
+    public subscript<T: Parsable>(argument keyword: String) -> T? {
+        return try? argument(for: keyword)
+    }
+
+    public subscript<T: Parsable>(parameter key: String) -> T? {
+        return parameter(for: key)
+    }
+
+    public func argument<T: Parsable>(for key: String) throws -> T {
         if let argument = arguments[key] {
-            if let value = T.extract(from: argument) {
+            if let value = T(from: argument) {
                 return value
             }
         }
         throw Error.parsingArgumentFailed
     }
 
-    public func parameter<T: Extractable>(for key: String, caseInsensitive: Bool = false) -> T? {
-        if let queryItem = queryItem(from: key, caseInsensitive: caseInsensitive) {
+    public func parameter<T: Parsable>(for key: String) -> T? {
+        if let queryItem = queryItem(from: key) {
             if let queryValue = queryItem.value,
-                let value = T.extract(from: queryValue) {
+                let value = T(from: queryValue) {
                 return value
             }
         }
         return nil
     }
 
-    public func parameter<T: Extractable>(matchesIn regexp: NSRegularExpression) -> T? {
+    public func parameter<T: Parsable>(matchesIn regexp: NSRegularExpression) -> T? {
         if let queryItem = queryItem(matchesIn: regexp) {
             if let queryValue = queryItem.value,
-                let value = T.extract(from: queryValue) {
+                let value = T(from: queryValue) {
                 return value
             }
         }
         return nil
     }
 
-    private func queryItem(from key: String, caseInsensitive: Bool) -> URLQueryItem? {
-        func isEqual(_ lhs: String, _ rhs: String, caseInsensitive: Bool) -> Bool {
-            if caseInsensitive {
-                return lhs.lowercased() == rhs.lowercased()
-            } else {
-                return lhs == rhs
-            }
+    private func queryItem(from key: String) -> URLQueryItem? {
+        func isEqual(_ lhs: String, _ rhs: String) -> Bool {
+            return lhs.lowercased() == rhs.lowercased()
         }
-        return parameters.first { isEqual($0.name, key, caseInsensitive: caseInsensitive) }
+        return parameters.first { isEqual($0.name, key) }
     }
 
     private func queryItem(matchesIn regexp: NSRegularExpression) -> URLQueryItem? {

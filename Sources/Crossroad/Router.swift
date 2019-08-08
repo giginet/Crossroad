@@ -11,7 +11,7 @@ public final class Router<UserInfo> {
     private var routes: [Route<UserInfo>] = []
 
     public init(scheme: String) {
-        prefix = .scheme(scheme)
+        prefix = .scheme(scheme.lowercased())
     }
 
     public init(url: URL) {
@@ -21,18 +21,9 @@ public final class Router<UserInfo> {
     private func isValidURLPattern(_ patternURL: PatternURL) -> Bool {
         switch prefix {
         case .scheme(let scheme):
-            return scheme == patternURL.scheme
+            return scheme.lowercased() == patternURL.scheme.lowercased()
         case .url(let url):
             return patternURL.hasPrefix(url: url)
-        }
-    }
-
-    private func canRespond(to url: URL) -> Bool {
-        switch prefix {
-        case .scheme(let scheme):
-            return scheme == url.scheme
-        case .url(let prefixURL):
-            return url.absoluteString.hasPrefix(prefixURL.absoluteString)
         }
     }
 
@@ -46,17 +37,18 @@ public final class Router<UserInfo> {
 
     @discardableResult
     public func openIfPossible(_ url: URL, userInfo: UserInfo) -> Bool {
-        if !canRespond(to: url) {
-            return false
-        }
         return routes.first { $0.openIfPossible(url, userInfo: userInfo) } != nil
     }
 
     public func responds(to url: URL, userInfo: UserInfo) -> Bool {
-        if !canRespond(to: url) {
-            return false
-        }
         return routes.first { $0.responds(to: url, userInfo: userInfo) } != nil
+    }
+
+    private func canonicalizePattern(_ pattern: String) -> String {
+        if pattern.hasPrefix("/") {
+            return String(pattern.dropFirst())
+        }
+        return pattern
     }
 
     public func register(_ routes: [(String, Route<UserInfo>.Handler)]) {
@@ -64,16 +56,16 @@ public final class Router<UserInfo> {
             let patternURLString: String
             switch prefix {
             case .scheme(let scheme):
-                if pattern.hasPrefix("\(scheme)://") {
-                    patternURLString = pattern
+                if pattern.lowercased().hasPrefix("\(scheme)://") {
+                    patternURLString = canonicalizePattern(pattern)
                 } else {
-                    patternURLString = "\(scheme)://\(pattern)"
+                    patternURLString = "\(scheme)://\(canonicalizePattern(pattern))"
                 }
             case .url(let url):
-                if pattern.hasPrefix(url.absoluteString) {
-                    patternURLString = pattern
+                if pattern.lowercased().hasPrefix(url.absoluteString) {
+                    patternURLString = canonicalizePattern(pattern)
                 } else {
-                    patternURLString = url.appendingPathComponent(pattern).absoluteString
+                    patternURLString = url.appendingPathComponent(canonicalizePattern(pattern)).absoluteString
                 }
             }
             guard let patternURL = PatternURL(string: patternURLString) else {
