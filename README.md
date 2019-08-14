@@ -175,7 +175,7 @@ You can use `URLParser`.
 ```swift
 let parser = URLParser<Void>()
 let context = parser.parse(URL(string: "pokedex:/pokemons/25")!, 
-                           in: URLPattern("pokedex://pokemons/:id")))
+                           in: "pokedex://pokemons/:id")
 ```
 
 ## Supported version
