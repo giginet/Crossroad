@@ -30,14 +30,12 @@
 		FF4DE703238C9B7600FAC931 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAB520B0991900923325 /* Router.swift */; };
 		FF4DE704238C9B7600FAC931 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAB620B0991900923325 /* Route.swift */; };
 		FF4DE707238C9B7600FAC931 /* Crossroad.h in Headers */ = {isa = PBXBuildFile; fileRef = 546DEAB220B0991900923325 /* Crossroad.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FF4DE70E238C9F3000FAC931 /* Crossroad.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF4DE70C238C9B7600FAC931 /* Crossroad.framework */; };
 		FF4DE713238CA19200FAC931 /* OpenURLOptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54AB581920B0B29700E2FD28 /* OpenURLOptionTests.swift */; };
 		FF4DE714238CA19200FAC931 /* RouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAAD20B0990500923325 /* RouterTests.swift */; };
 		FF4DE715238CA19200FAC931 /* PatternURLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAB420B0991900923325 /* PatternURLTests.swift */; };
 		FF4DE716238CA19200FAC931 /* ContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CBB57320B705A600C272A5 /* ContextTests.swift */; };
 		FF4DE717238CA19200FAC931 /* URLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0751010B22F8270200DFA53F /* URLParserTests.swift */; };
 		FF4DE718238CA19200FAC931 /* ParsableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D5D48822F8015500317EBF /* ParsableTests.swift */; };
-		FF4DE71A238CA19200FAC931 /* Crossroad.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 546DEA7A20AD77F800923325 /* Crossroad.framework */; };
 		FF4DE71B238CA19200FAC931 /* Crossroad.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF4DE70C238C9B7600FAC931 /* Crossroad.framework */; };
 /* End PBXBuildFile section */
 
@@ -49,12 +47,12 @@
 			remoteGlobalIDString = 546DEA7920AD77F800923325;
 			remoteInfo = Crossroad;
 		};
-		FF4DE711238CA19200FAC931 /* PBXContainerItemProxy */ = {
+		FF4DE722238DCFE600FAC931 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 546DEA7120AD77F800923325 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 546DEA7920AD77F800923325;
-			remoteInfo = Crossroad;
+			remoteGlobalIDString = FF4DE6FC238C9B7600FAC931;
+			remoteInfo = "Crossroad-tvOS";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -94,7 +92,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				546DEA8420AD77F800923325 /* Crossroad.framework in Frameworks */,
-				FF4DE70E238C9F3000FAC931 /* Crossroad.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,7 +106,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FF4DE71A238CA19200FAC931 /* Crossroad.framework in Frameworks */,
 				FF4DE71B238CA19200FAC931 /* Crossroad.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -256,7 +252,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				FF4DE710238CA19200FAC931 /* PBXTargetDependency */,
+				FF4DE723238DCFE600FAC931 /* PBXTargetDependency */,
 			);
 			name = "CrossroadTests-tvOS";
 			productName = CrossroadTests;
@@ -398,10 +394,10 @@
 			target = 546DEA7920AD77F800923325 /* Crossroad */;
 			targetProxy = 546DEA8520AD77F800923325 /* PBXContainerItemProxy */;
 		};
-		FF4DE710238CA19200FAC931 /* PBXTargetDependency */ = {
+		FF4DE723238DCFE600FAC931 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 546DEA7920AD77F800923325 /* Crossroad */;
-			targetProxy = FF4DE711238CA19200FAC931 /* PBXContainerItemProxy */;
+			target = FF4DE6FC238C9B7600FAC931 /* Crossroad-tvOS */;
+			targetProxy = FF4DE722238DCFE600FAC931 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
