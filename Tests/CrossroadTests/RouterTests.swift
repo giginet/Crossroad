@@ -1,6 +1,5 @@
-import Foundation
 import XCTest
-import Crossroad
+@testable import Crossroad
 
 final class RouterTest: XCTestCase {
     let scheme = "foobar"

@@ -1,6 +1,5 @@
-import Foundation
-import Crossroad
 import XCTest
+@testable import Crossroad
 
 final class URLParserTests: XCTestCase {
     func testURLParser() {

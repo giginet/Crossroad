@@ -1,9 +1,7 @@
 #if os(iOS)
-
-import Foundation
-import XCTest
 import UIKit
-import Crossroad
+import XCTest
+@testable import Crossroad
 
 final class OpenURLOptionTests: XCTestCase {
     func testInit() {

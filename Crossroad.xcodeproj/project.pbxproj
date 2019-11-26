@@ -22,10 +22,34 @@
 		54AB581A20B0B29700E2FD28 /* OpenURLOptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54AB581920B0B29700E2FD28 /* OpenURLOptionTests.swift */; };
 		54D5D48722F8013F00317EBF /* Parsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D5D48622F8013E00317EBF /* Parsable.swift */; };
 		54D5D48922F8015500317EBF /* ParsableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D5D48822F8015500317EBF /* ParsableTests.swift */; };
+		FF4DE6FE238C9B7600FAC931 /* URLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079956D622F0304200FC48CF /* URLParser.swift */; };
+		FF4DE6FF238C9B7600FAC931 /* OpenURLOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54AB581720B0AED300E2FD28 /* OpenURLOption.swift */; };
+		FF4DE700238C9B7600FAC931 /* PatternURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAB020B0991800923325 /* PatternURL.swift */; };
+		FF4DE701238C9B7600FAC931 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAB320B0991900923325 /* Context.swift */; };
+		FF4DE702238C9B7600FAC931 /* Parsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D5D48622F8013E00317EBF /* Parsable.swift */; };
+		FF4DE703238C9B7600FAC931 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAB520B0991900923325 /* Router.swift */; };
+		FF4DE704238C9B7600FAC931 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAB620B0991900923325 /* Route.swift */; };
+		FF4DE707238C9B7600FAC931 /* Crossroad.h in Headers */ = {isa = PBXBuildFile; fileRef = 546DEAB220B0991900923325 /* Crossroad.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FF4DE70E238C9F3000FAC931 /* Crossroad.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF4DE70C238C9B7600FAC931 /* Crossroad.framework */; };
+		FF4DE713238CA19200FAC931 /* OpenURLOptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54AB581920B0B29700E2FD28 /* OpenURLOptionTests.swift */; };
+		FF4DE714238CA19200FAC931 /* RouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAAD20B0990500923325 /* RouterTests.swift */; };
+		FF4DE715238CA19200FAC931 /* PatternURLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546DEAB420B0991900923325 /* PatternURLTests.swift */; };
+		FF4DE716238CA19200FAC931 /* ContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CBB57320B705A600C272A5 /* ContextTests.swift */; };
+		FF4DE717238CA19200FAC931 /* URLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0751010B22F8270200DFA53F /* URLParserTests.swift */; };
+		FF4DE718238CA19200FAC931 /* ParsableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D5D48822F8015500317EBF /* ParsableTests.swift */; };
+		FF4DE71A238CA19200FAC931 /* Crossroad.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 546DEA7A20AD77F800923325 /* Crossroad.framework */; };
+		FF4DE71B238CA19200FAC931 /* Crossroad.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF4DE70C238C9B7600FAC931 /* Crossroad.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		546DEA8520AD77F800923325 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 546DEA7120AD77F800923325 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 546DEA7920AD77F800923325;
+			remoteInfo = Crossroad;
+		};
+		FF4DE711238CA19200FAC931 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 546DEA7120AD77F800923325 /* Project object */;
 			proxyType = 1;
@@ -53,6 +77,8 @@
 		54AB581920B0B29700E2FD28 /* OpenURLOptionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenURLOptionTests.swift; sourceTree = "<group>"; };
 		54D5D48622F8013E00317EBF /* Parsable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parsable.swift; sourceTree = "<group>"; };
 		54D5D48822F8015500317EBF /* ParsableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParsableTests.swift; sourceTree = "<group>"; };
+		FF4DE70C238C9B7600FAC931 /* Crossroad.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Crossroad.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF4DE720238CA19200FAC931 /* CrossroadTests-tvOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CrossroadTests-tvOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +94,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				546DEA8420AD77F800923325 /* Crossroad.framework in Frameworks */,
+				FF4DE70E238C9F3000FAC931 /* Crossroad.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF4DE705238C9B7600FAC931 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF4DE719238CA19200FAC931 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF4DE71A238CA19200FAC931 /* Crossroad.framework in Frameworks */,
+				FF4DE71B238CA19200FAC931 /* Crossroad.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,6 +131,8 @@
 			children = (
 				546DEA7A20AD77F800923325 /* Crossroad.framework */,
 				546DEA8320AD77F800923325 /* CrossroadTests.xctest */,
+				FF4DE70C238C9B7600FAC931 /* Crossroad.framework */,
+				FF4DE720238CA19200FAC931 /* CrossroadTests-tvOS.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -135,6 +180,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FF4DE706238C9B7600FAC931 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF4DE707238C9B7600FAC931 /* Crossroad.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -174,6 +227,42 @@
 			productReference = 546DEA8320AD77F800923325 /* CrossroadTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		FF4DE6FC238C9B7600FAC931 /* Crossroad-tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FF4DE709238C9B7600FAC931 /* Build configuration list for PBXNativeTarget "Crossroad-tvOS" */;
+			buildPhases = (
+				FF4DE6FD238C9B7600FAC931 /* Sources */,
+				FF4DE705238C9B7600FAC931 /* Frameworks */,
+				FF4DE706238C9B7600FAC931 /* Headers */,
+				FF4DE708238C9B7600FAC931 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Crossroad-tvOS";
+			productName = Crossroad;
+			productReference = FF4DE70C238C9B7600FAC931 /* Crossroad.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		FF4DE70F238CA19200FAC931 /* CrossroadTests-tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FF4DE71D238CA19200FAC931 /* Build configuration list for PBXNativeTarget "CrossroadTests-tvOS" */;
+			buildPhases = (
+				FF4DE712238CA19200FAC931 /* Sources */,
+				FF4DE719238CA19200FAC931 /* Frameworks */,
+				FF4DE71C238CA19200FAC931 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FF4DE710238CA19200FAC931 /* PBXTargetDependency */,
+			);
+			name = "CrossroadTests-tvOS";
+			productName = CrossroadTests;
+			productReference = FF4DE720238CA19200FAC931 /* CrossroadTests-tvOS.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -209,6 +298,8 @@
 			targets = (
 				546DEA7920AD77F800923325 /* Crossroad */,
 				546DEA8220AD77F800923325 /* CrossroadTests */,
+				FF4DE6FC238C9B7600FAC931 /* Crossroad-tvOS */,
+				FF4DE70F238CA19200FAC931 /* CrossroadTests-tvOS */,
 			);
 		};
 /* End PBXProject section */
@@ -222,6 +313,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		546DEA8120AD77F800923325 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF4DE708238C9B7600FAC931 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF4DE71C238CA19200FAC931 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -258,6 +363,33 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FF4DE6FD238C9B7600FAC931 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF4DE6FE238C9B7600FAC931 /* URLParser.swift in Sources */,
+				FF4DE6FF238C9B7600FAC931 /* OpenURLOption.swift in Sources */,
+				FF4DE700238C9B7600FAC931 /* PatternURL.swift in Sources */,
+				FF4DE701238C9B7600FAC931 /* Context.swift in Sources */,
+				FF4DE702238C9B7600FAC931 /* Parsable.swift in Sources */,
+				FF4DE703238C9B7600FAC931 /* Router.swift in Sources */,
+				FF4DE704238C9B7600FAC931 /* Route.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF4DE712238CA19200FAC931 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF4DE713238CA19200FAC931 /* OpenURLOptionTests.swift in Sources */,
+				FF4DE714238CA19200FAC931 /* RouterTests.swift in Sources */,
+				FF4DE715238CA19200FAC931 /* PatternURLTests.swift in Sources */,
+				FF4DE716238CA19200FAC931 /* ContextTests.swift in Sources */,
+				FF4DE717238CA19200FAC931 /* URLParserTests.swift in Sources */,
+				FF4DE718238CA19200FAC931 /* ParsableTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -265,6 +397,11 @@
 			isa = PBXTargetDependency;
 			target = 546DEA7920AD77F800923325 /* Crossroad */;
 			targetProxy = 546DEA8520AD77F800923325 /* PBXContainerItemProxy */;
+		};
+		FF4DE710238CA19200FAC931 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 546DEA7920AD77F800923325 /* Crossroad */;
+			targetProxy = FF4DE711238CA19200FAC931 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -324,9 +461,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -380,9 +517,9 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -411,6 +548,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.giginet.Crossroad;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -440,6 +578,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.giginet.Crossroad;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -452,7 +591,6 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/CrossroadTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -462,6 +600,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.giginet.CrossroadTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -473,7 +612,6 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/CrossroadTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -483,8 +621,106 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.giginet.CrossroadTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		FF4DE70A238C9B7600FAC931 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Sources/Crossroad/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.giginet.Crossroad;
+				PRODUCT_NAME = Crossroad;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		FF4DE70B238C9B7600FAC931 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Sources/Crossroad/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.giginet.Crossroad;
+				PRODUCT_NAME = Crossroad;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		FF4DE71E238CA19200FAC931 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Tests/CrossroadTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.giginet.CrossroadTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = appletvos;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		FF4DE71F238CA19200FAC931 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Tests/CrossroadTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.giginet.CrossroadTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = appletvos;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -514,6 +750,24 @@
 			buildConfigurations = (
 				546DEA9220AD77F800923325 /* Debug */,
 				546DEA9320AD77F800923325 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FF4DE709238C9B7600FAC931 /* Build configuration list for PBXNativeTarget "Crossroad-tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FF4DE70A238C9B7600FAC931 /* Debug */,
+				FF4DE70B238C9B7600FAC931 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FF4DE71D238CA19200FAC931 /* Build configuration list for PBXNativeTarget "CrossroadTests-tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FF4DE71E238CA19200FAC931 /* Debug */,
+				FF4DE71F238CA19200FAC931 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
