@@ -18,11 +18,5 @@ let package = Package(
         .testTarget(
             name: "CrossroadTests",
             dependencies: ["Crossroad"]),
-        .target(
-            name: "Crossroad-tvOS",
-            dependencies: []),
-        .testTarget(
-            name: "CrossroadTests-tvOS",
-            dependencies: ["Crossroad-tvOS"]),
     ]
 )
