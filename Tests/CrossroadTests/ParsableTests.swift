@@ -1,6 +1,5 @@
-import Foundation
 import XCTest
-@testable import Crossroad
+import Crossroad
 
 class RegularExpression: NSRegularExpression, Parsable {
     required public init?(from string: String) {

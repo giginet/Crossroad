@@ -1,4 +1,4 @@
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for Crossroad.
 FOUNDATION_EXPORT double CrossroadVersionNumber;

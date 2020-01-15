@@ -8,6 +8,7 @@ before_script:
   - swiftlint --strict
 matrix:
   include:
-    - env: NAME=Xcode DESTINATION="platform=iOS Simulator,name=iPhone 8"
+    - env: NAME=Xcode DESTINATION="platform=iOS Simulator,name=iPhone 8" SCHEME="Crossroad"
+    - env: NAME=Xcode DESTINATION="platform=tvOS Simulator,name=Apple TV 4K" SCHEME="Crossroad-tvOS"
 script:
-- xcodebuild test -project Crossroad.xcodeproj -scheme Crossroad -destination "${DESTINATION}" 
+- xcodebuild test -project Crossroad.xcodeproj -scheme "${SCHEME}" -destination "${DESTINATION}"

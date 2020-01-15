@@ -1,8 +1,6 @@
 #if os(iOS)
-
-import Foundation
-import XCTest
 import UIKit
+import XCTest
 import Crossroad
 
 final class OpenURLOptionTests: XCTestCase {
