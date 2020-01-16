@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "546DEA7920AD77F800923325"
-               BuildableName = "Crossroad_iOS.framework"
+               BuildableName = "Crossroad.framework"
                BlueprintName = "Crossroad-iOS"
                ReferencedContainer = "container:Crossroad.xcodeproj">
             </BuildableReference>
@@ -32,7 +32,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "546DEA7920AD77F800923325"
-            BuildableName = "Crossroad_iOS.framework"
+            BuildableName = "Crossroad.framework"
             BlueprintName = "Crossroad-iOS"
             ReferencedContainer = "container:Crossroad.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "546DEA7920AD77F800923325"
-            BuildableName = "Crossroad_iOS.framework"
+            BuildableName = "Crossroad.framework"
             BlueprintName = "Crossroad-iOS"
             ReferencedContainer = "container:Crossroad.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "546DEA7920AD77F800923325"
-            BuildableName = "Crossroad_iOS.framework"
+            BuildableName = "Crossroad.framework"
             BlueprintName = "Crossroad-iOS"
             ReferencedContainer = "container:Crossroad.xcodeproj">
          </BuildableReference>
