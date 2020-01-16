@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "546DEA7920AD77F800923325"
-               BuildableName = "Crossroad.framework"
-               BlueprintName = "Crossroad"
+               BuildableName = "Crossroad_iOS.framework"
+               BlueprintName = "Crossroad-iOS"
                ReferencedContainer = "container:Crossroad.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,8 +32,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "546DEA7920AD77F800923325"
-            BuildableName = "Crossroad.framework"
-            BlueprintName = "Crossroad"
+            BuildableName = "Crossroad_iOS.framework"
+            BlueprintName = "Crossroad-iOS"
             ReferencedContainer = "container:Crossroad.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -43,8 +43,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "546DEA8220AD77F800923325"
-               BuildableName = "CrossroadTests.xctest"
-               BlueprintName = "CrossroadTests"
+               BuildableName = "CrossroadTests-iOS.xctest"
+               BlueprintName = "CrossroadTests-iOS"
                ReferencedContainer = "container:Crossroad.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -64,8 +64,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "546DEA7920AD77F800923325"
-            BuildableName = "Crossroad.framework"
-            BlueprintName = "Crossroad"
+            BuildableName = "Crossroad_iOS.framework"
+            BlueprintName = "Crossroad-iOS"
             ReferencedContainer = "container:Crossroad.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -80,8 +80,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "546DEA7920AD77F800923325"
-            BuildableName = "Crossroad.framework"
-            BlueprintName = "Crossroad"
+            BuildableName = "Crossroad_iOS.framework"
+            BlueprintName = "Crossroad-iOS"
             ReferencedContainer = "container:Crossroad.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

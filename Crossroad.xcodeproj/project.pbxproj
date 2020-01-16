@@ -61,7 +61,7 @@
 		079956D622F0304200FC48CF /* URLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLParser.swift; sourceTree = "<group>"; };
 		07CBB57320B705A600C272A5 /* ContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextTests.swift; sourceTree = "<group>"; };
 		546DEA7A20AD77F800923325 /* Crossroad.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Crossroad.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		546DEA8320AD77F800923325 /* CrossroadTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CrossroadTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		546DEA8320AD77F800923325 /* CrossroadTests-iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CrossroadTests-iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		546DEAAC20B0990500923325 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		546DEAAD20B0990500923325 /* RouterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterTests.swift; sourceTree = "<group>"; };
 		546DEAB020B0991800923325 /* PatternURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatternURL.swift; sourceTree = "<group>"; };
@@ -126,7 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				546DEA7A20AD77F800923325 /* Crossroad.framework */,
-				546DEA8320AD77F800923325 /* CrossroadTests.xctest */,
+				546DEA8320AD77F800923325 /* CrossroadTests-iOS.xctest */,
 				FF4DE70C238C9B7600FAC931 /* Crossroad.framework */,
 				FF4DE720238CA19200FAC931 /* CrossroadTests-tvOS.xctest */,
 			);
@@ -187,9 +187,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		546DEA7920AD77F800923325 /* Crossroad */ = {
+		546DEA7920AD77F800923325 /* Crossroad-iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 546DEA8E20AD77F800923325 /* Build configuration list for PBXNativeTarget "Crossroad" */;
+			buildConfigurationList = 546DEA8E20AD77F800923325 /* Build configuration list for PBXNativeTarget "Crossroad-iOS" */;
 			buildPhases = (
 				546DEA7520AD77F800923325 /* Sources */,
 				546DEA7620AD77F800923325 /* Frameworks */,
@@ -200,14 +200,14 @@
 			);
 			dependencies = (
 			);
-			name = Crossroad;
+			name = "Crossroad-iOS";
 			productName = Crossroad;
 			productReference = 546DEA7A20AD77F800923325 /* Crossroad.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		546DEA8220AD77F800923325 /* CrossroadTests */ = {
+		546DEA8220AD77F800923325 /* CrossroadTests-iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 546DEA9120AD77F800923325 /* Build configuration list for PBXNativeTarget "CrossroadTests" */;
+			buildConfigurationList = 546DEA9120AD77F800923325 /* Build configuration list for PBXNativeTarget "CrossroadTests-iOS" */;
 			buildPhases = (
 				546DEA7F20AD77F800923325 /* Sources */,
 				546DEA8020AD77F800923325 /* Frameworks */,
@@ -218,9 +218,9 @@
 			dependencies = (
 				546DEA8620AD77F800923325 /* PBXTargetDependency */,
 			);
-			name = CrossroadTests;
+			name = "CrossroadTests-iOS";
 			productName = CrossroadTests;
-			productReference = 546DEA8320AD77F800923325 /* CrossroadTests.xctest */;
+			productReference = 546DEA8320AD77F800923325 /* CrossroadTests-iOS.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		FF4DE6FC238C9B7600FAC931 /* Crossroad-tvOS */ = {
@@ -292,9 +292,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				546DEA7920AD77F800923325 /* Crossroad */,
-				546DEA8220AD77F800923325 /* CrossroadTests */,
+				546DEA7920AD77F800923325 /* Crossroad-iOS */,
 				FF4DE6FC238C9B7600FAC931 /* Crossroad-tvOS */,
+				546DEA8220AD77F800923325 /* CrossroadTests-iOS */,
 				FF4DE70F238CA19200FAC931 /* CrossroadTests-tvOS */,
 			);
 		};
@@ -391,7 +391,7 @@
 /* Begin PBXTargetDependency section */
 		546DEA8620AD77F800923325 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 546DEA7920AD77F800923325 /* Crossroad */;
+			target = 546DEA7920AD77F800923325 /* Crossroad-iOS */;
 			targetProxy = 546DEA8520AD77F800923325 /* PBXContainerItemProxy */;
 		};
 		FF4DE723238DCFE600FAC931 /* PBXTargetDependency */ = {
@@ -542,7 +542,8 @@
 					"@loader_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.giginet.Crossroad;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_MODULE_NAME = Crossroad;
+				PRODUCT_NAME = Crossroad;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -572,7 +573,8 @@
 					"@loader_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.giginet.Crossroad;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_MODULE_NAME = Crossroad;
+				PRODUCT_NAME = Crossroad;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -732,7 +734,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		546DEA8E20AD77F800923325 /* Build configuration list for PBXNativeTarget "Crossroad" */ = {
+		546DEA8E20AD77F800923325 /* Build configuration list for PBXNativeTarget "Crossroad-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				546DEA8F20AD77F800923325 /* Debug */,
@@ -741,7 +743,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		546DEA9120AD77F800923325 /* Build configuration list for PBXNativeTarget "CrossroadTests" */ = {
+		546DEA9120AD77F800923325 /* Build configuration list for PBXNativeTarget "CrossroadTests-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				546DEA9220AD77F800923325 /* Debug */,
