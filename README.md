@@ -74,6 +74,18 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplication.Op
 }
 ```
 
+Or, if you are using `SceneDelegate` with a modern app:
+
+```swift
+func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let url = URLContexts.first?.url else {
+            print("No url")
+            return
+        }
+        _ = router.openIfPossible(url, options: Dictionary<UIApplication.OpenURLOptionsKey, Any>())
+    }
+```
+
 ## Argument and Parameter
 
 `:` prefixed components on passed URL pattern mean **argument**.
