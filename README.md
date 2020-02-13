@@ -1,6 +1,6 @@
 [![Crossroad](Documentation/logo.png)](https://github.com/giginet/Crossroad)
 
-[![Build Status](https://img.shields.io/travis/giginet/Crossroad.svg?branch=master&style=flat-square)](https://travis-ci.org/giginet/Crossroad)
+[![Build Status](https://img.shields.io/github/workflow/status/giginet/Crossroad/ci&style=flat-square)](https://travis-ci.org/giginet/Crossroad)
 [![Language](https://img.shields.io/static/v1.svg?label=language&message=Swift%205&color=FA7343&logo=swift&style=flat-square)](https://swift.org)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat-square)](https://github.com/Carthage/Carthage) 
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/Crossroad.svg?style=flat-square)](http://cocoapods.org/pods/Crossroad)
