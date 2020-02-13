@@ -3,7 +3,7 @@ name: Crossroad
 on: [push]
 
 jobs:
-  build-ios:
+  iOS:
     runs-on: macos
     steps:
     - uses: actions/checkout@v2
@@ -11,7 +11,7 @@ jobs:
       run: |
         DESTINATION="platform=iOS Simulator,name=iPhone 8" SCHEME="Crossroad-iOS"
         xcodebuild test -project Crossroad.xcodeproj -scheme "${SCHEME}" -destination "${DESTINATION}"
-  build-tvos:
+  tvOS:
     runs-on: macos
     steps:
     - uses: actions/checkout@v2
@@ -19,7 +19,7 @@ jobs:
       run: |
         DESTINATION="platform=tvOS Simulator,name=Apple TV 4K" SCHEME="Crossroad-tvOS"
         xcodebuild test -project Crossroad.xcodeproj -scheme "${SCHEME}" -destination "${DESTINATION}"
-  lint:
+  Lint:
     runs-on: macos
     steps:
     - uses: actions/checkout@v2
