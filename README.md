@@ -64,6 +64,8 @@ router.openIfPossible(URL(string: "pokedex://pokemons/25")!) // Open Pikachu pag
 router.openIfPossible(URL(string: "pokedex://pokemons?type=fire")!) // Open list of fire Pokémons page
 ```
 
+### ~ iOS 12
+
 You can also skip schemes on URLs. URLPattern `/search/:keyword` means `pokedex://search/:keyword` on the router.
 
 In common use case, you should call `router.openIfPossible` on `UIApplicationDelegate` method.
@@ -74,15 +76,16 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplication.Op
 }
 ```
 
+### iOS 13+
+
 Or, if you are using `SceneDelegate` with a modern app:
 
 ```swift
 func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         guard let url = URLContexts.first?.url else {
-            print("No url")
             return
         }
-        _ = router.openIfPossible(url, options: Dictionary<UIApplication.OpenURLOptionsKey, Any>())
+        _ = router.openIfPossible(url, options: [:])
     }
 ```
 
