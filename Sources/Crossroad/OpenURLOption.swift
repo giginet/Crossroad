@@ -28,6 +28,7 @@ public struct OpenURLOption {
 public typealias DefaultRouter = Router<OpenURLOption>
 
 public extension Router where UserInfo == OpenURLOption {
+    @discardableResult
     func openIfPossible(_ url: URL, options: ApplicationOpenURLOptions) -> Bool {
         return openIfPossible(url, userInfo: OpenURLOption(options: options))
     }
@@ -39,6 +40,7 @@ public extension Router where UserInfo == OpenURLOption {
 
 @available(iOS 13.0, *)
 public extension Router where UserInfo == OpenURLOption {
+    @discardableResult
     func openIfPossible(_ url: URL, options: UIScene.OpenURLOptions) -> Bool {
         return openIfPossible(url, userInfo: OpenURLOption(options: options))
     }
