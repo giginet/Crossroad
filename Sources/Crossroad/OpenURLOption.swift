@@ -8,19 +8,19 @@ public typealias ApplicationOpenURLOptions = [UIApplication.OpenURLOptionsKey: A
 // https://developer.apple.com/documentation/uikit/uiapplicationopenurloptionskey
 public struct OpenURLOption {
     public let sourceApplication: String?
-    public let annotation: [String: Any]?
+    public let annotation: Any?
     public let openInPlace: Bool
 
     public init(options: ApplicationOpenURLOptions) {
         self.sourceApplication = options[.sourceApplication] as? String
-        self.annotation = options[.annotation] as? [String: Any]
+        self.annotation = options[.annotation]
         self.openInPlace = options[.openInPlace] as? Bool ?? false
     }
 
     @available(iOS 13.0, *)
     public init(options: UIScene.OpenURLOptions) {
         self.sourceApplication = options.sourceApplication
-        self.annotation = options.annotation as? [String: Any]
+        self.annotation = options.annotation
         self.openInPlace = options.openInPlace
     }
 }
