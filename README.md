@@ -82,11 +82,11 @@ Or, if you are using `SceneDelegate` with a modern app:
 
 ```swift
 func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        guard let context = URLContexts.first, let url = context.url else {
-            return
-        }
-        _ = router.openIfPossible(url, options: context.options)
+    guard let context = URLContexts.first else {
+        return
     }
+    router.openIfPossible(context.url, options: context.options)
+}
 ```
 
 ## Argument and Parameter
