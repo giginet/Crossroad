@@ -4,43 +4,34 @@ import Foundation
 // Note that it's very simple and do not allow complicated patterns with for example queries.
 internal struct PatternURL {
     static let keywordPrefix = ":"
+    
+    enum Prefix: Hashable {
+        case scheme(String)
+        case url(URL)
+    }
+    
+    enum MatchingPattern {
+        case specified(Prefix)
+        case any
+    }
 
-    let scheme: String
-    let host: String
+    let matchingPattern: MatchingPattern
     let pathComponents: [String]
-    let patternString: String
 
     private static let schemeSeparator = "://"
     private static let pathSeparator = "/"
 
-    init?(string: String) {
-        self.patternString = string
-        let firstSplit = patternString.components(separatedBy: PatternURL.schemeSeparator)
-        guard let scheme = firstSplit.first, !scheme.isEmpty else {
-            return nil
-        }
-        let rest = firstSplit[1 ..< firstSplit.count].joined(separator: PatternURL.schemeSeparator)
-        let components = rest.components(separatedBy: PatternURL.pathSeparator)
-        guard let host = components.first, !host.isEmpty else {
-            return nil
-        }
-        self.scheme = scheme
-        self.host = host
-        if components.count > 1 {
-            let left = components[1 ..< components.count]
-            // In URL, pathComponents includes the starting "/" so do the same.
-            if left.count == 1 && left.first == "" {
-                // URL with just a starting "/"
-                pathComponents = [PatternURL.pathSeparator]
-            } else {
-                pathComponents = [PatternURL.pathSeparator] + components[1 ..< components.count]
-            }
-        } else {
-            pathComponents = []
-        }
+    init?(matchingPattern: MatchingPattern, path: String) {
+        self.matchingPattern = matchingPattern
+        pathComponents = path.components(separatedBy: Self.pathSeparator)
     }
 
     func hasPrefix(url: URL) -> Bool {
-        return patternString.lowercased().hasPrefix(url.absoluteString.lowercased())
+        switch matchingPattern {
+        case .any:
+            return true
+        case .specified(let prefix):
+            return true
+        }
     }
 }

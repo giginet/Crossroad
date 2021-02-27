@@ -3,11 +3,7 @@ import Foundation
 public typealias SimpleRouter = Router<Void>
 
 public final class Router<UserInfo> {
-    private enum Prefix: Hashable {
-        case scheme(String)
-        case url(URL)
-    }
-    private let prefixes: Set<Prefix>
+    private let prefixes: Set<PatternURL.Prefix>
     private var routes: [Route<UserInfo>] = []
 
     public init(scheme: String) {
@@ -18,19 +14,25 @@ public final class Router<UserInfo> {
         prefixes = [.url(url)]
     }
 
-    private func isValidURLPattern(_ patternURL: PatternURL) -> Bool {
-        prefixes.contains { prefix in
-            switch prefix {
-            case .scheme(let scheme):
-                return scheme.lowercased() == patternURL.scheme.lowercased()
-            case .url(let url):
-                return patternURL.hasPrefix(url: url)
-            }
+    private func shouldAccept(_ patternURL: PatternURL) -> Bool {
+        switch patternURL.matchingPattern {
+        case .any:
+            return true
+        case .specified:
+            return true
         }
+//        prefixes.contains { prefix in
+//            switch prefix {
+//            case .scheme(let scheme):
+//                return scheme.lowercased() == patternURL.scheme.lowercased()
+//            case .url(let url):
+//                return patternURL.hasPrefix(url: url)
+//            }
+//        }
     }
 
     internal func register(_ route: Route<UserInfo>) {
-        if isValidURLPattern(route.patternURL) {
+        if shouldAccept(route.patternURL) {
             routes.append(route)
         } else {
             assertionFailure("Unexpected URL Pattern")
@@ -54,27 +56,31 @@ public final class Router<UserInfo> {
     }
 
     public func register(_ routes: [(String, Route<UserInfo>.Handler)]) {
-        for (pattern, handler) in routes {
-            let patternURLString: String
-            let prefix = prefixes.first!
-            switch prefix {
-            case .scheme(let scheme):
-                if pattern.lowercased().hasPrefix("\(scheme)://") {
-                    patternURLString = canonicalizePattern(pattern)
-                } else {
-                    patternURLString = "\(scheme)://\(canonicalizePattern(pattern))"
-                }
-            case .url(let url):
-                if pattern.lowercased().hasPrefix(url.absoluteString) {
-                    patternURLString = canonicalizePattern(pattern)
-                } else {
-                    patternURLString = url.appendingPathComponent(canonicalizePattern(pattern)).absoluteString
-                }
+        for (patternString, handler) in routes {
+            for prefix in prefixes {
+                //            let patternURLString: String
+                //            let prefix = prefixes.first!
+                //            switch prefix {
+                //            case .scheme(let scheme):
+                //                if pattern.lowercased().hasPrefix("\(scheme)://") {
+                //                    patternURLString = canonicalizePattern(pattern)
+                //                } else {
+                //                    patternURLString = "\(scheme)://\(canonicalizePattern(pattern))"
+                //                }
+                //            case .url(let url):
+                //                if pattern.lowercased().hasPrefix(url.absoluteString) {
+                //                    patternURLString = canonicalizePattern(pattern)
+                //                } else {
+                //                    patternURLString = url.appendingPathComponent(canonicalizePattern(pattern)).absoluteString
+                //                }
+                //            }
+                //            guard let patternURL = PatternURL(string: patternURLString) else {
+                //                assertionFailure("\(pattern) is invalid")
+                //                continue
+                //            }
+                
             }
-            guard let patternURL = PatternURL(string: patternURLString) else {
-                assertionFailure("\(pattern) is invalid")
-                continue
-            }
+
             let route = Route(pattern: patternURL, handler: handler)
             register(route)
         }
