@@ -3,27 +3,29 @@ import Foundation
 public typealias SimpleRouter = Router<Void>
 
 public final class Router<UserInfo> {
-    private enum Prefix {
+    private enum Prefix: Hashable {
         case scheme(String)
         case url(URL)
     }
-    private let prefix: Prefix
+    private let prefixes: Set<Prefix>
     private var routes: [Route<UserInfo>] = []
 
     public init(scheme: String) {
-        prefix = .scheme(scheme.lowercased())
+        prefixes = [.scheme(scheme.lowercased())]
     }
 
     public init(url: URL) {
-        prefix = .url(url)
+        prefixes = [.url(url)]
     }
 
     private func isValidURLPattern(_ patternURL: PatternURL) -> Bool {
-        switch prefix {
-        case .scheme(let scheme):
-            return scheme.lowercased() == patternURL.scheme.lowercased()
-        case .url(let url):
-            return patternURL.hasPrefix(url: url)
+        prefixes.contains { prefix in
+            switch prefix {
+            case .scheme(let scheme):
+                return scheme.lowercased() == patternURL.scheme.lowercased()
+            case .url(let url):
+                return patternURL.hasPrefix(url: url)
+            }
         }
     }
 
@@ -54,6 +56,7 @@ public final class Router<UserInfo> {
     public func register(_ routes: [(String, Route<UserInfo>.Handler)]) {
         for (pattern, handler) in routes {
             let patternURLString: String
+            let prefix = prefixes.first!
             switch prefix {
             case .scheme(let scheme):
                 if pattern.lowercased().hasPrefix("\(scheme)://") {
