@@ -21,7 +21,7 @@ internal struct PatternURL {
     private static let schemeSeparator = "://"
     private static let pathSeparator = "/"
 
-    init?(matchingPattern: MatchingPattern, path: String) {
+    init(matchingPattern: MatchingPattern, path: String) {
         self.matchingPattern = matchingPattern
         pathComponents = path.components(separatedBy: Self.pathSeparator)
     }

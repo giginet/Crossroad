@@ -57,32 +57,47 @@ public final class Router<UserInfo> {
 
     public func register(_ routes: [(String, Route<UserInfo>.Handler)]) {
         for (patternString, handler) in routes {
-            for prefix in prefixes {
-                //            let patternURLString: String
-                //            let prefix = prefixes.first!
-                //            switch prefix {
-                //            case .scheme(let scheme):
-                //                if pattern.lowercased().hasPrefix("\(scheme)://") {
-                //                    patternURLString = canonicalizePattern(pattern)
-                //                } else {
-                //                    patternURLString = "\(scheme)://\(canonicalizePattern(pattern))"
-                //                }
-                //            case .url(let url):
-                //                if pattern.lowercased().hasPrefix(url.absoluteString) {
-                //                    patternURLString = canonicalizePattern(pattern)
-                //                } else {
-                //                    patternURLString = url.appendingPathComponent(canonicalizePattern(pattern)).absoluteString
-                //                }
-                //            }
-                //            guard let patternURL = PatternURL(string: patternURLString) else {
-                //                assertionFailure("\(pattern) is invalid")
-                //                continue
-                //            }
-                
+            if patternString.hasPrefix("/") {
+                let patternURL = PatternURL(matchingPattern: .any, path: patternString)
+                let route = Route(pattern: patternURL, handler: handler)
+                register(route)
+            } else if patternString.contains("://") {
+                let bits = patternString.components(separatedBy: "://")
+                guard let patternScheme = bits.first else {
+                    fatalError("Unknown situation")
+                }
+                guard let trailingPath = bits.last, bits.count == 2 else {
+                    fatalError("Invalid Pattern \(patternString)")
+                }
+                for prefix in prefixes {
+                    switch prefix {
+                    case .scheme(let prefixScheme):
+                        guard prefixScheme == patternScheme else {
+                            continue
+                        }
+                        let patternURL = PatternURL(matchingPattern: .specified(.scheme(prefixScheme)), path: trailingPath)
+                        let route = Route(pattern: patternURL, handler: handler)
+                        register(route)
+                    case .url(let prefixURL):
+                        guard prefixURL.scheme == patternScheme else {
+                            continue
+                        }
+                        guard let prefixRange = patternString.range(of: prefixURL.absoluteString) else {
+                            continue
+                        }
+                        
+                        let firstIndexOfRemaining = patternString.index(after: prefixRange.upperBound)
+                        let ramainingPathRange = firstIndexOfRemaining...
+                        let remainingPath = String(patternString[ramainingPathRange])
+                        
+                        let patternURL = PatternURL(matchingPattern: .specified(.url(prefixURL)), path: remainingPath)
+                        let route = Route(pattern: patternURL, handler: handler)
+                        register(route)
+                    }
+                }
+            } else {
+                fatalError("Invalid Pattern \(patternString)")
             }
-
-            let route = Route(pattern: patternURL, handler: handler)
-            register(route)
         }
     }
 }
