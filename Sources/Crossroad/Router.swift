@@ -99,7 +99,9 @@ public final class Router<UserInfo> {
                     }
                 }
             } else {
-                fatalError("Invalid Pattern \(patternString)")
+                let patternURL = RelativePatternURL(path: patternString)
+                let route = Route(pattern: patternURL, handler: handler)
+                register(route)
             }
         }
     }

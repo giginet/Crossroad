@@ -6,12 +6,8 @@ public struct URLParser<UserInfo> {
     public init() { }
 
     public func parse(_ url: URL, in patternURLString: String, userInfo: UserInfo) -> Context<UserInfo>? {
-        let patternURL: PatternURL
-        if patternURLString.hasPrefix("/") {
-            patternURL = RelativePatternURL(path: patternURLString)
-        } else {
-            // TODO
-            patternURL = AbsolutePatternURL(prefix: .scheme(""), path: "")
+        guard let patternURL = buildPatternURL(patternURLString: patternURLString) else {
+            return nil
         }
         return parse(url, in: patternURL, userInfo: userInfo)
     }

@@ -44,3 +44,15 @@ struct AbsolutePatternURL: PatternURL {
         return true
     }
 }
+
+func buildPatternURL(patternURLString: String) -> PatternURL? {
+    if patternURLString.hasPrefix("/") {
+        return RelativePatternURL(path: patternURLString)
+    } else {
+        let bits = patternURLString.components(separatedBy: "://")
+        guard let scheme = bits.first, let path = bits.last, bits.count == 2 else {
+            return nil
+        }
+        return AbsolutePatternURL(prefix: .scheme(scheme), path: path)
+    }
+}
