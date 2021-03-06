@@ -44,14 +44,14 @@ final class PatternURLTests: XCTestCase {
         assertShouldFailed("invalid_schema://////aaaaaaa", line: #line)
     }
 
-    func testMatch() {
-        XCTAssertTrue(buildPatternURL(patternURLString: "https://example.com")!.match(URL(string: "https://example.com")!))
-        XCTAssertTrue(buildPatternURL(patternURLString: "https://example.com/")!.match(URL(string: "https://example.com/")!))
-        XCTAssertTrue(buildPatternURL(patternURLString: "https://example.com/")!.match(URL(string: "https://example.com")!))
-        XCTAssertTrue(buildPatternURL(patternURLString: "https://example.com/users/:id")!.match(URL(string: "https://example.com")!))
-        XCTAssertTrue(buildPatternURL(patternURLString: "https://example.com/users/:id")!.match(URL(string: "https://example.com/")!))
-        XCTAssertTrue(buildPatternURL(patternURLString: "https://example.com/users/:id")!.match(URL(string: "https://example.com/users")!))
-        XCTAssertTrue(buildPatternURL(patternURLString: "https://example.com/users/:id")!.match(URL(string: "https://example.com/users/")!))
-        XCTAssertFalse(buildPatternURL(patternURLString: "https://example.com/users/:id")!.match(URL(string: "https://example.com/users/10")!))
+    func testHasPrefix() {
+        XCTAssertTrue(buildPatternURL(patternURLString: "https://example.com")!.hasPrefix(URL(string: "https://example.com")!))
+        XCTAssertTrue(buildPatternURL(patternURLString: "https://example.com/")!.hasPrefix(URL(string: "https://example.com/")!))
+        XCTAssertTrue(buildPatternURL(patternURLString: "https://example.com/")!.hasPrefix(URL(string: "https://example.com")!))
+        XCTAssertTrue(buildPatternURL(patternURLString: "https://example.com/users/:id")!.hasPrefix(URL(string: "https://example.com")!))
+        XCTAssertTrue(buildPatternURL(patternURLString: "https://example.com/users/:id")!.hasPrefix(URL(string: "https://example.com/")!))
+        XCTAssertTrue(buildPatternURL(patternURLString: "https://example.com/users/:id")!.hasPrefix(URL(string: "https://example.com/users")!))
+        XCTAssertTrue(buildPatternURL(patternURLString: "https://example.com/users/:id")!.hasPrefix(URL(string: "https://example.com/users/")!))
+        XCTAssertTrue(buildPatternURL(patternURLString: "https://example.com/users/:id")!.hasPrefix(URL(string: "https://example.com/users/10")!))
     }
 }

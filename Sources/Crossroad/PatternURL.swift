@@ -3,7 +3,7 @@ import Foundation
 // A ':' in the host name is not a valid URL (as : is for the port) so we cannot use Foundation's URL for the pattern and have to parse it ourselves.
 // Note that it's very simple and do not allow complicated patterns with for example queries.
 internal protocol PatternURL {
-    func match(_: URL) -> Bool
+    func hasPrefix(_: URL) -> Bool
     var pathComponent: [String] { get }
 }
 
@@ -19,7 +19,7 @@ struct RelativePatternURL: PatternURL {
         self.init(pathComponent: components)
     }
     
-    func match(_ url: URL) -> Bool {
+    func hasPrefix(_ url: URL) -> Bool {
         return true
     }
 }
@@ -40,8 +40,13 @@ struct AbsolutePatternURL: PatternURL {
         self.init(prefix: prefix, pathComponent: components)
     }
     
-    func match(_ url: URL) -> Bool {
-        return true
+    func hasPrefix(_ url: URL) -> Bool {
+        switch prefix {
+        case .scheme(let patternScheme):
+            return url.scheme == patternScheme
+        case .url(let patternURL):
+            return url.absoluteString.hasPrefix(patternURL.absoluteString)
+        }
     }
 }
 

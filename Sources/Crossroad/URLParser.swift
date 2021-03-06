@@ -13,7 +13,7 @@ public struct URLParser<UserInfo> {
     }
 
     func parse(_ url: URL, in patternURL: PatternURL, userInfo: UserInfo) -> Context<UserInfo>? {
-        guard patternURL.match(url) else {
+        guard patternURL.hasPrefix(url) else {
             return nil
         }
     
