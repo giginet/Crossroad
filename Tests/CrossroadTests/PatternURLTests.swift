@@ -33,6 +33,7 @@ final class PatternURLTests: XCTestCase {
     
     func testBuildAbsolutePatternURL() throws {
         let subjects: [(String, String?, String, [String], UInt)] = [
+            ("foobar://foo/bar", "foobar", "foo", ["/", "bar"], #line),
             ("pokedex://pokemons", "pokedex", "pokemons", [], #line),
             ("pokedex://pokemons/:pokemon_id", "pokedex", "pokemons", ["/", ":pokemon_id"], #line),
         ]

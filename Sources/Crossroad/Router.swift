@@ -64,8 +64,15 @@ public final class Router<UserInfo> {
         func splitHostAndComponents(_ string: String) -> (String, [String]) {
             let bits = string.components(separatedBy: "/")
             let host = bits.first!
-            let components = Array(bits.dropFirst())
-            return (host, components)
+            
+            let components = bits.dropFirst()
+            let pathComponents: [String]
+            if components.isEmpty {
+                pathComponents = []
+            } else {
+                pathComponents = Array(["/"]) + components
+            }
+            return (host, pathComponents)
         }
         
         switch bits.count {
