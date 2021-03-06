@@ -13,15 +13,22 @@ public struct URLParser<UserInfo> {
     }
 
     func parse(_ url: URL, in patternURL: PatternURL, userInfo: UserInfo) -> Context<UserInfo>? {
+        guard let host = url.host else {
+            return nil
+        }
         guard patternURL.hasPrefix(url) else {
             return nil
         }
     
         var arguments: Arguments = [:]
-        let urlComponents: [String] = url.componentsWithHost
-        let patternURLComponents: [String] = patternURL.pathComponent
-        
-        for (patternComponent, component) in zip(patternURLComponents, urlComponents) {
+        if patternURL.host.hasPrefix(keywordPrefix) {
+            let keyword = String(patternURL.host[keywordPrefix.endIndex...])
+            arguments[keyword] = url.host
+        } else if host.lowercased() != patternURL.host.lowercased() {
+            return nil
+        }
+
+        for (patternComponent, component) in zip(patternURL.pathComponents, url.pathComponents) {
             if patternComponent.hasPrefix(keywordPrefix) {
                 let keyword = String(patternComponent[keywordPrefix.endIndex...])
                 arguments[keyword] = component

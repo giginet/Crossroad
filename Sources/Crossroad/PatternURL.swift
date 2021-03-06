@@ -4,19 +4,17 @@ import Foundation
 // Note that it's very simple and do not allow complicated patterns with for example queries.
 internal protocol PatternURL {
     func hasPrefix(_: URL) -> Bool
-    var pathComponent: [String] { get }
+    var host: String { get }
+    var pathComponents: [String] { get }
 }
 
 struct RelativePatternURL: PatternURL {
-    let pathComponent: [String]
+    let host: String
+    let pathComponents: [String]
     
-    init(pathComponent: [String]) {
-        self.pathComponent = pathComponent
-    }
-    
-    init(path: String) {
-        let components = path.components(separatedBy: "/")
-        self.init(pathComponent: components)
+    init(host: String, pathComponents: [String]) {
+        self.host = host
+        self.pathComponents = pathComponents
     }
     
     func hasPrefix(_ url: URL) -> Bool {
@@ -27,37 +25,49 @@ struct RelativePatternURL: PatternURL {
 struct AbsolutePatternURL: PatternURL {
     static let keywordPrefix = ":"
     
-    let pathComponent: [String]
     let prefix: Prefix
+    let host: String
+    let pathComponents: [String]
     
-    init(prefix: Prefix, pathComponent: [String]) {
-        self.prefix = prefix
-        self.pathComponent = pathComponent
+    init(scheme: String, host: String, pathComponents: [String]) {
+        self.prefix = .scheme(scheme)
+        self.host = host
+        self.pathComponents = pathComponents
     }
     
-    init(prefix: Prefix, path: String) {
-        let components = path.components(separatedBy: "/")
-        self.init(prefix: prefix, pathComponent: components)
+    init?(url: URL, pathComponents: [String]) {
+        self.prefix = .url(url)
+        guard let host = url.host else {
+            return nil
+        }
+        self.host = host
+        self.pathComponents = pathComponents
     }
     
     func hasPrefix(_ url: URL) -> Bool {
         switch prefix {
         case .scheme(let patternScheme):
-            return url.scheme == patternScheme
+            return url.scheme?.lowercased() == patternScheme.lowercased()
         case .url(let patternURL):
-            return url.absoluteString.hasPrefix(patternURL.absoluteString)
+            return url.absoluteString.lowercased().hasPrefix(patternURL.absoluteString.lowercased())
         }
     }
 }
 
 func buildPatternURL(patternURLString: String) -> PatternURL? {
     if patternURLString.hasPrefix("/") {
-        return RelativePatternURL(path: patternURLString)
+        return RelativePatternURL(host: "", pathComponents: [])
     } else {
         let bits = patternURLString.components(separatedBy: "://")
         guard let scheme = bits.first, let path = bits.last, bits.count == 2 else {
             return nil
         }
-        return AbsolutePatternURL(prefix: .scheme(scheme), path: path)
+        let pathComponents = path.components(separatedBy: "/")
+        
+        guard let host = pathComponents.first else {
+            return nil
+        }
+        
+        return AbsolutePatternURL(scheme: scheme, host: host, pathComponents: Array(pathComponents[1...]))
     }
 }

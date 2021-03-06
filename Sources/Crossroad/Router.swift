@@ -54,54 +54,64 @@ public final class Router<UserInfo> {
         }
         return pattern
     }
+    
+    private func splitPatternURL(_ patternURLString: String) -> (String?, String, [String])? {
+        let bits = patternURLString.components(separatedBy: "://")
+        let scheme: String?
+        let host: String
+        let components: [String]
+        
+        func splitHostAndComponents(_ string: String) -> (String, [String]) {
+            let bits = string.components(separatedBy: "/")
+            let host = bits.first!
+            let components = Array(bits.dropFirst())
+            return (host, components)
+        }
+        
+        switch bits.count {
+        case 1:
+            scheme = nil
+            (host, components) = splitHostAndComponents(bits.first!)
+        case 2:
+            scheme = bits.first
+            (host, components) = splitHostAndComponents(bits.last!)
+        default:
+            return nil
+        }
+        
+        return (scheme, host, components)
+    }
 
     public func register(_ routes: [(String, Route<UserInfo>.Handler)]) {
         for (patternString, handler) in routes {
-            if patternString.hasPrefix("/") {
-                let patternURL = RelativePatternURL(path: patternString)
+            
+            guard let (patternScheme, patternHost, patternComponents) = splitPatternURL(patternString) else {
+                continue
+            }
+            
+            switch patternScheme {
+            case .none:
+                let patternURL = RelativePatternURL(host: patternHost, pathComponents: patternComponents)
                 let route = Route(pattern: patternURL, handler: handler)
                 register(route)
-            } else if patternString.contains("://") {
-                let bits = patternString.components(separatedBy: "://")
-                guard let patternScheme = bits.first else {
-                    fatalError("Unknown situation")
-                }
-                guard bits.count == 2 else {
-                    fatalError("Invalid Pattern \(patternString)")
-                }
+            case .some(let patternScheme):
                 for prefix in prefixes {
                     switch prefix {
                     case .scheme(let prefixScheme):
-                        guard prefixScheme == patternScheme else {
+                        guard prefixScheme.lowercased() == patternScheme.lowercased() else {
                             continue
                         }
-                        guard let remainingPatternPath = bits.last else {
-                            fatalError("Unkwown situation")
-                        }
-                        let patternURL = AbsolutePatternURL(prefix: .scheme(prefixScheme), path: remainingPatternPath)
+                        let patternURL = AbsolutePatternURL(scheme: prefixScheme, host: patternHost, pathComponents: patternComponents)
                         let route = Route(pattern: patternURL, handler: handler)
                         register(route)
                     case .url(let prefixURL):
-                        guard prefixURL.scheme == patternScheme else {
+                        guard let patternURL = AbsolutePatternURL(url: prefixURL, pathComponents: patternComponents) else {
                             continue
                         }
-                        guard let prefixRange = patternString.range(of: prefixURL.absoluteString) else {
-                            continue
-                        }
-                        
-                        let firstIndexOfRemaining = patternString.index(after: prefixRange.upperBound)
-                        let ramainingPathRange = firstIndexOfRemaining...
-                        let remainingPath = String(patternString[ramainingPathRange])
-                        
-                        let patternURL = AbsolutePatternURL(prefix: .url(prefixURL), path: remainingPath)
                         let route = Route(pattern: patternURL, handler: handler)
                         register(route)
                     }
                 }
-            } else {
-                let patternURL = RelativePatternURL(path: patternString)
-                let route = Route(pattern: patternURL, handler: handler)
-                register(route)
             }
         }
     }
