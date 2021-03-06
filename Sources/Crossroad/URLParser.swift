@@ -13,15 +13,12 @@ public struct URLParser<UserInfo> {
     }
 
     func parse(_ url: URL, in patternURL: PatternURL, userInfo: UserInfo) -> Context<UserInfo>? {
-        guard let host = url.host else {
-            return nil
-        }
         guard patternURL.match(url) else {
             return nil
         }
     
         var arguments: Arguments = [:]
-        let urlComponents: [String] = [host] + url.pathComponents
+        let urlComponents: [String] = url.componentsWithHost
         let patternURLComponents: [String] = patternURL.pathComponent
         
         for (patternComponent, component) in zip(patternURLComponents, urlComponents) {

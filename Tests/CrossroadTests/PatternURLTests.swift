@@ -6,7 +6,7 @@ final class PatternURLTests: XCTestCase {
         let checkSameComponents: ((_ string: String) -> Void) = { string in
             let patternURL = buildPatternURL(patternURLString: string)!
             let url = URL(string: string)!
-            XCTAssertEqual(patternURL.pathComponent, [url.host!] + url.pathComponents)
+            XCTAssertEqual(patternURL.pathComponent, url.componentsWithHost)
         }
 
         checkSameComponents("foobar://static")
@@ -15,26 +15,24 @@ final class PatternURLTests: XCTestCase {
         checkSameComponents("foobar://foo/:keyword")
     }
 
-//    func testCapitalCase() {
-//        let subject = buildPatternURL(patternURLString: "FOOBAR://FOO/BAR")!
-//        XCTAssertEqual(subject.patternString,
-//                       "FOOBAR://FOO/BAR")
-//        XCTAssertEqual(subject.scheme, "FOOBAR")
-//        XCTAssertEqual(subject.host, "FOO")
-//        XCTAssertEqual(subject.pathComponents, ["/", "BAR"])
-//    }
-//
-//    func testParseWithKeyword() {
-//        let url0 = buildPatternURL(patternURLString: "foobar://search/:keyword")
-//        XCTAssertEqual(url0?.scheme, "foobar")
-//        XCTAssertEqual(url0?.host, "search")
-//        XCTAssertEqual(url0?.pathComponents, ["/", ":keyword"])
-//
-//        let url1 = buildPatternURL(patternURLString: "foobar://:keyword")
-//        XCTAssertEqual(url1?.scheme, "foobar")
-//        XCTAssertEqual(url1?.host, ":keyword")
-//        XCTAssertEqual(url1?.pathComponents, [])
-//    }
+    func testCapitalCase() throws {
+        let subject = buildPatternURL(patternURLString: "FOOBAR://FOO/BAR")!
+        let patternURL: AbsolutePatternURL = try XCTUnwrap(subject as? AbsolutePatternURL)
+        XCTAssertEqual(patternURL.prefix, .scheme("FOOBAR"))
+        XCTAssertEqual(patternURL.pathComponent, ["FOO", "BAR"])
+    }
+
+    func testParseWithKeyword() throws {
+        let url0 = buildPatternURL(patternURLString: "foobar://search/:keyword")
+        let patternURL0: AbsolutePatternURL = try XCTUnwrap(url0 as? AbsolutePatternURL)
+        XCTAssertEqual(patternURL0.prefix, .scheme("foobar"))
+        XCTAssertEqual(patternURL0.pathComponent, ["search", ":keyword"])
+
+        let url1 = buildPatternURL(patternURLString: "foobar://:keyword")
+        let patternURL1: AbsolutePatternURL = try XCTUnwrap(url1 as? AbsolutePatternURL)
+        XCTAssertEqual(patternURL1.prefix, .scheme("foobar"))
+        XCTAssertEqual(patternURL1.pathComponent, [":keyword"])
+    }
 
     func testParseInvalidPattern() {
         func assertShouldFailed(_ string: String, line: Int) {

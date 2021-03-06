@@ -10,4 +10,14 @@ extension URL {
             return absoluteString
         }
     }
+    
+    var componentsWithHost: [String] {
+        let hosts = [host].compactMap { $0 }
+        if pathComponents.isEmpty {
+            return hosts
+        } else {
+            let components = pathComponents[1...]
+            return hosts + components
+        }
+    }
 }

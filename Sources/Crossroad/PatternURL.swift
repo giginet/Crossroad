@@ -16,7 +16,7 @@ struct RelativePatternURL: PatternURL {
     
     init(path: String) {
         let components = path.components(separatedBy: "/")
-        self.init(pathComponent: Array(components[1...]))
+        self.init(pathComponent: components)
     }
     
     func match(_ url: URL) -> Bool {
@@ -28,7 +28,7 @@ struct AbsolutePatternURL: PatternURL {
     static let keywordPrefix = ":"
     
     let pathComponent: [String]
-    private let prefix: Prefix
+    let prefix: Prefix
     
     init(prefix: Prefix, pathComponent: [String]) {
         self.prefix = prefix
@@ -37,7 +37,7 @@ struct AbsolutePatternURL: PatternURL {
     
     init(prefix: Prefix, path: String) {
         let components = path.components(separatedBy: "/")
-        self.init(prefix: prefix, pathComponent: Array(components[1...]))
+        self.init(prefix: prefix, pathComponent: components)
     }
     
     func match(_ url: URL) -> Bool {
