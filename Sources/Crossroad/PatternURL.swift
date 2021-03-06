@@ -2,36 +2,45 @@ import Foundation
 
 // A ':' in the host name is not a valid URL (as : is for the port) so we cannot use Foundation's URL for the pattern and have to parse it ourselves.
 // Note that it's very simple and do not allow complicated patterns with for example queries.
-internal struct PatternURL {
+internal protocol PatternURL {
+    func match(_: URL) -> Bool
+    var pathComponent: [String] { get }
+}
+
+struct RelativePatternURL: PatternURL {
+    let pathComponent: [String]
+    
+    init(pathComponent: [String]) {
+        self.pathComponent = pathComponent
+    }
+    
+    init(path: String) {
+        let components = path.components(separatedBy: "/")
+        self.init(pathComponent: Array(components[1...]))
+    }
+    
+    func match(_ url: URL) -> Bool {
+        return true
+    }
+}
+
+struct AbsolutePatternURL: PatternURL {
     static let keywordPrefix = ":"
     
-    enum Prefix: Hashable {
-        case scheme(String)
-        case url(URL)
+    let pathComponent: [String]
+    private let prefix: Prefix
+    
+    init(prefix: Prefix, pathComponent: [String]) {
+        self.prefix = prefix
+        self.pathComponent = pathComponent
     }
     
-    enum MatchingPattern {
-        case specified(Prefix)
-        case any
+    init(prefix: Prefix, path: String) {
+        let components = path.components(separatedBy: "/")
+        self.init(prefix: prefix, pathComponent: Array(components[1...]))
     }
-
-    let matchingPattern: MatchingPattern
-    let pathComponents: [String]
-
-    private static let schemeSeparator = "://"
-    private static let pathSeparator = "/"
-
-    init(matchingPattern: MatchingPattern, path: String) {
-        self.matchingPattern = matchingPattern
-        pathComponents = path.components(separatedBy: Self.pathSeparator)
-    }
-
-    func hasPrefix(url: URL) -> Bool {
-        switch matchingPattern {
-        case .any:
-            return true
-        case .specified(let prefix):
-            return true
-        }
+    
+    func match(_ url: URL) -> Bool {
+        return true
     }
 }

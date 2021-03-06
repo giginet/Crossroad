@@ -1,34 +1,36 @@
 import Foundation
 
+private let keywordPrefix = ":"
+
 public struct URLParser<UserInfo> {
     public init() { }
 
     public func parse(_ url: URL, in patternURLString: String, userInfo: UserInfo) -> Context<UserInfo>? {
-        guard let patternURL = PatternURL(string: patternURLString) else {
-            return nil
+        let patternURL: PatternURL
+        if patternURLString.hasPrefix("/") {
+            patternURL = RelativePatternURL(path: patternURLString)
+        } else {
+            // TODO
+            patternURL = AbsolutePatternURL(prefix: .scheme(""), path: "")
         }
         return parse(url, in: patternURL, userInfo: userInfo)
     }
 
     func parse(_ url: URL, in patternURL: PatternURL, userInfo: UserInfo) -> Context<UserInfo>? {
-        guard let scheme = url.scheme, let host = url.host else {
+        guard let host = url.host else {
             return nil
         }
-        if scheme.lowercased() != patternURL.scheme.lowercased() || patternURL.pathComponents.count != url.pathComponents.count {
+        guard patternURL.match(url) else {
             return nil
         }
-
+    
         var arguments: Arguments = [:]
-        if patternURL.host.hasPrefix(PatternURL.keywordPrefix) {
-            let keyword = String(patternURL.host[PatternURL.keywordPrefix.endIndex...])
-            arguments[keyword] = url.host
-        } else if host.lowercased() != patternURL.host.lowercased() {
-            return nil
-        }
-
-        for (patternComponent, component) in zip(patternURL.pathComponents, url.pathComponents) {
-            if patternComponent.hasPrefix(PatternURL.keywordPrefix) {
-                let keyword = String(patternComponent[PatternURL.keywordPrefix.endIndex...])
+        let urlComponents: [String] = [host] + url.pathComponents
+        let patternURLComponents: [String] = patternURL.pathComponent
+        
+        for (patternComponent, component) in zip(patternURLComponents, urlComponents) {
+            if patternComponent.hasPrefix(keywordPrefix) {
+                let keyword = String(patternComponent[keywordPrefix.endIndex...])
                 arguments[keyword] = component
             } else if patternComponent == component {
                 continue

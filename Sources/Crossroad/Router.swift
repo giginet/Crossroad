@@ -2,8 +2,13 @@ import Foundation
 
 public typealias SimpleRouter = Router<Void>
 
+enum Prefix: Hashable {
+    case scheme(String)
+    case url(URL)
+}
+
 public final class Router<UserInfo> {
-    private let prefixes: Set<PatternURL.Prefix>
+    private let prefixes: Set<Prefix>
     private var routes: [Route<UserInfo>] = []
 
     public init(scheme: String) {
@@ -15,12 +20,7 @@ public final class Router<UserInfo> {
     }
 
     private func shouldAccept(_ patternURL: PatternURL) -> Bool {
-        switch patternURL.matchingPattern {
-        case .any:
-            return true
-        case .specified:
-            return true
-        }
+        return true
 //        prefixes.contains { prefix in
 //            switch prefix {
 //            case .scheme(let scheme):
@@ -58,7 +58,7 @@ public final class Router<UserInfo> {
     public func register(_ routes: [(String, Route<UserInfo>.Handler)]) {
         for (patternString, handler) in routes {
             if patternString.hasPrefix("/") {
-                let patternURL = PatternURL(matchingPattern: .any, path: patternString)
+                let patternURL = RelativePatternURL(path: patternString)
                 let route = Route(pattern: patternURL, handler: handler)
                 register(route)
             } else if patternString.contains("://") {
@@ -66,7 +66,7 @@ public final class Router<UserInfo> {
                 guard let patternScheme = bits.first else {
                     fatalError("Unknown situation")
                 }
-                guard let trailingPath = bits.last, bits.count == 2 else {
+                guard bits.count == 2 else {
                     fatalError("Invalid Pattern \(patternString)")
                 }
                 for prefix in prefixes {
@@ -75,7 +75,10 @@ public final class Router<UserInfo> {
                         guard prefixScheme == patternScheme else {
                             continue
                         }
-                        let patternURL = PatternURL(matchingPattern: .specified(.scheme(prefixScheme)), path: trailingPath)
+                        guard let remainingPatternPath = bits.last else {
+                            fatalError("Unkwown situation")
+                        }
+                        let patternURL = AbsolutePatternURL(prefix: .scheme(prefixScheme), path: remainingPatternPath)
                         let route = Route(pattern: patternURL, handler: handler)
                         register(route)
                     case .url(let prefixURL):
@@ -90,7 +93,7 @@ public final class Router<UserInfo> {
                         let ramainingPathRange = firstIndexOfRemaining...
                         let remainingPath = String(patternString[ramainingPathRange])
                         
-                        let patternURL = PatternURL(matchingPattern: .specified(.url(prefixURL)), path: remainingPath)
+                        let patternURL = AbsolutePatternURL(prefix: .url(prefixURL), path: remainingPath)
                         let route = Route(pattern: patternURL, handler: handler)
                         register(route)
                     }
