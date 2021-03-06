@@ -19,6 +19,9 @@ public struct URLParser<UserInfo> {
         guard patternURL.hasPrefix(url) else {
             return nil
         }
+        guard patternURL.pathComponents.count == url.pathComponents.count else {
+            return nil
+        }
     
         var arguments: Arguments = [:]
         if patternURL.host.hasPrefix(keywordPrefix) {
@@ -27,7 +30,7 @@ public struct URLParser<UserInfo> {
         } else if host.lowercased() != patternURL.host.lowercased() {
             return nil
         }
-
+        
         for (patternComponent, component) in zip(patternURL.pathComponents, url.pathComponents) {
             if patternComponent.hasPrefix(keywordPrefix) {
                 let keyword = String(patternComponent[keywordPrefix.endIndex...])

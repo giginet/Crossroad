@@ -54,20 +54,37 @@ struct AbsolutePatternURL: PatternURL {
     }
 }
 
+private let pathSeparator = "/"
+
 func buildPatternURL(patternURLString: String) -> PatternURL? {
-    if patternURLString.hasPrefix("/") {
-        return RelativePatternURL(host: "", pathComponents: [])
+    if patternURLString.hasPrefix(pathSeparator) {
+        let hostAndComponents = patternURLString.components(separatedBy: pathSeparator).dropFirst()
+        
+        guard let host = hostAndComponents.first else {
+            return nil
+        }
+        let remainings = hostAndComponents.dropFirst()
+        let pathComponents: [String] = [pathSeparator] + remainings
+        
+        return RelativePatternURL(host: host, pathComponents: pathComponents)
     } else {
         let bits = patternURLString.components(separatedBy: "://")
         guard let scheme = bits.first, let path = bits.last, bits.count == 2 else {
             return nil
         }
-        let pathComponents = path.components(separatedBy: "/")
+        let hostAndComponents = path.components(separatedBy: pathSeparator)
         
-        guard let host = pathComponents.first else {
+        guard let host = hostAndComponents.first else {
             return nil
         }
+        let remainings = hostAndComponents.dropFirst()
+        let pathComponents: [String]
+        if remainings.isEmpty {
+            pathComponents = Array(remainings)
+        } else {
+            pathComponents = [pathSeparator] + remainings
+        }
         
-        return AbsolutePatternURL(scheme: scheme, host: host, pathComponents: Array(pathComponents[1...]))
+        return AbsolutePatternURL(scheme: scheme, host: host, pathComponents: pathComponents)
     }
 }
