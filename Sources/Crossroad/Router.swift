@@ -73,6 +73,12 @@ public final class Router<UserInfo> {
                 continue
             }
             let route = Route(pattern: patternURL, handler: handler)
+            if self.routes.contains(where: { element in
+                element.patternURL == route.patternURL
+            }) {
+                assertionFailure("\(pattern) is already registered")
+                continue
+            }
             register(route)
         }
     }

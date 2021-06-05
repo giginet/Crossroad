@@ -44,3 +44,12 @@ internal struct PatternURL {
         return patternString.lowercased().hasPrefix(url.absoluteString.lowercased())
     }
 }
+
+extension PatternURL: Equatable {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.host == rhs.host &&
+            lhs.scheme == rhs.scheme &&
+            lhs.pathComponents == rhs.pathComponents &&
+            lhs.patternString == rhs.patternString
+    }
+}
