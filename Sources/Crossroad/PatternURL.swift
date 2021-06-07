@@ -2,7 +2,7 @@ import Foundation
 
 // A ':' in the host name is not a valid URL (as : is for the port) so we cannot use Foundation's URL for the pattern and have to parse it ourselves.
 // Note that it's very simple and do not allow complicated patterns with for example queries.
-internal struct PatternURL {
+internal struct PatternURL: Hashable {
     static let keywordPrefix = ":"
 
     let scheme: String
@@ -45,11 +45,3 @@ internal struct PatternURL {
     }
 }
 
-extension PatternURL: Equatable {
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        return lhs.host == rhs.host &&
-            lhs.scheme == rhs.scheme &&
-            lhs.pathComponents == rhs.pathComponents &&
-            lhs.patternString == rhs.patternString
-    }
-}
