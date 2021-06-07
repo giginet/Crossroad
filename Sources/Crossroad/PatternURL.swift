@@ -44,4 +44,3 @@ internal struct PatternURL: Hashable {
         return patternString.lowercased().hasPrefix(url.absoluteString.lowercased())
     }
 }
-
