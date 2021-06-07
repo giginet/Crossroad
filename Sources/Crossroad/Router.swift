@@ -28,6 +28,11 @@ public final class Router<UserInfo> {
     }
 
     internal func register(_ route: Route<UserInfo>) {
+        if routes.contains(where: { element in
+            element.patternURL == route.patternURL
+        }) {
+            assertionFailure("\(route.patternURL) is already registered")
+        }
         if isValidURLPattern(route.patternURL) {
             routes.append(route)
         } else {
@@ -73,12 +78,6 @@ public final class Router<UserInfo> {
                 continue
             }
             let route = Route(pattern: patternURL, handler: handler)
-            if self.routes.contains(where: { element in
-                element.patternURL == route.patternURL
-            }) {
-                assertionFailure("\(pattern) is already registered")
-                continue
-            }
             register(route)
         }
     }
