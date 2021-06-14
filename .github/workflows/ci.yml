@@ -27,7 +27,7 @@ jobs:
       run: |
         gem install cocoapods
         pod repo update
-        brew install swiftlint
+        brew link --overwrite swiftlint || brew install swiftlint
     - name: SwiftLint
       run: swiftlint --strict
     - name: CocoaPods
