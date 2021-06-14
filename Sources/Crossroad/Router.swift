@@ -28,6 +28,11 @@ public final class Router<UserInfo> {
     }
 
     internal func register(_ route: Route<UserInfo>) {
+        if routes.contains(where: { element in
+            element.patternURL == route.patternURL
+        }) {
+            assertionFailure("\(route.patternURL.patternString) is already registered")
+        }
         if isValidURLPattern(route.patternURL) {
             routes.append(route)
         } else {
