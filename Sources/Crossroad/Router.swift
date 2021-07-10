@@ -81,32 +81,28 @@ public final class Router<UserInfo> {
 
     public func register(_ routes: [(String, Route<UserInfo>.Handler)]) {
         for (pattern, handler) in routes {
-            var routes: [Route<UserInfo>] = []
             switch prefix {
             case .scheme(let scheme):
                 guard let patternSchemeURL = PatternURL(string: generatePatternURLString(from: pattern, scheme: scheme)) else {
                     assertionFailure("\(pattern) is invalid")
                     continue
                 }
-                routes.append(Route(pattern: patternSchemeURL, handler: handler))
+                register(Route(pattern: patternSchemeURL, handler: handler))
             case .url(let url):
                 guard let patternURL = PatternURL(string: generatePatternURLString(from: pattern, url: url)) else {
                     assertionFailure("\(pattern) is invalid")
                     continue
                 }
-                routes.append(Route(pattern: patternURL, handler: handler))
+                register(Route(pattern: patternURL, handler: handler))
             case .multiple(scheme: let scheme, url: let url):
                 guard let patternSchemeURL = PatternURL(string: generatePatternURLString(from: pattern, scheme: scheme)),
                       let patternURL = PatternURL(string: generatePatternURLString(from: pattern, url: url)) else {
                     assertionFailure("\(pattern) is invalid")
                     continue
                 }
-                routes.append(contentsOf: [
-                    Route(pattern: patternURL, handler: handler),
-                    Route(pattern: patternSchemeURL, handler: handler)
-                ])
+                register(Route(pattern: patternURL, handler: handler))
+                register(Route(pattern: patternSchemeURL, handler: handler))
             }
-            routes.forEach(register)
         }
     }
 }
