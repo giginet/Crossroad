@@ -181,6 +181,7 @@ Of course, you can also use [Firebase Dynamic Link](https://firebase.google.com/
 ```swift
 let router = DefaultRouter(url: URL(string: "https://my-awesome-pokedex.com")!)
 ```
+
 ## Universal Links and Custom URL Scheme.
 
 You can also make routers handle with both Universal Links and Custom URL Scheme.
