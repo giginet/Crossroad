@@ -6,6 +6,7 @@ public final class Router<UserInfo> {
     private enum Prefix {
         case scheme(String)
         case url(URL)
+        case multiple(scheme: String, url: URL)
     }
     private let prefix: Prefix
     private var routes: [Route<UserInfo>] = []
@@ -17,6 +18,10 @@ public final class Router<UserInfo> {
     public init(url: URL) {
         prefix = .url(url)
     }
+    
+    public init(scheme: String, url: URL) {
+        prefix = .multiple(scheme: scheme, url: url)
+    }
 
     private func isValidURLPattern(_ patternURL: PatternURL) -> Bool {
         switch prefix {
@@ -24,6 +29,8 @@ public final class Router<UserInfo> {
             return scheme.lowercased() == patternURL.scheme.lowercased()
         case .url(let url):
             return patternURL.hasPrefix(url: url)
+        case .multiple(scheme: let scheme, url: let url):
+            return patternURL.hasPrefix(url: url) || scheme.lowercased() == patternURL.scheme.lowercased()
         }
     }
 
@@ -55,30 +62,47 @@ public final class Router<UserInfo> {
         }
         return pattern
     }
+    
+    private func createCustomSchemeURLString(from pattern: String, scheme: String) -> String {
+        if pattern.lowercased().hasPrefix("\(scheme)://") {
+            return canonicalizePattern(pattern)
+        } else {
+            return "\(scheme)://\(canonicalizePattern(pattern))"
+        }
+    }
+    
+    private func createUniversalLinkURLString(from pattern: String, url: URL) -> String {
+        if pattern.lowercased().hasPrefix(url.absoluteString) {
+            return canonicalizePattern(pattern)
+        } else {
+            return url.appendingPathComponent(canonicalizePattern(pattern)).absoluteString
+        }
+    }
 
     public func register(_ routes: [(String, Route<UserInfo>.Handler)]) {
         for (pattern, handler) in routes {
-            let patternURLString: String
             switch prefix {
             case .scheme(let scheme):
-                if pattern.lowercased().hasPrefix("\(scheme)://") {
-                    patternURLString = canonicalizePattern(pattern)
-                } else {
-                    patternURLString = "\(scheme)://\(canonicalizePattern(pattern))"
+                guard let customSchemePatternURL = PatternURL(string: createCustomSchemeURLString(from: pattern, scheme: scheme)) else {
+                    assertionFailure("\(pattern) is invalid")
+                    continue
                 }
+                register(Route(pattern: customSchemePatternURL, handler: handler))
             case .url(let url):
-                if pattern.lowercased().hasPrefix(url.absoluteString) {
-                    patternURLString = canonicalizePattern(pattern)
-                } else {
-                    patternURLString = url.appendingPathComponent(canonicalizePattern(pattern)).absoluteString
+                guard let universalLinkPatternURL = PatternURL(string: createUniversalLinkURLString(from: pattern, url: url)) else {
+                    assertionFailure("\(pattern) is invalid")
+                    continue
                 }
+                register(Route(pattern: universalLinkPatternURL, handler: handler))
+            case .multiple(scheme: let scheme, url: let url):
+                guard let customSchemePatternURL = PatternURL(string: createCustomSchemeURLString(from: pattern, scheme: scheme)),
+                      let universalLinkPatternURL = PatternURL(string: createUniversalLinkURLString(from: pattern, url: url)) else {
+                    assertionFailure("\(pattern) is invalid")
+                    continue
+                }
+                register(Route(pattern: customSchemePatternURL, handler: handler))
+                register(Route(pattern: universalLinkPatternURL, handler: handler))
             }
-            guard let patternURL = PatternURL(string: patternURLString) else {
-                assertionFailure("\(pattern) is invalid")
-                continue
-            }
-            let route = Route(pattern: patternURL, handler: handler)
-            register(route)
         }
     }
 }
