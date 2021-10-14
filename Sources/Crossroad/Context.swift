@@ -3,7 +3,12 @@ import Foundation
 public typealias Arguments = [String: String]
 public typealias Parameters = [URLQueryItem]
 
-public struct Context<UserInfo> {
+public protocol ContextProtocol {
+    func argument<T: Parsable>(for key: String) throws -> T
+    func parameter<T: Parsable>(for key: String) -> T?
+}
+
+public struct Context<UserInfo>: ContextProtocol {
     public enum Error: Swift.Error {
         case parsingArgumentFailed
     }
@@ -40,7 +45,7 @@ public struct Context<UserInfo> {
     public func parameter<T: Parsable>(for key: String) -> T? {
         if let queryItem = queryItem(from: key) {
             if let queryValue = queryItem.value,
-                let value = T(from: queryValue) {
+               let value = T(from: queryValue) {
                 return value
             }
         }
@@ -50,7 +55,7 @@ public struct Context<UserInfo> {
     public func parameter<T: Parsable>(matchesIn regexp: NSRegularExpression) -> T? {
         if let queryItem = queryItem(matchesIn: regexp) {
             if let queryValue = queryItem.value,
-                let value = T(from: queryValue) {
+               let value = T(from: queryValue) {
                 return value
             }
         }
@@ -70,5 +75,14 @@ public struct Context<UserInfo> {
                                    options: [],
                                    range: NSRange(location: 0, length: item.name.utf16.count)).isEmpty
         }
+    }
+}
+
+extension Context where UserInfo == Void {
+    func attach<T>(_ userInfo: T) -> Context<T> {
+        Context<T>(url: url,
+                   arguments: arguments,
+                   parameters: parameters,
+                   userInfo: userInfo)
     }
 }

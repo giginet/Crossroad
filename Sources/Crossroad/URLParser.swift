@@ -1,16 +1,16 @@
 import Foundation
 
-public struct URLParser<UserInfo> {
+public struct URLParser {
     public init() { }
 
-    public func parse(_ url: URL, in patternURLString: String, userInfo: UserInfo) -> Context<UserInfo>? {
+    public func parse<UserInfo>(_ url: URL, in patternURLString: String, userInfo: UserInfo) -> Context<UserInfo>? {
         guard let patternURL = PatternURL(string: patternURLString) else {
             return nil
         }
         return parse(url, in: patternURL, userInfo: userInfo)
     }
 
-    func parse(_ url: URL, in patternURL: PatternURL, userInfo: UserInfo) -> Context<UserInfo>? {
+    func parse<UserInfo>(_ url: URL, in patternURL: PatternURL, userInfo: UserInfo) -> Context<UserInfo>? {
         guard let scheme = url.scheme, let host = url.host else {
             return nil
         }
@@ -46,8 +46,8 @@ public struct URLParser<UserInfo> {
     }
 }
 
-extension URLParser where UserInfo == Void {
-    public func parse(_ url: URL, in patternURLString: String) -> Context<UserInfo>? {
+extension URLParser {
+    public func parse(_ url: URL, in patternURLString: String) -> Context<Void>? {
         return parse(url, in: patternURLString, userInfo: ())
     }
 }

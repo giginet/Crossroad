@@ -5,7 +5,7 @@ public struct LegacyRoute<UserInfo> {
 
     internal let patternURL: PatternURL
     private let handler: Handler
-    private let parser: URLParser<UserInfo> = .init()
+    private let parser: URLParser = .init()
 
     internal init(pattern patternURL: PatternURL, handler: @escaping Handler) {
         self.patternURL = patternURL
