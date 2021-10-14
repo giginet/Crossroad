@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Route<UserInfo> {
+public struct LegacyRoute<UserInfo> {
     public typealias Handler = (Context<UserInfo>) -> Bool
 
     internal let patternURL: PatternURL
