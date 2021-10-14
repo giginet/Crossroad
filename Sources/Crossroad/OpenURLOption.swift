@@ -25,9 +25,9 @@ public struct OpenURLOption {
     }
 }
 
-public typealias DefaultRouter = LegacyRouter<OpenURLOption>
+public typealias DefaultRouter = Router<OpenURLOption>
 
-public extension LegacyRouter where UserInfo == OpenURLOption {
+public extension Router where UserInfo == OpenURLOption {
     @discardableResult
     func openIfPossible(_ url: URL, options: ApplicationOpenURLOptions) -> Bool {
         return openIfPossible(url, userInfo: OpenURLOption(options: options))
@@ -39,7 +39,7 @@ public extension LegacyRouter where UserInfo == OpenURLOption {
 }
 
 @available(iOS 13.0, *)
-public extension LegacyRouter where UserInfo == OpenURLOption {
+public extension Router where UserInfo == OpenURLOption {
     @discardableResult
     func openIfPossible(_ url: URL, options: UIScene.OpenURLOptions) -> Bool {
         return openIfPossible(url, userInfo: OpenURLOption(options: options))

@@ -1,6 +1,8 @@
 import Foundation
 
 public class Parser {
+    private static let keywordPrefix = ":"
+
     public func parse(_ url: URL, in pattern: Pattern) -> Context<Void>? {
         guard validate(url, expected: pattern) else { return nil }
 
@@ -37,8 +39,8 @@ public class Parser {
     private func parseArguments(componentsToCompare: [String], path: Path) -> Arguments {
         var arguments: Arguments = [:]
         for (patternComponent, component) in zip(componentsToCompare, path.components) {
-            if patternComponent.hasPrefix(PatternURL.keywordPrefix) {
-                let keyword = String(patternComponent[PatternURL.keywordPrefix.endIndex...])
+            if patternComponent.hasPrefix(Self.keywordPrefix) {
+                let keyword = String(patternComponent[Self.keywordPrefix.endIndex...])
                 arguments[keyword] = component
             } else if patternComponent == component {
                 continue
