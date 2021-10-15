@@ -21,7 +21,7 @@ public struct Path: Hashable {
         "/" + components.joined(separator: "/")
     }
 
-    fileprivate init(components: [String]) {
+    init(components: [String]) {
         self.components = components
     }
 
@@ -75,10 +75,10 @@ public struct Pattern: Hashable {
         }
 
         private func guessLinkSource(from patternString: String) throws -> LinkSource {
-            if patternString.hasSuffix("http://") || patternString.hasSuffix("https://") {
+            if patternString.hasPrefix("http://") || patternString.hasPrefix("https://") {
                 let bits = patternString.split(separator: "/").droppedSlashElement()
                 var components = URLComponents()
-                components.scheme = bits.first
+                components.scheme = bits.first?.replacingOccurrences(of: ":", with: "") // drop trailing :
                 components.host = bits[1]
                 guard let url = components.url else {
                     throw ParsingError.invalidURL
