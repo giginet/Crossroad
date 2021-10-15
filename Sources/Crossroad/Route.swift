@@ -34,12 +34,12 @@ class AnyHandler<UserInfo> {
 }
 
 struct Route<UserInfo> {
-    var acceptableSources: Set<Source>
+    var acceptableSources: Set<LinkSource>
     var path: Path
     var handler: AnyHandler<UserInfo>
 
     func expandAcceptablePattern() -> Set<Pattern> {
-        Set(acceptableSources.map { Pattern(source: $0, path: path) })
+        Set(acceptableSources.map { Pattern(linkSource: $0, path: path) })
     }
 
     func executeHandler(context: Context<UserInfo>) -> Bool {

@@ -1,6 +1,6 @@
 import Foundation
 
-public enum Source: Hashable {
+public enum LinkSource: Hashable {
     case urlScheme(String)
     case universalLink(URL)
 
@@ -23,11 +23,11 @@ public struct Path: Hashable {
 }
 
 public struct Pattern: Hashable {
-    public let source: Source
+    public let linkSource: LinkSource
     public let path: Path
     
-    public init(source: Source, path: Path) {
-        self.source = source
+    public init(linkSource: LinkSource, path: Path) {
+        self.linkSource = linkSource
         self.path = path
     }
 }

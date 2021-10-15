@@ -7,7 +7,7 @@ public class Parser {
         guard validate(url, expected: pattern) else { return nil }
 
         let arguments: Arguments
-        switch pattern.source {
+        switch pattern.linkSource {
         case .universalLink:
             let componentsToCompare = url.pathComponents.droppedSlashElement()
             arguments = parseArguments(componentsToCompare: componentsToCompare, path: pattern.path)
@@ -21,7 +21,7 @@ public class Parser {
     }
 
     private func validate(_ url: URL, expected pattern: Pattern) -> Bool {
-        switch pattern.source {
+        switch pattern.linkSource {
         case .urlScheme(let scheme):
             guard url.scheme == scheme else { return false }
             let expectedElementCount = pattern.path.components.count
