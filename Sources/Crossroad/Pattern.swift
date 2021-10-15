@@ -55,6 +55,12 @@ public struct Pattern: Hashable {
         self.path = path
     }
 
+    public init(patternString: String) throws {
+        let (linkSource, path) = try PatternParser().parse(patternString: patternString)
+        self.linkSource = linkSource
+        self.path = path
+    }
+
     public enum ParsingError: Error {
         case mustContainsScheme
         case invalidURL
@@ -62,10 +68,10 @@ public struct Pattern: Hashable {
     }
 
     struct PatternParser {
-        func parse(patternString: String) throws -> Pattern {
+        func parse(patternString: String) throws -> (LinkSource, Path) {
             let linkSource = try guessLinkSource(from: patternString)
             let path = try parsePath(patternString: patternString, linkSource: linkSource)
-            return Pattern(linkSource: linkSource, path: path)
+            return (linkSource, path)
         }
 
         private func guessLinkSource(from patternString: String) throws -> LinkSource {

@@ -10,15 +10,13 @@ final class DSLTests: XCTestCase {
         typealias Route = SimpleRouter.Route
         let router = try SimpleRouter(accepts: [pokedex, pokedexWeb]) {
             Route("/pokemons/:id") { context in
-                let pokedexID: Int? = context.id
-                return true
+                true
             }
 
             Route("/pokemons/search", accepts: .onlyFor([pokedex])) { context in
-                let pokedexID: Int? = context.id
-                return true
+                true
             }
         }
-        router.responds(to: URL(string: "pokedex://pokemon/42")!)
+        XCTAssertTrue(router.responds(to: URL(string: "pokedex://pokemon/42")!))
     }
 }
