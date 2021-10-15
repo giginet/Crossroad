@@ -3,68 +3,66 @@ import Foundation
 public class Parser {
     private static let keywordPrefix = ":"
 
+    public enum Error: Swift.Error {
+        case schemeIsMismatch
+        case componentIsMismatch(expected: String, actual: String)
+        case componentsCountMismatch
+        case invalidURL
+    }
+
     public init() { }
 
-    public func parse(_ url: URL, in pattern: Pattern) -> Context<Void>? {
-        guard validate(url, expected: pattern) else { return nil }
+    public func parse(_ url: URL, in pattern: Pattern) throws -> Context<Void>? {
+        let patternComponents: [String]
+        let actualURLComponents: [String]
 
-        let arguments: Arguments
         switch pattern.linkSource {
-        case .universalLink:
-            let componentsToCompare = url.pathComponents.droppedSlashElement()
-            arguments = parseArguments(componentsToCompare: componentsToCompare, path: pattern.path)
-        case .urlScheme:
-            guard let host = url.host else { return nil }
-            let componentsToCompare = [host] + url.pathComponents.droppedSlashElement()
-            arguments = parseArguments(componentsToCompare: componentsToCompare, path: pattern.path)
+        case .urlScheme(let scheme):
+            guard url.scheme?.lowercased() == scheme.lowercased() else { throw Error.schemeIsMismatch }
+            patternComponents = pattern.path.components
+            guard let host = url.host else { throw Error.invalidURL }
+            actualURLComponents = [host] + url.pathComponents.droppedSlashElement() // pathComponents + host
+        case .universalLink(let universalLinkURL):
+            guard url.scheme?.lowercased() == universalLinkURL.scheme?.lowercased() else { throw Error.schemeIsMismatch }
+            patternComponents = pattern.path.components
+            actualURLComponents = url.pathComponents.droppedSlashElement() // only pathComponents
         }
+
+        guard patternComponents.count == actualURLComponents.count else {
+            throw Error.componentsCountMismatch
+        }
+
+        var arguments: Arguments = [:]
+        for (index, (patternComponent, component)) in zip(patternComponents, actualURLComponents).enumerated() {
+            let shouldBeCaseSensitive: Bool
+            switch pattern.linkSource {
+            case .urlScheme:
+                // host must be case insensitive. pathes must be case sensitive.
+                shouldBeCaseSensitive = index != 0
+            case .universalLink:
+                shouldBeCaseSensitive = true
+            }
+
+            if patternComponent.hasPrefix(Self.keywordPrefix) {
+                let keyword = String(patternComponent[Self.keywordPrefix.endIndex...])
+                arguments[keyword] = component
+            } else if compare(patternComponent, component, isCaseSensitive: shouldBeCaseSensitive) {
+                continue
+            } else {
+                throw Error.componentIsMismatch(expected: patternComponent, actual: component)
+            }
+        }
+
         let parameters = parseParameters(from: url)
         return Context<Void>(url: url, arguments: arguments, parameters: parameters)
     }
 
-    private func validate(_ url: URL, expected pattern: Pattern) -> Bool {
-        let expectedElements: [String]
-        let actualElements: [String]
-        switch pattern.linkSource {
-        case .urlScheme(let scheme):
-            guard url.scheme?.lowercased() == scheme.lowercased() else { return false }
-            expectedElements = pattern.path.components
-            guard let host = url.host else { return false }
-            actualElements = [host] + url.pathComponents.droppedSlashElement() // pathComponents + host
-            for (expected, actual) in zip(expectedElements, actualElements) {
-                guard expected == actual else {
-                    return false
-                }
-            }
-        case .universalLink(let universalLinkURL):
-            guard url.scheme?.lowercased() == universalLinkURL.scheme?.lowercased() else { return false }
-            expectedElements = pattern.path.components
-            actualElements = url.pathComponents.droppedSlashElement() // only pathComponents
+    private func compare(_ lhs: String, _ rhs: String, isCaseSensitive: Bool) -> Bool {
+        if isCaseSensitive {
+            return lhs == rhs
+        } else {
+            return lhs.lowercased() == rhs.lowercased()
         }
-        guard expectedElements.count == actualElements.count else {
-            return false
-        }
-        for (expected, actual) in zip(expectedElements, actualElements) {
-            guard expected == actual else {
-                return false
-            }
-        }
-        return true
-    }
-
-    private func parseArguments(componentsToCompare: [String], path: Path) -> Arguments {
-        var arguments: Arguments = [:]
-        for (patternComponent, component) in zip(path.components, componentsToCompare) {
-            if patternComponent.hasPrefix(Self.keywordPrefix) {
-                let keyword = String(patternComponent[Self.keywordPrefix.endIndex...])
-                arguments[keyword] = component
-            } else if patternComponent == component {
-                continue
-            } else {
-                return [:]
-            }
-        }
-        return arguments
     }
 
     private func parseParameters(from url: URL) -> Parameters {

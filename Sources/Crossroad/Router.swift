@@ -46,7 +46,7 @@ public final class Router<UserInfo> {
     private func searchMatchingRoutes(to url: URL, userInfo: UserInfo) -> [MatchResult<UserInfo>] {
         routes.reduce(into: []) { matchings, route in
             for pattern in expandAcceptablePattern(of: route) {
-                if let context = parser.parse(url, in: pattern) {
+                if let context = try? parser.parse(url, in: pattern) {
                     let result = MatchResult(route: route, context: context.attached(userInfo))
                     matchings.append(result)
                 }
