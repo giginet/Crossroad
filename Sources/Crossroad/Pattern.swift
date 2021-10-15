@@ -93,11 +93,11 @@ public struct Pattern: Hashable {
 
         private func parsePath(patternString: String, linkSource: LinkSource?) throws -> Path {
             switch linkSource {
-            case .some(.urlScheme(let scheme)):
+            case .urlScheme(let scheme):
                 let pathString = patternString.replacingOccurrences(of: "\(scheme)://", with: "")
                 let components = pathString.split(separator: "/").droppedSlashElement()
                 return Path(components: components)
-            case .some(.universalLink(let url)):
+            case .universalLink(let url):
                 let pathString = patternString.replacingOccurrences(of: url.absoluteString, with: "")
                 let components = pathString.split(separator: "/").droppedSlashElement()
                 return Path(components: components)

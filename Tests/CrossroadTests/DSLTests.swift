@@ -21,6 +21,6 @@ final class DSLTests: XCTestCase {
                 true
             }
         }
-        XCTAssertTrue(router.responds(to: URL(string: "pokedex://pokemon/42")!))
+        XCTAssertTrue(router.responds(to: URL(string: "pokedex://pokemons/42")!))
     }
 }
