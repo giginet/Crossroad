@@ -23,24 +23,38 @@ public class Parser {
     }
 
     private func validate(_ url: URL, expected pattern: Pattern) -> Bool {
+        let expectedElements: [String]
+        let actualElements: [String]
         switch pattern.linkSource {
         case .urlScheme(let scheme):
-            guard url.scheme == scheme else { return false }
-            let expectedElementCount = pattern.path.components.count
-            let actualElementCount = url.pathComponents.droppedSlashElement().count + 1 // pathComponents + host
-            guard expectedElementCount == actualElementCount else { return false }
+            guard url.scheme?.lowercased() == scheme.lowercased() else { return false }
+            expectedElements = pattern.path.components
+            guard let host = url.host else { return false }
+            actualElements = [host] + url.pathComponents.droppedSlashElement() // pathComponents + host
+            for (expected, actual) in zip(expectedElements, actualElements) {
+                guard expected == actual else {
+                    return false
+                }
+            }
         case .universalLink(let universalLinkURL):
-            guard url.scheme == universalLinkURL.scheme else { return false }
-            let expectedElementCount = pattern.path.components.count
-            let actualElementCount = url.pathComponents.droppedSlashElement().count // only pathComponents
-            guard expectedElementCount == actualElementCount else { return false }
+            guard url.scheme?.lowercased() == universalLinkURL.scheme?.lowercased() else { return false }
+            expectedElements = pattern.path.components
+            actualElements = url.pathComponents.droppedSlashElement() // only pathComponents
+        }
+        guard expectedElements.count == actualElements.count else {
+            return false
+        }
+        for (expected, actual) in zip(expectedElements, actualElements) {
+            guard expected == actual else {
+                return false
+            }
         }
         return true
     }
 
     private func parseArguments(componentsToCompare: [String], path: Path) -> Arguments {
         var arguments: Arguments = [:]
-        for (patternComponent, component) in zip(componentsToCompare, path.components) {
+        for (patternComponent, component) in zip(path.components, componentsToCompare) {
             if patternComponent.hasPrefix(Self.keywordPrefix) {
                 let keyword = String(patternComponent[Self.keywordPrefix.endIndex...])
                 arguments[keyword] = component
