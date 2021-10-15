@@ -5,15 +5,15 @@ public typealias SimpleRouter = Router<Void>
 
 public final class Router<UserInfo> {
     let linkSources: Set<LinkSource>
-    var routes: [Route<UserInfo>] = []
+    var routes: [Route] = []
     private let parser = Parser()
 
-    init(linkSources: Set<LinkSource>, routes: [Route<UserInfo>]) {
+    init(linkSources: Set<LinkSource>, routes: [Route]) {
         self.linkSources = linkSources
         self.routes = routes
     }
 
-    func register(_ route: Route<UserInfo>) {
+    func register(_ route: Route) {
         routes.append(route)
     }
 
@@ -35,13 +35,17 @@ public final class Router<UserInfo> {
         return true
     }
 
+    private func expandAcceptablePattern(of route: Route) -> Set<Pattern> {
+        return []
+    }
+
     private struct MatchResult<UserInfo> {
-        let route: Route<UserInfo>
+        let route: Route
         let context: Context<UserInfo>
     }
     private func searchMatchingRoutes(to url: URL, userInfo: UserInfo) -> [MatchResult<UserInfo>] {
         routes.reduce(into: []) { matchings, route in
-            for pattern in route.expandAcceptablePattern() {
+            for pattern in expandAcceptablePattern(of: route) {
                 if let context = parser.parse(url, in: pattern) {
                     let result = MatchResult(route: route, context: context.attached(userInfo))
                     matchings.append(result)

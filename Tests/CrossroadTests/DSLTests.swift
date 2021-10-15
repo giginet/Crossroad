@@ -7,13 +7,14 @@ let pokedexWeb: LinkSource = .universalLink(URL(string: "https://my-awesome-poke
 
 final class DSLTests: XCTestCase {
     func testDSL() {
-        let router = SimpleRouter([]) {
-            R("/pokemons/:id") { context in
+        typealias Route = SimpleRouter.Route
+        let router = SimpleRouter(accepts: [pokedex, pokedexWeb]) {
+            Route("/pokemons/:id") { context in
                 let pokedexID: Int? = context.id
                 return true
             }
 
-            R("/pokemons/search", accepts: .onlyFor([pokedex])) { context in
+            Route("/pokemons/search", accepts: .onlyFor([pokedex])) { context in
                 let pokedexID: Int? = context.id
                 return true
             }
