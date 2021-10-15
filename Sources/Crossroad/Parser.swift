@@ -61,9 +61,3 @@ public class Parser {
         return parameters
     }
 }
-
-extension Collection where Element == String {
-    fileprivate func droppedSlashElement() -> [String] {
-        filter { $0 != "/" }
-    }
-}

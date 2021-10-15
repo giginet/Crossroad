@@ -1,9 +1,17 @@
 import Foundation
 import UIKit
 
-public class Router<UserInfo> {
+public typealias SimpleRouter = Router<Void>
+
+public final class Router<UserInfo> {
+    let linkSources: Set<LinkSource>
     var routes: [Route<UserInfo>] = []
     private let parser = Parser()
+
+    init(linkSources: Set<LinkSource>, routes: [Route<UserInfo>]) {
+        self.linkSources = linkSources
+        self.routes = routes
+    }
 
     func register(_ route: Route<UserInfo>) {
         routes.append(route)

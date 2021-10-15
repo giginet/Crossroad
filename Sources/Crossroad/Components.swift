@@ -20,6 +20,26 @@ public struct Path: Hashable {
     var absoluteString: String {
         "/" + components.joined(separator: "/")
     }
+
+    init(pathString: String) {
+        self.components = pathString.split(separator: "/").map(String.init).droppedSlashElement()
+    }
+}
+
+extension Path: ExpressibleByStringLiteral {
+    public typealias StringLiteralType = String
+
+    public init(stringLiteral value: String) {
+        self.init(pathString: value)
+    }
+
+    public init(unicodeScalarLiteral value: String) {
+        self.init(pathString: value)
+    }
+
+    public init(extendedGraphemeClusterLiteral value: String) {
+        self.init(pathString: value)
+    }
 }
 
 public struct Pattern: Hashable {

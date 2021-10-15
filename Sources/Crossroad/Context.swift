@@ -3,9 +3,24 @@ import Foundation
 public typealias Arguments = [String: String]
 public typealias Parameters = [URLQueryItem]
 
+@dynamicMemberLookup
 public protocol ContextProtocol {
     func argument<T: Parsable>(for key: String) throws -> T
     func parameter<T: Parsable>(for key: String) -> T?
+}
+
+extension ContextProtocol {
+    public subscript<T: Parsable>(argument keyword: String) -> T? {
+        return try? argument(for: keyword)
+    }
+
+    public subscript<T: Parsable>(parameter key: String) -> T? {
+        return parameter(for: key)
+    }
+
+    public subscript<T: Parsable>(dynamicMember keyword: String) -> T? {
+        return try? argument(for: keyword)
+    }
 }
 
 public struct Context<UserInfo>: ContextProtocol {
