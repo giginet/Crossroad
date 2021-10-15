@@ -8,7 +8,7 @@ public final class Router<UserInfo> {
     var routes: [Route] = []
     private let parser = Parser()
 
-    init(linkSources: Set<LinkSource>, routes: [Route]) {
+    init(linkSources: Set<LinkSource>, routes: [Route]) throws {
         self.linkSources = linkSources
         self.routes = routes
     }

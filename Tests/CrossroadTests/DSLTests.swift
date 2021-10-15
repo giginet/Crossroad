@@ -6,9 +6,9 @@ let pokedex: LinkSource = .urlScheme("pokedex")
 let pokedexWeb: LinkSource = .universalLink(URL(string: "https://my-awesome-pokedex.com")!)
 
 final class DSLTests: XCTestCase {
-    func testDSL() {
+    func testDSL() throws {
         typealias Route = SimpleRouter.Route
-        let router = SimpleRouter(accepts: [pokedex, pokedexWeb]) {
+        let router = try SimpleRouter(accepts: [pokedex, pokedexWeb]) {
             Route("/pokemons/:id") { context in
                 let pokedexID: Int? = context.id
                 return true
@@ -20,25 +20,5 @@ final class DSLTests: XCTestCase {
             }
         }
         router.responds(to: URL(string: "pokedex://pokemon/42")!)
-
-//        enum MyProvider: Provider {
-//            static let urlScheme = URLScheme("pokedex")
-//            static let universalLink = UniversalLink(URL("https://my-awesome-pokedex.com")!)
-//        }
-
-//        let router = Router(provider) {
-//            Route("/pokemons/:id") { context in
-//                let pokedexID = context.id
-//                presentPokemonViewController(for: pokedexID)
-//            }
-//
-//            AcceptOnly(for: [.urlScheme]) {
-//                Route("/pokemons/:id") { context in
-//                    let pokedexID = context.id
-//                    presentPokemonViewController(for: pokedexID)
-//                }
-//                Route("", executor)
-//            }
-//        }
     }
 }

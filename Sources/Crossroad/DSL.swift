@@ -10,9 +10,9 @@ public struct RouteBuilder<UserInfo> {
 extension Router {
     public typealias Route = Crossroad.Route<UserInfo>
 
-    public convenience init(accepts linkSources: Set<LinkSource>, @RouteBuilder<UserInfo> routeBuilder: () -> [Route]) {
+    public convenience init(accepts linkSources: Set<LinkSource>, @RouteBuilder<UserInfo> routeBuilder: () -> [Route]) throws {
         let routes = routeBuilder()
-        self.init(linkSources: linkSources, routes: routes)
+        try self.init(linkSources: linkSources, routes: routes)
     }
 }
 
