@@ -2,11 +2,18 @@ import Foundation
 import XCTest
 import Crossroad
 
+let pokedex: LinkSource = .urlScheme("pokedex")
+let pokedexWeb: LinkSource = .universalLink(URL(string: "https://my-awesome-pokedex.com")!)
 
 final class DSLTests: XCTestCase {
     func testDSL() {
-        let router = SimpleRouter([.urlScheme("pokedex")]) {
-            Route<Void>("/pokemons/:id") { context in
+        let router = SimpleRouter([]) {
+            R("/pokemons/:id") { context in
+                let pokedexID: Int? = context.id
+                return true
+            }
+
+            R("/pokemons/search", accepts: .onlyFor([pokedex])) { context in
                 let pokedexID: Int? = context.id
                 return true
             }
