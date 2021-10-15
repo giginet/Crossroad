@@ -3,6 +3,8 @@ import Foundation
 public class Parser {
     private static let keywordPrefix = ":"
 
+    public init() { }
+
     public func parse(_ url: URL, in pattern: Pattern) -> Context<Void>? {
         guard validate(url, expected: pattern) else { return nil }
 
