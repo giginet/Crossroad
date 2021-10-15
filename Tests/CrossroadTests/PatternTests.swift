@@ -15,6 +15,11 @@ final class PatternTests: XCTestCase {
                 .urlScheme("pokedex"),
                 Path(components: ["pokemons", ":id"])
             ),
+            (   #line,
+                "foobar://static",
+                .urlScheme("foobar"),
+                Path(components: ["static"])
+            ),
         ]
 
         for (line, patternString, expectedLinkSource, expectedPath) in testCases {

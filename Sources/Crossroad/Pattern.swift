@@ -47,10 +47,10 @@ extension Path: ExpressibleByStringLiteral {
 }
 
 public struct Pattern: Hashable {
-    public let linkSource: LinkSource
+    public let linkSource: LinkSource?
     public let path: Path
     
-    public init(linkSource: LinkSource, path: Path) {
+    public init(linkSource: LinkSource?, path: Path) {
         self.linkSource = linkSource
         self.path = path
     }
@@ -62,19 +62,18 @@ public struct Pattern: Hashable {
     }
 
     public enum ParsingError: Error {
-        case mustContainsScheme
         case invalidURL
         case unknownError
     }
 
     struct PatternParser {
-        func parse(patternString: String) throws -> (LinkSource, Path) {
+        func parse(patternString: String) throws -> (LinkSource?, Path) {
             let linkSource = try guessLinkSource(from: patternString)
             let path = try parsePath(patternString: patternString, linkSource: linkSource)
             return (linkSource, path)
         }
 
-        private func guessLinkSource(from patternString: String) throws -> LinkSource {
+        private func guessLinkSource(from patternString: String) throws -> LinkSource? {
             if patternString.hasPrefix("http://") || patternString.hasPrefix("https://") {
                 let bits = patternString.split(separator: "/").droppedSlashElement()
                 var components = URLComponents()
@@ -84,24 +83,26 @@ public struct Pattern: Hashable {
                     throw ParsingError.invalidURL
                 }
                 return .universalLink(url)
-            } else {
-                guard let firstColonIndex = patternString.firstIndex(of: ":") else {
-                    throw ParsingError.mustContainsScheme
-                }
+            } else if let firstColonIndex = patternString.firstIndex(of: ":") {
                 let scheme = patternString[patternString.startIndex..<firstColonIndex]
                 return .urlScheme(String(scheme))
+            } else {
+                return nil
             }
         }
 
-        private func parsePath(patternString: String, linkSource: LinkSource) throws -> Path {
+        private func parsePath(patternString: String, linkSource: LinkSource?) throws -> Path {
             switch linkSource {
-            case .urlScheme(let scheme):
+            case .some(.urlScheme(let scheme)):
                 let pathString = patternString.replacingOccurrences(of: "\(scheme)://", with: "")
                 let components = pathString.split(separator: "/").droppedSlashElement()
                 return Path(components: components)
-            case .universalLink(let url):
+            case .some(.universalLink(let url)):
                 let pathString = patternString.replacingOccurrences(of: url.absoluteString, with: "")
                 let components = pathString.split(separator: "/").droppedSlashElement()
+                return Path(components: components)
+            case .none:
+                let components = patternString.split(separator: "/").droppedSlashElement()
                 return Path(components: components)
             }
         }

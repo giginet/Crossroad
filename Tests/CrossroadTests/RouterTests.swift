@@ -1,37 +1,37 @@
-//import XCTest
-//import Crossroad
-//
-//final class RouterTest: XCTestCase {
-//    let scheme = "foobar"
-//
-//    func testCanRespond() {
-//        let router = SimpleRouter(scheme: scheme)
-//        router.register([
-//            ("foobar://static", { _ in true }),
-//            ("foobar://foo/bar", { _ in true }),
-//            ("FOOBAR://SPAM/HAM", { _ in false }),
-//            ("foobar://:keyword", { _ in true }),
-//            ("foobar://foo/:keyword", { _ in true }),
-//            ])
-//        XCTAssertTrue(router.responds(to: URL(string: "foobar://static")!))
-//        XCTAssertTrue(router.responds(to: URL(string: "foobar://foo")!))
-//        XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/bar")!))
-//        XCTAssertTrue(router.responds(to: URL(string: "FOOBAR://FOO/BAR")!))
-//        XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/10000")!))
-//        XCTAssertFalse(router.responds(to: URL(string: "foobar://aaa/bbb")!))
-//        XCTAssertFalse(router.responds(to: URL(string: "foobar://spam/ham")!))
-//        XCTAssertFalse(router.responds(to: URL(string: "foobar://SPAM/ham")!))
-//        XCTAssertTrue(router.responds(to: URL(string: "foobar://SPAM/HAM")!))
-//        XCTAssertTrue(router.responds(to: URL(string: "foobar://spam/HAM")!))
-//        XCTAssertFalse(router.responds(to: URL(string: "notfoobar://aaa/bbb")!))
-//        XCTAssertFalse(router.responds(to: URL(string: "foobar://spam/ham")!))
-//        XCTAssertFalse(router.responds(to: URL(string: "static")!))
-//        XCTAssertFalse(router.responds(to: URL(string: "foo")!))
-//        XCTAssertFalse(router.responds(to: URL(string: "foo/bar")!))
-//        XCTAssertFalse(router.responds(to: URL(string: "foo/10000")!))
-//        XCTAssertFalse(router.responds(to: URL(string: "aaa/bbb")!))
-//    }
-//
+import XCTest
+import Crossroad
+
+final class RouterTest: XCTestCase {
+    let scheme: LinkSource = .urlScheme("foobar")
+    typealias Route = SimpleRouter.Route
+
+    func testCanRespond() throws {
+        let router = try SimpleRouter(accepts: [scheme]) {
+            Route("foobar://static") { _ in true }
+            Route("foobar://foo/bar") { _ in true }
+            Route("FOOBAR://SPAM/HAM") { _ in false }
+            Route("foobar://:keyword") { _ in true }
+            Route("foobar://foo/:keyword") { _ in true }
+        }
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://static")!))
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://foo")!))
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/bar")!))
+        XCTAssertTrue(router.responds(to: URL(string: "FOOBAR://FOO/BAR")!))
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://foo/10000")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foobar://aaa/bbb")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foobar://spam/ham")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foobar://SPAM/ham")!))
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://SPAM/HAM")!))
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://spam/HAM")!))
+        XCTAssertFalse(router.responds(to: URL(string: "notfoobar://aaa/bbb")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foobar://spam/ham")!))
+        XCTAssertFalse(router.responds(to: URL(string: "static")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foo")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foo/bar")!))
+        XCTAssertFalse(router.responds(to: URL(string: "foo/10000")!))
+        XCTAssertFalse(router.responds(to: URL(string: "aaa/bbb")!))
+    }
+
 //    func testCanRespondWithCapitalCase() {
 //        let router = SimpleRouter(scheme: "FOOBAR")
 //        router.register([
@@ -84,7 +84,7 @@
 //    }
 //
 //    func testCanRespondWithoutPrefix() {
-//        let router = SimpleRouter(scheme: scheme)
+//        let router = SimpleRouter(accepts: [scheme])
 //        router.register([
 //            ("static", { _ in true }),
 //            ("foo/bar", { _ in true }),
@@ -109,7 +109,7 @@
 //    }
 //
 //    func testCanRespondWithRelativePath() {
-//        let router = SimpleRouter(scheme: scheme)
+//        let router = SimpleRouter(accepts: [scheme])
 //        router.register([
 //            ("/static", { _ in true }),
 //            ("/foo/bar", { _ in true }),
@@ -157,7 +157,7 @@
 //    }
 //
 //    func testHandle() {
-//        let router = SimpleRouter(scheme: scheme)
+//        let router = SimpleRouter(accepts: [scheme])
 //        let expectation = self.expectation(description: "Should called handler four times")
 //        expectation.expectedFulfillmentCount = 4
 //        router.register([
@@ -245,7 +245,7 @@
 //    }
 //
 //    func testHandleWithoutPrefix() {
-//        let router = SimpleRouter(scheme: scheme)
+//        let router = SimpleRouter(accepts: [scheme])
 //        let expectation = self.expectation(description: "Should called handler four times")
 //        expectation.expectedFulfillmentCount = 4
 //        router.register([
@@ -289,7 +289,7 @@
 //    }
 //
 //    func testHandleWithSlashPrefix() {
-//        let router = SimpleRouter(scheme: scheme)
+//        let router = SimpleRouter(accepts: [scheme])
 //        let expectation = self.expectation(description: "Should called handler four times")
 //        expectation.expectedFulfillmentCount = 4
 //        router.register([
@@ -377,7 +377,7 @@
 //    }
 //
 //    func testHandlerWithSamePatterns() {
-//        let router = SimpleRouter(scheme: scheme)
+//        let router = SimpleRouter(accepts: [scheme])
 //        let idExpectation = self.expectation(description: "Should called handler with ID")
 //        let keywordExpectation = self.expectation(description: "Should called handler with keyword")
 //        router.register([
@@ -435,7 +435,7 @@
 //    }
 //
 //    func testHandlerWithSamePatternsWithoutPrefix() {
-//        let router = SimpleRouter(scheme: scheme)
+//        let router = SimpleRouter(accepts: [scheme])
 //        let idExpectation = self.expectation(description: "Should called handler with ID")
 //        let keywordExpectation = self.expectation(description: "Should called handler with keyword")
 //        router.register([
@@ -493,7 +493,7 @@
 //    }
 //
 //    func testHandleReturnsFalse() {
-//        let router = SimpleRouter(scheme: scheme)
+//        let router = SimpleRouter(accepts: [scheme])
 //        let expectation = self.expectation(description: "Should called handler twice")
 //        expectation.expectedFulfillmentCount = 2
 //        router.register([
@@ -533,7 +533,7 @@
 //    }
 //
 //    func testHandleReturnsFalseWithoutPrefix() {
-//        let router = SimpleRouter(scheme: scheme)
+//        let router = SimpleRouter(accepts: [scheme])
 //        let expectation = self.expectation(description: "Should called handler twice")
 //        expectation.expectedFulfillmentCount = 2
 //        router.register([
@@ -553,7 +553,7 @@
 //    }
 //
 //    func testHandleCapitalCasedHostKeyword() {
-//        let router = SimpleRouter(scheme: scheme)
+//        let router = SimpleRouter(accepts: [scheme])
 //        let expectation = self.expectation(description: "Should called handler")
 //        router.register([
 //            (":pokemonName", { context in
@@ -591,7 +591,7 @@
 //        struct UserInfo {
 //            let value: Int
 //        }
-//        let router = Router<UserInfo>(scheme: scheme)
+//        let router = Router<UserInfo>(accepts: [scheme])
 //        var userInfo: UserInfo?
 //        router.register([
 //            ("foobar://static", { context in
@@ -627,7 +627,7 @@
 //        struct UserInfo {
 //            let value: Int
 //        }
-//        let router = Router<UserInfo>(scheme: scheme)
+//        let router = Router<UserInfo>(accepts: [scheme])
 //        var userInfo: UserInfo?
 //        router.register([
 //            ("static", { context in
@@ -658,4 +658,4 @@
 //        XCTAssertFalse(router.openIfPossible(URL(string: "static")!, userInfo: UserInfo(value: 42)))
 //        XCTAssertEqual(userInfo?.value, 42)
 //    }
-//}
+}

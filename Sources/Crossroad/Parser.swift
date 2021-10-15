@@ -26,6 +26,8 @@ public class Parser {
             guard url.scheme?.lowercased() == universalLinkURL.scheme?.lowercased() else { throw Error.schemeIsMismatch }
             patternComponents = pattern.path.components
             actualURLComponents = url.pathComponents.droppedSlashElement() // only pathComponents
+        case .none:
+            throw Error.invalidURL
         }
 
         guard patternComponents.count == actualURLComponents.count else {
@@ -41,6 +43,8 @@ public class Parser {
                 shouldBeCaseSensitive = index != 0
             case .universalLink:
                 shouldBeCaseSensitive = true
+            case .none:
+                throw Error.invalidURL
             }
 
             if patternComponent.hasPrefix(Self.keywordPrefix) {

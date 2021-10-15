@@ -17,8 +17,8 @@ extension Router {
 }
 
 extension Route {
-    public init(_ path: Path, accepts acceptPolicy: AcceptPolicy = .any, handler: @escaping Handler) {
-        self.init(path: path,
+    public init(_ patternString: String, accepts acceptPolicy: AcceptPolicy = .any, handler: @escaping Handler) {
+        self.init(patternString: patternString,
                   acceptPolicy: acceptPolicy,
                   handler: handler)
     }

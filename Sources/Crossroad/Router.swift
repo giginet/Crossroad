@@ -31,12 +31,19 @@ public final class Router<UserInfo> {
 
     public func responds(to url: URL, userInfo: UserInfo) -> Bool {
         let results = searchMatchingRoutes(to: url, userInfo: userInfo)
-        if results.isEmpty { return true }
+        if results.isEmpty { return false }
         return true
     }
 
     private func expandAcceptablePattern(of route: Route) -> Set<Pattern> {
-        return []
+        let validSources: Set<LinkSource>
+        switch route.acceptPolicy {
+        case .any:
+            validSources = linkSources
+        case .onlyFor(let accepteds):
+            validSources = linkSources.intersection(accepteds)
+        }
+        return Set(validSources.map { Pattern(linkSource: $0, path: route.path) })
     }
 
     private struct MatchResult<UserInfo> {
