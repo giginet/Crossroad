@@ -7,7 +7,7 @@ func presentPokemonViewController(pokedexID: Int) {
 
 final class DSLTests: XCTestCase {
     func testDSL() throws {
-        let customURLScheme: LinkSource = .urlScheme("pokedex")
+        let customURLScheme: LinkSource = .customURLScheme("pokedex")
         let universalLink: LinkSource = .universalLink(URL(string: "https://my-awesome-pokedex.com")!)
 
         let router = try SimpleRouter(accepts: [customURLScheme, universalLink]) { route in

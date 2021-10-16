@@ -2,7 +2,7 @@ import XCTest
 import Crossroad
 
 final class RouterTest: XCTestCase {
-    private let scheme: LinkSource = .urlScheme("foobar")
+    private let scheme: LinkSource = .customURLScheme("foobar")
 
     func testCanRespond() throws {
         let router = try SimpleRouter(accepts: [scheme]) { route in
@@ -32,7 +32,7 @@ final class RouterTest: XCTestCase {
     }
 
     func testCanRespondWithCapitalCase() throws {
-        let router = try SimpleRouter(accepts: [.urlScheme("FOOBAR")]) { route in
+        let router = try SimpleRouter(accepts: [.customURLScheme("FOOBAR")]) { route in
             route("FOOBAR://STATIC") { _ in true }
             route("FOOBAR://FOO/BAR") { _ in true }
             route("FOOBAR://SPAM/HAM") { _ in false }

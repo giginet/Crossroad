@@ -2,13 +2,13 @@ import Foundation
 
 extension Router {
     @resultBuilder
-    public struct RouterBuilder {
+    public struct Builder {
         public static func buildBlock(_ components: Definition...) -> [Definition] {
             components
         }
     }
 
-    public convenience init(accepts linkSources: Set<LinkSource>, @RouterBuilder routeBuilder: (Definition.Factory) -> [Definition]) throws {
+    public convenience init(accepts linkSources: Set<LinkSource>, @Builder routeBuilder: (Definition.Factory) -> [Definition]) throws {
         let routeDefinitions = routeBuilder(Definition.Factory())
         let routes = try routeDefinitions.map { definition in
             try definition.get()

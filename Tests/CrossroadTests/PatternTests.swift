@@ -17,7 +17,7 @@ final class PatternTests: XCTestCase {
             ),
             (   #line,
                 "pokedex://pokemons/:id",
-                .success((.urlScheme("pokedex"),
+                .success((.customURLScheme("pokedex"),
                           Path(components: ["pokemons", ":id"])))
             ),
             (   #line,
@@ -32,7 +32,7 @@ final class PatternTests: XCTestCase {
             ),
             (   #line,
                 "pokedex://:id",
-                .success((.urlScheme("pokedex"),
+                .success((.customURLScheme("pokedex"),
                           Path(components: [":id"])))
             ),
             (   #line,

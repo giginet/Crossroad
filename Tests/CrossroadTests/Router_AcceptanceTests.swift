@@ -3,7 +3,7 @@ import XCTest
 import Crossroad
 
 final class Router_AcceptanceTests: XCTestCase {
-    private let customURLScheme: LinkSource = .urlScheme("pokedex")
+    private let customURLScheme: LinkSource = .customURLScheme("pokedex")
     private let universalLink: LinkSource = .universalLink(URL(string: "https://my-awesome-pokedex.com")!)
 
     func testAcceptOnly() throws {

@@ -4,7 +4,7 @@ import Crossroad
 final class ParserTests: XCTestCase {
     func testURLParser() throws {
         let parser = Parser()
-        let pattern = Pattern(linkSource: .urlScheme("pokedex"),
+        let pattern = Pattern(linkSource: .customURLScheme("pokedex"),
                               path: "/pokemons/:pokedexID")
         let context = try parser.parse(URL(string: "pokedex://pokemons/25")!, in: pattern)
         XCTAssertEqual(try context?.argument(for: "pokedexID"), 25)

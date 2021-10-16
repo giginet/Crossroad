@@ -23,12 +23,12 @@ extension Array: LinkSourceGroup where Element == LinkSource {
 }
 
 public enum LinkSource: Hashable {
-    case urlScheme(String)
+    case customURLScheme(String)
     case universalLink(URL)
 
     public func hash(into hasher: inout Hasher) {
         switch self {
-        case .urlScheme(let scheme):
+        case .customURLScheme(let scheme):
             hasher.combine(scheme)
         case .universalLink(let url):
             hasher.combine(url)
@@ -133,7 +133,7 @@ public struct Pattern: Hashable {
                 return .universalLink(url)
             } else if let firstColonIndex = containsSchemeSeparator(in: patternString) {
                 let scheme = patternString[patternString.startIndex..<firstColonIndex]
-                return .urlScheme(String(scheme))
+                return .customURLScheme(String(scheme))
             } else {
                 return nil
             }
@@ -142,7 +142,7 @@ public struct Pattern: Hashable {
         private func parsePath(patternString: String, linkSource: LinkSource?) throws -> Path {
             let path: Path
             switch linkSource {
-            case .urlScheme(let scheme):
+            case .customURLScheme(let scheme):
                 let pathString = patternString.replacingOccurrences(of: "\(scheme)://", with: "")
                 let components = pathString.split(separator: "/").droppedSlashElement()
                 path = Path(components: components)

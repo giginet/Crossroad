@@ -19,7 +19,7 @@ public class Parser {
         let shouldBeCaseSensitives: [Bool]
 
         switch pattern.linkSource {
-        case .urlScheme(let scheme):
+        case .customURLScheme(let scheme):
             guard url.scheme?.lowercased() == scheme.lowercased() else { throw Error.schemeIsMismatch }
 
             expectedComponents = pattern.path.components
