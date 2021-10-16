@@ -8,7 +8,7 @@ public struct Route<UserInfo> {
 
     public enum AcceptPolicy {
         case any
-        case onlyFor(Set<LinkSource>)
+        case onlyFor(LinkSourceGroup)
     }
 
     init(patternString: String, acceptPolicy: AcceptPolicy, handler: @escaping Handler) throws {

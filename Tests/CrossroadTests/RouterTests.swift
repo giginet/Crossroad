@@ -2,7 +2,7 @@ import XCTest
 import Crossroad
 
 final class RouterTest: XCTestCase {
-    let scheme: LinkSource = .urlScheme("foobar")
+    private let scheme: LinkSource = .urlScheme("foobar")
     typealias Route = SimpleRouter.Route
 
     func testCanRespond() throws {

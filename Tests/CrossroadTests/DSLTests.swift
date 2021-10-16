@@ -17,7 +17,7 @@ final class DSLTests: XCTestCase {
                 return true
             }
 
-            Route("/pokemons/search", accepts: .onlyFor([customURLScheme])) { _ in
+            Route("/pokemons/search", accepts: .onlyFor(customURLScheme)) { _ in
                 true
             }
         }
