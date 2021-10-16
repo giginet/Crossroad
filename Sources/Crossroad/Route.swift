@@ -11,8 +11,8 @@ public struct Route<UserInfo> {
         case onlyFor(Set<LinkSource>)
     }
 
-    init(patternString: String, acceptPolicy: AcceptPolicy, handler: @escaping Handler) {
-        let pattern = try! Pattern(patternString: patternString)
+    init(patternString: String, acceptPolicy: AcceptPolicy, handler: @escaping Handler) throws {
+        let pattern = try Pattern(patternString: patternString)
         self.path = pattern.path
         self.acceptPolicy = acceptPolicy
         self.handler = handler

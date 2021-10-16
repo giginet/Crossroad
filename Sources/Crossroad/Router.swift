@@ -19,20 +19,12 @@ public final class Router<UserInfo> {
 
     @discardableResult
     public func openIfPossible(_ url: URL, userInfo: UserInfo) -> Bool {
-        let results = searchMatchingRoutes(to: url, userInfo: userInfo)
-        for result in results {
-            let returnValue = result.route.executeHandler(context: result.context)
-            if returnValue {
-                return true
-            }
-        }
-        return false
+        searchMatchingRoutes(to: url, userInfo: userInfo)
+            .first { result in result.route.executeHandler(context: result.context) } != nil
     }
 
     public func responds(to url: URL, userInfo: UserInfo) -> Bool {
-        let results = searchMatchingRoutes(to: url, userInfo: userInfo)
-        if results.isEmpty { return false }
-        return true
+        !searchMatchingRoutes(to: url, userInfo: userInfo).isEmpty
     }
 
     private func expandAcceptablePattern(of route: Route) -> Set<Pattern> {

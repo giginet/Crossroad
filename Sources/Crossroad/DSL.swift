@@ -2,7 +2,7 @@ import Foundation
 
 @resultBuilder
 public struct RouteBuilder<UserInfo> {
-    public static func buildBlock(_ components: Route<UserInfo>...) -> [Route<UserInfo>] {
+    public static func buildBlock(_ components: Route<UserInfo>?...) -> [Route<UserInfo>?] {
         components
     }
 }
@@ -10,16 +10,16 @@ public struct RouteBuilder<UserInfo> {
 extension Router {
     public typealias Route = Crossroad.Route<UserInfo>
 
-    public convenience init(accepts linkSources: Set<LinkSource>, @RouteBuilder<UserInfo> routeBuilder: () -> [Route]) throws {
+    public convenience init(accepts linkSources: Set<LinkSource>, @RouteBuilder<UserInfo> routeBuilder: () -> [Route?]) throws {
         let routes = routeBuilder()
-        try self.init(linkSources: linkSources, routes: routes)
+        try self.init(linkSources: linkSources, routes: routes.compactMap { $0 })
     }
 }
 
 extension Route {
-    public init(_ patternString: String, accepts acceptPolicy: AcceptPolicy = .any, handler: @escaping Handler) {
-        self.init(patternString: patternString,
-                  acceptPolicy: acceptPolicy,
-                  handler: handler)
+    public init?(_ patternString: String, accepts acceptPolicy: AcceptPolicy = .any, handler: @escaping Handler) {
+        try? self.init(patternString: patternString,
+                       acceptPolicy: acceptPolicy,
+                       handler: handler)
     }
 }
