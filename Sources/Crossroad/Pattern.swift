@@ -73,17 +73,43 @@ public struct Pattern: Hashable {
             return (linkSource, path)
         }
 
+        private func containsSchemeSeparator(in string: String) -> String.Index? {
+            guard let firstColon = string.firstIndex(of: ":") else { return nil }
+            let separatorEndIndex = string.index(firstColon, offsetBy: 2)
+            guard separatorEndIndex <= string.endIndex else { return nil }
+            let separator = string[firstColon...separatorEndIndex]
+            if separator == "://" {
+                return firstColon
+            }
+            return nil
+        }
+
+        private func extractScheme(from urlString: String) -> String? {
+            guard let index = containsSchemeSeparator(in: urlString) else { return nil }
+            return String(urlString[urlString.startIndex..<index])
+        }
+
         private func guessLinkSource(from patternString: String) throws -> LinkSource? {
             if patternString.hasPrefix("http://") || patternString.hasPrefix("https://") {
                 let bits = patternString.split(separator: "/").droppedSlashElement()
-                var components = URLComponents()
-                components.scheme = bits.first?.replacingOccurrences(of: ":", with: "") // drop trailing :
-                components.host = bits[1]
-                guard let url = components.url else {
+
+                guard let scheme = extractScheme(from: patternString), bits.count >= 2 else {
+                    throw ParsingError.invalidURL
+                }
+
+                let host = bits[1]
+
+                let beforePathes = "\(scheme)://\(host)"
+                guard let url = URL(string: beforePathes) else {
+                    throw ParsingError.invalidURL
+                }
+
+                let components = URLComponents(url: url, resolvingAgainstBaseURL: true)
+                guard let url = components?.url else {
                     throw ParsingError.invalidURL
                 }
                 return .universalLink(url)
-            } else if let firstColonIndex = patternString.firstIndex(of: ":") {
+            } else if let firstColonIndex = containsSchemeSeparator(in: patternString) {
                 let scheme = patternString[patternString.startIndex..<firstColonIndex]
                 return .urlScheme(String(scheme))
             } else {
@@ -92,19 +118,24 @@ public struct Pattern: Hashable {
         }
 
         private func parsePath(patternString: String, linkSource: LinkSource?) throws -> Path {
+            let path: Path
             switch linkSource {
             case .urlScheme(let scheme):
                 let pathString = patternString.replacingOccurrences(of: "\(scheme)://", with: "")
                 let components = pathString.split(separator: "/").droppedSlashElement()
-                return Path(components: components)
+                path = Path(components: components)
             case .universalLink(let url):
                 let pathString = patternString.replacingOccurrences(of: url.absoluteString, with: "")
                 let components = pathString.split(separator: "/").droppedSlashElement()
-                return Path(components: components)
+                path = Path(components: components)
             case .none:
                 let components = patternString.split(separator: "/").droppedSlashElement()
-                return Path(components: components)
+                path = Path(components: components)
             }
+            guard !path.components.isEmpty else {
+                throw ParsingError.invalidURL
+            }
+            return path
         }
     }
 }
