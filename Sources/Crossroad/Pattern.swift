@@ -22,7 +22,7 @@ extension Array: LinkSourceGroup where Element == LinkSource {
     }
 }
 
-public enum LinkSource: Hashable {
+public enum LinkSource: Hashable, CustomStringConvertible {
     case customURLScheme(String)
     case universalLink(URL)
 
@@ -34,9 +34,18 @@ public enum LinkSource: Hashable {
             hasher.combine(url)
         }
     }
+
+    public var description: String {
+        switch self {
+        case .customURLScheme(let scheme):
+            return "\(scheme)://"
+        case .universalLink(let url):
+            return url.absoluteString
+        }
+    }
 }
 
-public struct Path: Hashable {
+public struct Path: Hashable, CustomStringConvertible {
     var components: [String]
 
     var absoluteString: String {
@@ -49,6 +58,10 @@ public struct Path: Hashable {
 
     init(pathString: String) {
         self.components = pathString.split(separator: "/").map(String.init).droppedSlashElement()
+    }
+
+    public var description: String {
+        "/" + components.joined(separator: "/")
     }
 }
 
@@ -83,9 +96,18 @@ public struct Pattern: Hashable {
         self.path = path
     }
 
-    public enum ParsingError: Error {
-        case invalidURL
+    public enum ParsingError: LocalizedError {
+        case invalidPattern(String)
         case unknownError
+
+        public var errorDescription: String? {
+            switch self {
+            case .invalidPattern(let pattern):
+                return "Pattern string '\(pattern)' is invalid."
+            case .unknownError:
+                return nil
+            }
+        }
     }
 
     struct PatternParser {
@@ -116,19 +138,19 @@ public struct Pattern: Hashable {
                 let bits = patternString.split(separator: "/").droppedSlashElement()
 
                 guard let scheme = extractScheme(from: patternString), bits.count >= 2 else {
-                    throw ParsingError.invalidURL
+                    throw ParsingError.invalidPattern(patternString)
                 }
 
                 let host = bits[1]
 
                 let beforePathes = "\(scheme)://\(host)"
                 guard let url = URL(string: beforePathes) else {
-                    throw ParsingError.invalidURL
+                    throw ParsingError.invalidPattern(patternString)
                 }
 
                 let components = URLComponents(url: url, resolvingAgainstBaseURL: true)
                 guard let url = components?.url else {
-                    throw ParsingError.invalidURL
+                    throw ParsingError.invalidPattern(patternString)
                 }
                 return .universalLink(url)
             } else if let firstColonIndex = containsSchemeSeparator(in: patternString) {
@@ -155,7 +177,7 @@ public struct Pattern: Hashable {
                 path = Path(components: components)
             }
             guard !path.components.isEmpty else {
-                throw ParsingError.invalidURL
+                throw ParsingError.invalidPattern(patternString)
             }
             return path
         }

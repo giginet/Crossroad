@@ -6,9 +6,9 @@ public struct Route<UserInfo> {
     var acceptPolicy: AcceptPolicy
     var handler: Handler
 
-    public enum AcceptPolicy {
+    public enum AcceptPolicy: Equatable {
         case any
-        case onlyFor(LinkSourceGroup)
+        case onlyFor(LinkSource)
     }
 
     init(patternString: String, acceptPolicy: AcceptPolicy, handler: @escaping Handler) throws {

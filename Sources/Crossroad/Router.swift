@@ -6,8 +6,8 @@ public typealias SimpleRouter = Router<Void>
 public final class Router<UserInfo> {
     public typealias Route = Crossroad.Route<UserInfo>
 
-    private let linkSources: Set<LinkSource>
-    private let routes: [Route]
+    let linkSources: Set<LinkSource>
+    let routes: [Route]
     private let parser = Parser()
 
     public convenience init(accepts linkSourceGroup: LinkSourceGroup) {
@@ -22,6 +22,9 @@ public final class Router<UserInfo> {
     init(linkSources: Set<LinkSource>, routes: [Route]) throws {
         self.linkSources = linkSources
         self.routes = routes
+
+        let validator = Validator(router: self)
+        try validator.validate()
     }
 
     @discardableResult
@@ -57,19 +60,6 @@ public final class Router<UserInfo> {
                     matchings.append(result)
                 }
             }
-        }
-    }
-}
-
-extension Router {
-    class Validator {
-        private var errors: [Error] = []
-
-        func record(_ error: Error) {
-            errors.append(error)
-        }
-
-        func validate() throws {
         }
     }
 }

@@ -52,15 +52,15 @@ final class PatternTests: XCTestCase {
             ),
             (   #line,
                 "///////////////",
-                .failure(.invalidURL)
+                .failure(.invalidPattern("///////////////"))
             ),
             (   #line,
                 "http://",
-                .failure(.invalidURL)
+                .failure(.invalidPattern("http://"))
             ),
             (   #line,
                 "pokedex://",
-                .failure(.invalidURL)
+                .failure(.invalidPattern("pokedex://"))
             ),
         ]
 
@@ -70,9 +70,12 @@ final class PatternTests: XCTestCase {
                 let pattern = try Pattern(patternString: patternString)
                 XCTAssertEqual(pattern.linkSource, success.0, line: line)
                 XCTAssertEqual(pattern.path, success.1, line: line)
-            case .failure(let failure):
+            case .failure:
                 XCTAssertThrowsError(try Pattern(patternString: patternString)) { error in
-                    XCTAssertEqual(error as? Pattern.ParsingError, failure)
+                    let parsingError = error as? Pattern.ParsingError
+                    if case .invalidPattern(let pattern) = parsingError {
+                        XCTAssertEqual(pattern, patternString)
+                    }
                 }
             }
         }
