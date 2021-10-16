@@ -22,4 +22,3 @@ public struct Route<UserInfo> {
         handler(context)
     }
 }
-

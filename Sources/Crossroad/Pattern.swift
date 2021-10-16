@@ -49,7 +49,7 @@ extension Path: ExpressibleByStringLiteral {
 public struct Pattern: Hashable {
     public let linkSource: LinkSource?
     public let path: Path
-    
+
     public init(linkSource: LinkSource?, path: Path) {
         self.linkSource = linkSource
         self.path = path

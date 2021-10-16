@@ -13,40 +13,36 @@ public class Parser {
     public init() { }
 
     public func parse(_ url: URL, in pattern: Pattern) throws -> Context<Void>? {
-        let patternComponents: [String]
+
+        let expectedComponents: [String]
         let actualURLComponents: [String]
+        let shouldBeCaseSensitives: [Bool]
 
         switch pattern.linkSource {
         case .urlScheme(let scheme):
             guard url.scheme?.lowercased() == scheme.lowercased() else { throw Error.schemeIsMismatch }
-            patternComponents = pattern.path.components
+
+            expectedComponents = pattern.path.components
             guard let host = url.host else { throw Error.invalidURL }
             actualURLComponents = [host] + url.pathComponents.droppedSlashElement() // pathComponents + host
+            shouldBeCaseSensitives = [false] + Array(repeating: true, count: url.pathComponents.count)
+
         case .universalLink(let universalLinkURL):
             guard url.scheme?.lowercased() == universalLinkURL.scheme?.lowercased() else { throw Error.schemeIsMismatch }
-            patternComponents = pattern.path.components
+
+            expectedComponents = pattern.path.components
             actualURLComponents = url.pathComponents.droppedSlashElement() // only pathComponents
+            shouldBeCaseSensitives = Array(repeating: true, count: url.pathComponents.count)
         case .none:
             throw Error.invalidURL
         }
 
-        guard patternComponents.count == actualURLComponents.count else {
+        guard expectedComponents.count == actualURLComponents.count else {
             throw Error.componentsCountMismatch
         }
 
         var arguments: Arguments = [:]
-        for (index, (patternComponent, component)) in zip(patternComponents, actualURLComponents).enumerated() {
-            let shouldBeCaseSensitive: Bool
-            switch pattern.linkSource {
-            case .urlScheme:
-                // host must be case insensitive. pathes must be case sensitive.
-                shouldBeCaseSensitive = index != 0
-            case .universalLink:
-                shouldBeCaseSensitive = true
-            case .none:
-                throw Error.invalidURL
-            }
-
+        for ((patternComponent, component), shouldBeCaseSensitive) in zip(zip(expectedComponents, actualURLComponents), shouldBeCaseSensitives) {
             if patternComponent.hasPrefix(Self.keywordPrefix) {
                 let keyword = String(patternComponent[Self.keywordPrefix.endIndex...])
                 arguments[keyword] = component
