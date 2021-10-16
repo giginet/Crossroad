@@ -7,9 +7,8 @@ final class Router_AcceptanceTests: XCTestCase {
     private let universalLink: LinkSource = .universalLink(URL(string: "https://my-awesome-pokedex.com")!)
 
     func testAcceptOnly() throws {
-        typealias Route = SimpleRouter.Route
-        let router = try SimpleRouter(accepts: [customURLScheme, universalLink]) {
-            Route("/pokemons/:id", accepts: .onlyFor(universalLink)) { _ in
+        let router = try SimpleRouter(accepts: [customURLScheme, universalLink]) { route in
+            route("/pokemons/:id", accepts: .onlyFor(universalLink)) { _ in
                 return true
             }
         }

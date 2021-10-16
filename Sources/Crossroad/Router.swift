@@ -4,17 +4,24 @@ import UIKit
 public typealias SimpleRouter = Router<Void>
 
 public final class Router<UserInfo> {
-    let linkSources: Set<LinkSource>
-    var routes: [Route] = []
+    public typealias Route = Crossroad.Route<UserInfo>
+
+    private let linkSources: Set<LinkSource>
+    private let routes: [Route]
     private let parser = Parser()
+
+    public convenience init(accepts linkSourceGroup: LinkSourceGroup) {
+        self.init(linkSources: linkSourceGroup.extract())
+    }
+
+    init(linkSources: Set<LinkSource>) {
+        self.linkSources = linkSources
+        self.routes = []
+    }
 
     init(linkSources: Set<LinkSource>, routes: [Route]) throws {
         self.linkSources = linkSources
         self.routes = routes
-    }
-
-    func register(_ route: Route) {
-        routes.append(route)
     }
 
     @discardableResult
@@ -50,6 +57,19 @@ public final class Router<UserInfo> {
                     matchings.append(result)
                 }
             }
+        }
+    }
+}
+
+extension Router {
+    class Validator {
+        private var errors: [Error] = []
+
+        func record(_ error: Error) {
+            errors.append(error)
+        }
+
+        func validate() throws {
         }
     }
 }

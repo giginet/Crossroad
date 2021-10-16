@@ -9,15 +9,15 @@ final class DSLTests: XCTestCase {
     func testDSL() throws {
         let customURLScheme: LinkSource = .urlScheme("pokedex")
         let universalLink: LinkSource = .universalLink(URL(string: "https://my-awesome-pokedex.com")!)
-        typealias Route = SimpleRouter.Route
-        let router = try SimpleRouter(accepts: [customURLScheme, universalLink]) {
-            Route("/pokemons/:id") { context in
+
+        let router = try SimpleRouter(accepts: [customURLScheme, universalLink]) { route in
+            route("/pokemons/:id") { context in
                 guard let pokedexID: Int = context.arguments.id else { return false }
                 presentPokemonViewController(pokedexID: pokedexID)
                 return true
             }
 
-            Route("/pokemons/search", accepts: .onlyFor(customURLScheme)) { _ in
+            route("/pokemons/search", accepts: .onlyFor(customURLScheme)) { _ in
                 true
             }
         }
