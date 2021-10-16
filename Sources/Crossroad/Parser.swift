@@ -41,7 +41,7 @@ public class Parser {
             throw Error.componentsCountMismatch
         }
 
-        var arguments: Arguments = [:]
+        var arguments: Arguments.Storage = [:]
         for ((patternComponent, component), shouldBeCaseSensitive) in zip(zip(expectedComponents, actualURLComponents), shouldBeCaseSensitives) {
             if patternComponent.hasPrefix(Self.keywordPrefix) {
                 let keyword = String(patternComponent[Self.keywordPrefix.endIndex...])
@@ -53,8 +53,9 @@ public class Parser {
             }
         }
 
+        let argumentContainer = Arguments(arguments)
         let parameters = parseParameters(from: url)
-        return Context<Void>(url: url, arguments: arguments, parameters: parameters)
+        return Context<Void>(url: url, arguments: argumentContainer, parameters: parameters)
     }
 
     private func compare(_ lhs: String, _ rhs: String, isCaseSensitive: Bool) -> Bool {
@@ -66,12 +67,12 @@ public class Parser {
     }
 
     private func parseParameters(from url: URL) -> Parameters {
-        let parameters: Parameters
+        let parameters: Parameters.Storage
         if let components = URLComponents(url: url, resolvingAgainstBaseURL: true) {
             parameters = components.queryItems ?? []
         } else {
             parameters = []
         }
-        return parameters
+        return Parameters(parameters)
     }
 }

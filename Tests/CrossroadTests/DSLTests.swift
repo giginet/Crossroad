@@ -12,7 +12,7 @@ final class DSLTests: XCTestCase {
         typealias Route = SimpleRouter.Route
         let router = try SimpleRouter(accepts: [customURLScheme, universalLink]) {
             Route("/pokemons/:id") { context in
-                guard let pokedexID: Int = context.id else { return false }
+                guard let pokedexID: Int = context.arguments.id else { return false }
                 presentPokemonViewController(pokedexID: pokedexID)
                 return true
             }

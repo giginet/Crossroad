@@ -13,13 +13,13 @@ final class ContextTests: XCTestCase {
 
     var context: Context<Void> {
         return  Context<Void>(url: url,
-                              arguments: ["pokedexID": "25", "name": "Pikachu"],
-                              parameters: [
+                              arguments: Arguments(["pokedexID": "25", "name": "Pikachu"]),
+                              parameters: Parameters([
                                 URLQueryItem(name: "name", value: "Pikachu"),
                                 URLQueryItem(name: "type", value: "electric"),
                                 URLQueryItem(name: "region", value: "kanto"),
                                 URLQueryItem(name: "name2", value: "Mewtwo"),
-                                ],
+                                ]),
                               userInfo: ())
     }
 
@@ -58,8 +58,9 @@ final class ContextTests: XCTestCase {
     }
 
     func testDynamicMemberLookup() {
-        XCTAssertEqual(context.pokedexID, 25)
-        XCTAssertEqual(context.name, "Pikachu")
-        XCTAssertNil(context.region as String?)
+        XCTAssertEqual(context.arguments.pokedexID, 25)
+        XCTAssertEqual(context.arguments.name, "Pikachu")
+        XCTAssertNil(context.arguments.region as String?)
+        XCTAssertEqual(context.parameters.region, "kanto")
     }
 }
