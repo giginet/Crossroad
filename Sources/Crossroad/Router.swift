@@ -30,7 +30,13 @@ public final class Router<UserInfo> {
     @discardableResult
     public func openIfPossible(_ url: URL, userInfo: UserInfo) -> Bool {
         searchMatchingRoutes(to: url, userInfo: userInfo)
-            .first { result in result.route.executeHandler(context: result.context) } != nil
+            .first { result in
+                do {
+                    return try result.route.executeHandler(context: result.context)
+                } catch {
+                    return false
+                }
+            } != nil
     }
 
     public func responds(to url: URL, userInfo: UserInfo) -> Bool {
