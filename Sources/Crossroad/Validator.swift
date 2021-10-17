@@ -23,11 +23,24 @@ extension Router {
     private struct DuplicatedRouteRule: ValidationRule {
         func validate<UserInfo>(for router: Router<UserInfo>) throws {
             for route in router.routes {
+                let acceptSources: Set<LinkSource>
+                switch route.acceptPolicy {
+                case .any:
+                    acceptSources = router.linkSources
+                case .onlyFor(let linkSources):
+                    acceptSources = linkSources.extract()
+                }
+                
                 let count = router.routes.filter { other in
-                    route.path == other.path && route.acceptPolicy == other.acceptPolicy
+                    switch other.acceptPolicy {
+                    case .any:
+                        return route.path == other.path
+                    case .onlyFor(let linkSources):
+                        return route.path == other.path && !linkSources.extract().intersection(acceptSources).isEmpty
+                    }
                 }.count
                 guard count == 1 else {
-                    throw ValidationError.duplicatedRoute(route.path, (route.acceptPolicy as? Route.AcceptPolicy) ?? .any)
+                    throw ValidationError.duplicatedRoute(route.path, (route.acceptPolicy as? Route.AcceptPolicy) ?? .any) // need casting. it seems to be a compiler's bug
                 }
             }
         }

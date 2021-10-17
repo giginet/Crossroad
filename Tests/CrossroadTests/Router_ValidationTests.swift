@@ -66,4 +66,18 @@ final class Router_ValidationTests: XCTestCase {
             XCTAssertEqual(error.errorDescription, ###"Route definition for /hoge/fuga (accepts onlyFor(pokedex://)) is duplicated"###)
         }
     }
+    
+    func testValidateForDuplicatedRouteWithSamePathAndNotIntercectedAcceptPolicy() throws {
+        XCTAssertNoThrow(
+            try SimpleRouter(accepts: [self.customURLScheme, self.universalLink]) { route in
+                route("/hoge/fuga", accepts: .onlyFor(customURLScheme)) { _ in
+                    return true
+                }
+
+                route("/hoge/fuga", accepts: .onlyFor(universalLink)) { _ in
+                    return true
+                }
+            }
+        )
+    }
 }
