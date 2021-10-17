@@ -30,13 +30,13 @@ extension Router {
                 case .onlyFor(let linkSources):
                     acceptSources = linkSources.extract()
                 }
-                
+
                 let count = router.routes.filter { other in
                     switch other.acceptPolicy {
                     case .any:
                         return route.path == other.path
                     case .onlyFor(let linkSources):
-                        return route.path == other.path && !linkSources.extract().intersection(acceptSources).isEmpty
+                        return route.path == other.path && !linkSources.extract().isDisjoint(with: acceptSources)
                     }
                 }.count
                 guard count == 1 else {

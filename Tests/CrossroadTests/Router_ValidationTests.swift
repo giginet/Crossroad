@@ -15,8 +15,8 @@ final class Router_ValidationTests: XCTestCase {
                 }
             }
         ) { error in
-            let error = error as! LocalizedError
-            XCTAssertEqual(error.errorDescription, ###"Pattern string 'invalid://' is invalid."###)
+            let error = error as? LocalizedError
+            XCTAssertEqual(error?.errorDescription, ###"Pattern string 'invalid://' is invalid."###)
         }
     }
 
@@ -28,8 +28,8 @@ final class Router_ValidationTests: XCTestCase {
                 }
             }
         ) { error in
-            let error = error as! LocalizedError
-            XCTAssertEqual(error.errorDescription, ###"Unknown link sources [unknown://] is registered"###)
+            let error = error as? LocalizedError
+            XCTAssertEqual(error?.errorDescription, ###"Unknown link sources [unknown://] is registered"###)
         }
     }
 
@@ -45,8 +45,8 @@ final class Router_ValidationTests: XCTestCase {
                 }
             }
         ) { error in
-            let error = error as! LocalizedError
-            XCTAssertEqual(error.errorDescription, ###"Route definition for /hoge/fuga (accepts any) is duplicated"###)
+            let error = error as? LocalizedError
+            XCTAssertEqual(error?.errorDescription, ###"Route definition for /hoge/fuga (accepts any) is duplicated"###)
         }
     }
 
@@ -62,11 +62,11 @@ final class Router_ValidationTests: XCTestCase {
                 }
             }
         ) { error in
-            let error = error as! LocalizedError
-            XCTAssertEqual(error.errorDescription, ###"Route definition for /hoge/fuga (accepts onlyFor(pokedex://)) is duplicated"###)
+            let error = error as? LocalizedError
+            XCTAssertEqual(error?.errorDescription, ###"Route definition for /hoge/fuga (accepts onlyFor(pokedex://)) is duplicated"###)
         }
     }
-    
+
     func testValidateForDuplicatedRouteWithSamePathAndNotIntercectedAcceptPolicy() throws {
         XCTAssertNoThrow(
             try SimpleRouter(accepts: [self.customURLScheme, self.universalLink]) { route in

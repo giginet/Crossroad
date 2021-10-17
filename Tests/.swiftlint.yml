@@ -5,6 +5,7 @@ disabled_rules:
   - type_body_length
   - function_body_length
   - file_length
+  - type_name
 opt_in_rules:
   - trailing_comma
 trailing_comma:
