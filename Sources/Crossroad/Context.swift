@@ -1,6 +1,5 @@
 import Foundation
 
-@dynamicMemberLookup
 public struct Arguments {
     public enum Error: Swift.Error {
         case keyNotFound(String)
@@ -18,10 +17,6 @@ public struct Arguments {
             }
         }
         throw Error.keyNotFound(key)
-    }
-
-    public subscript<T: Parsable>(dynamicMember key: String) -> T? {
-        return try? get(for: key)
     }
 
     private var storage: [String: String]
@@ -69,7 +64,7 @@ public struct Parameters {
 
 public struct Context<UserInfo> {
     public let url: URL
-    public let arguments: Arguments
+    private let arguments: Arguments
     public let parameters: Parameters
     public let userInfo: UserInfo
 
@@ -80,6 +75,7 @@ public struct Context<UserInfo> {
         self.userInfo = userInfo
     }
 
+    @available(*, deprecated, message: "subscript for an argument is depricated.", renamed: "argument(for:)")
     public subscript<T: Parsable>(argument keyword: String) -> T? {
         return try? arguments.get(for: keyword)
     }

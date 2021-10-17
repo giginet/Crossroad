@@ -44,12 +44,6 @@ final class ContextTests: XCTestCase {
         XCTAssertNil(context.parameter(matchesIn: regexp("foo")) as String?)
     }
 
-    func testSubscriptArgument() {
-        XCTAssertEqual(context[argument: "name"], "Pikachu")
-        XCTAssertEqual(context[argument: "pokedexID"], 25)
-        XCTAssertNil(context[argument: "region"] as Region?)
-    }
-
     func testSubscriptParameter() {
         XCTAssertEqual(context[parameter: "name"], "Pikachu")
         XCTAssertEqual(context[parameter: "type"], "electric")
@@ -58,9 +52,7 @@ final class ContextTests: XCTestCase {
     }
 
     func testDynamicMemberLookup() {
-        XCTAssertEqual(context.arguments.pokedexID, 25)
-        XCTAssertEqual(context.arguments.name, "Pikachu")
-        XCTAssertNil(context.arguments.region as String?)
+        XCTAssertNil(context.parameters.pokedexID as Int?)
         XCTAssertEqual(context.parameters.region, "kanto")
     }
 }
