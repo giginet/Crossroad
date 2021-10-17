@@ -26,7 +26,7 @@ final class DSLTests: XCTestCase {
                 return true
             }
 
-            route("/pokemons/search", accepts: .onlyFor(customURLScheme)) { context in
+            route("/pokemons/search", accepts: .only(for: customURLScheme)) { context in
                 let name: String? = context.parameters.name
                 let types: [PokemonType]? = context.parameters.types
                 presentPokemonSearchViewController(name: name, types: types)

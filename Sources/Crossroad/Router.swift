@@ -48,7 +48,7 @@ public final class Router<UserInfo> {
         switch route.acceptPolicy {
         case .any:
             validSources = linkSources
-        case .onlyFor(let accepteds):
+        case .only(let accepteds):
             validSources = linkSources.intersection(accepteds.extract())
         }
         return Set(validSources.map { Pattern(linkSource: $0, path: route.path) })

@@ -23,7 +23,7 @@ final class Router_ValidationTests: XCTestCase {
     func testValidateForUnknownLinkSource() throws {
         XCTAssertThrowsError(
             try SimpleRouter(accepts: [self.customURLScheme, self.universalLink]) { route in
-                route("/hoge/fuga", accepts: .onlyFor(unknownCustomURLScheme)) { _ in
+                route("/hoge/fuga", accepts: .only(for: unknownCustomURLScheme)) { _ in
                     return true
                 }
             }
@@ -53,28 +53,28 @@ final class Router_ValidationTests: XCTestCase {
     func testValidateForDuplicatedRouteWithAcceptPolicy() throws {
         XCTAssertThrowsError(
             try SimpleRouter(accepts: [self.customURLScheme, self.universalLink]) { route in
-                route("/hoge/fuga", accepts: .onlyFor(customURLScheme)) { _ in
+                route("/hoge/fuga", accepts: .only(for: customURLScheme)) { _ in
                     return true
                 }
 
-                route("/hoge/fuga", accepts: .onlyFor(customURLScheme)) { _ in
+                route("/hoge/fuga", accepts: .only(for: customURLScheme)) { _ in
                     return true
                 }
             }
         ) { error in
             let error = error as? LocalizedError
-            XCTAssertEqual(error?.errorDescription, ###"Route definition for /hoge/fuga (accepts onlyFor(pokedex://)) is duplicated"###)
+            XCTAssertEqual(error?.errorDescription, ###"Route definition for /hoge/fuga (accepts only(for: pokedex://)) is duplicated"###)
         }
     }
 
     func testValidateForDuplicatedRouteWithSamePathAndNotIntercectedAcceptPolicy() throws {
         XCTAssertNoThrow(
             try SimpleRouter(accepts: [self.customURLScheme, self.universalLink]) { route in
-                route("/hoge/fuga", accepts: .onlyFor(customURLScheme)) { _ in
+                route("/hoge/fuga", accepts: .only(for: customURLScheme)) { _ in
                     return true
                 }
 
-                route("/hoge/fuga", accepts: .onlyFor(universalLink)) { _ in
+                route("/hoge/fuga", accepts: .only(for: universalLink)) { _ in
                     return true
                 }
             }

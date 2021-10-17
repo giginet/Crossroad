@@ -8,7 +8,7 @@ extension Router {
     private struct UnknownLinkSourceRule: ValidationRule {
         func validate<UserInfo>(for router: Router<UserInfo>) throws {
             for route in router.routes {
-                guard case let .onlyFor(group) = route.acceptPolicy else {
+                guard case let .only(group) = route.acceptPolicy else {
                     return
                 }
                 let acceptSources = group.extract()
@@ -27,7 +27,7 @@ extension Router {
                 switch route.acceptPolicy {
                 case .any:
                     acceptSources = router.linkSources
-                case .onlyFor(let linkSources):
+                case .only(let linkSources):
                     acceptSources = linkSources.extract()
                 }
 
@@ -35,7 +35,7 @@ extension Router {
                     switch other.acceptPolicy {
                     case .any:
                         return route.path == other.path
-                    case .onlyFor(let linkSources):
+                    case .only(let linkSources):
                         return route.path == other.path && !linkSources.extract().isDisjoint(with: acceptSources)
                     }
                 }.count

@@ -8,7 +8,7 @@ final class Router_AcceptanceTests: XCTestCase {
 
     func testAcceptOnly() throws {
         let router = try SimpleRouter(accepts: [customURLScheme, universalLink]) { route in
-            route("/pokemons/:id", accepts: .onlyFor(universalLink)) { _ in
+            route("/pokemons/:id", accepts: .only(for: universalLink)) { _ in
                 return true
             }
         }
