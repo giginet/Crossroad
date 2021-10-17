@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   iOS:
-    runs-on: macos-latest
+    runs-on: macos-11
     steps:
     - uses: actions/checkout@v2
     - name: Run Tests
@@ -12,7 +12,7 @@ jobs:
         DESTINATION="platform=iOS Simulator,name=iPhone 8" SCHEME="Crossroad-iOS"
         xcodebuild test -project Crossroad.xcodeproj -scheme "${SCHEME}" -destination "${DESTINATION}"
   tvOS:
-    runs-on: macos-latest
+    runs-on: macos-11
     steps:
     - uses: actions/checkout@v2
     - name: Run Tests
@@ -20,7 +20,7 @@ jobs:
         DESTINATION="platform=tvOS Simulator,name=Apple TV 4K" SCHEME="Crossroad-tvOS"
         xcodebuild test -project Crossroad.xcodeproj -scheme "${SCHEME}" -destination "${DESTINATION}"
   Lint:
-    runs-on: macos-latest
+    runs-on: macos-11
     steps:
     - uses: actions/checkout@v2
     - name: Install Dependencies
