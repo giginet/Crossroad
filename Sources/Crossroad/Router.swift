@@ -7,7 +7,7 @@ public final class Router<UserInfo> {
     public typealias Route = Crossroad.Route<UserInfo>
 
     let linkSources: Set<LinkSource>
-    let routes: [Route]
+    private(set) var routes: [Route]
     private let parser = Parser()
 
     public convenience init(accepts linkSourceGroup: LinkSourceGroup) {
@@ -23,6 +23,18 @@ public final class Router<UserInfo> {
         self.linkSources = linkSources
         self.routes = routes
 
+        let validator = Validator(router: self)
+        try validator.validate()
+    }
+
+    @available(*, deprecated, message: "register(_:) is deprecated. Use Router.init instead.")
+    public func register(_ routeDefinitions: [(String, Route.Handler)]) throws {
+        let routes = try routeDefinitions.map { (patternString, handler) -> Route in
+            return try Route(patternString: patternString,
+                             acceptPolicy: .any,
+                             handler: handler)
+        }
+        self.routes.append(contentsOf: routes)
         let validator = Validator(router: self)
         try validator.validate()
     }
