@@ -9,7 +9,7 @@ enum TestResult<Success, Failure> {
 
 final class PatternTests: XCTestCase {
     func testParsePattern() throws {
-        let testCases: [(UInt, String, TestResult<(LinkSource?, Path), Pattern.ParsingError>)] = [
+        let testCases: [(UInt, String, TestResult<(LinkSource?, Path), Crossroad.Pattern.ParsingError>)] = [
             (   #line,
                 "https://pokedex.com/pokemons/:id",
                 .success((.universalLink(URL(string: "https://pokedex.com")!),
@@ -72,7 +72,7 @@ final class PatternTests: XCTestCase {
                 XCTAssertEqual(pattern.path, success.1, line: line)
             case .failure:
                 XCTAssertThrowsError(try Pattern(patternString: patternString)) { error in
-                    let parsingError = error as? Pattern.ParsingError
+                    let parsingError = error as? Crossroad.Pattern.ParsingError
                     if case .invalidPattern(let pattern) = parsingError {
                         XCTAssertEqual(pattern, patternString)
                     }

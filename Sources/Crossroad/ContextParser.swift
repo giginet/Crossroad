@@ -1,5 +1,4 @@
 import Foundation
-import UIKit
 
 @available(*, deprecated, renamed: "ContextParser")
 public typealias URLParser = ContextParser
