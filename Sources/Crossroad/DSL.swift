@@ -8,7 +8,7 @@ extension Router {
         }
     }
 
-    public convenience init(accepts linkSources: Set<LinkSource>, @Builder routeBuilder: (Definition.Factory) -> [Definition]) throws {
+    public convenience init(accepts linkSources: Set<LinkSource>, @Builder _ routeBuilder: (Definition.Factory) -> [Definition]) throws {
         let routeDefinitions = routeBuilder(Definition.Factory())
         let routes = try routeDefinitions.map { definition in
             try definition.get()

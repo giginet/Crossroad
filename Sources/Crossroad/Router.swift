@@ -26,16 +26,24 @@ public final class Router<UserInfo> {
         try validator.validate()
     }
 
-    @available(*, deprecated, message: "register(_:) is deprecated. Use new DSL instead.")
+    @available(*, deprecated, message: "Use new DSL instead. This method would cause fatalError when registered Routes are invalid for safety.", renamed: "init(accepts:_:)")
     public func register(_ routeDefinitions: [(String, Route.Handler)]) {
-        let routes = routeDefinitions.compactMap { (patternString, handler) -> Route? in
-            return try? Route(patternString: patternString,
-                             acceptPolicy: .any,
-                             handler: handler)
+        let routes = routeDefinitions.map { (patternString, handler) -> Route in
+            do {
+                return try Route(patternString: patternString,
+                                 acceptPolicy: .any,
+                                 handler: handler)
+            } catch {
+                fatalError((error as? LocalizedError)?.errorDescription ?? error.localizedDescription)
+            }
         }
         self.routes.append(contentsOf: routes)
         let validator = Validator(router: self)
-        try? validator.validate()
+        do {
+            try validator.validate()
+        } catch {
+            fatalError((error as? LocalizedError)?.errorDescription ?? error.localizedDescription)
+        }
     }
 
     @discardableResult
