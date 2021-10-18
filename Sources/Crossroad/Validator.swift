@@ -81,6 +81,10 @@ extension Router {
                         throw ValidationError.invalidUniversalLinkSource(url)
                     }
 
+                    guard url.host != nil && url.scheme != nil else {
+                        throw ValidationError.invalidUniversalLinkSource(url)
+                    }
+
                     guard url.path.isEmpty else {
                         throw ValidationError.universalLinkSourceContainsPath(url)
                     }

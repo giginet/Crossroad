@@ -106,4 +106,60 @@ final class Router_ValidationTests: XCTestCase {
             XCTAssertEqual(error?.errorDescription, ###"Pattern 'pokedex://hoge/fuga' contains invalid link source 'pokedex://'."###)
         }
     }
+
+    func testValidateForUniversalLinkURLIsInvalid() throws {
+        let invalidUniversalLink: LinkSource = .universalLink(URL(string: "/invalid")!)
+        XCTAssertThrowsError(
+            try SimpleRouter(accepts: [invalidUniversalLink]) { route in
+                route("/hoge/fuga") { _ in
+                    return true
+                }
+            }
+        ) { error in
+            let error = error as? LocalizedError
+            XCTAssertEqual(error?.errorDescription, ###"Link source '/invalid' must be absolute URL."###)
+        }
+    }
+
+    func testValidateForUniversalLinkURLIsFileURL() throws {
+        let invalidUniversalLink: LinkSource = .universalLink(URL(string: "file://fileURL")!)
+        XCTAssertThrowsError(
+            try SimpleRouter(accepts: [invalidUniversalLink]) { route in
+                route("/hoge/fuga") { _ in
+                    return true
+                }
+            }
+        ) { error in
+            let error = error as? LocalizedError
+            XCTAssertEqual(error?.errorDescription, ###"Link source 'file://fileURL' must be absolute URL."###)
+        }
+    }
+
+    func testValidateForUniversalLinkURLContainsPath() throws {
+        let invalidUniversalLink: LinkSource = .universalLink(URL(string: "https://my-awesome-pokedex.com/")!)
+        XCTAssertThrowsError(
+            try SimpleRouter(accepts: [invalidUniversalLink]) { route in
+                route("/hoge/fuga") { _ in
+                    return true
+                }
+            }
+        ) { error in
+            let error = error as? LocalizedError
+            XCTAssertEqual(error?.errorDescription, ###"Link source 'https://my-awesome-pokedex.com/' should not contain any pathes."###)
+        }
+    }
+
+    func testValidateForSchemeIsWellKnown() throws {
+        let wellKnownScheme: LinkSource = .customURLScheme("https")
+        XCTAssertThrowsError(
+            try SimpleRouter(accepts: [wellKnownScheme]) { route in
+                route("/hoge/fuga") { _ in
+                    return true
+                }
+            }
+        ) { error in
+            let error = error as? LocalizedError
+            XCTAssertEqual(error?.errorDescription, ###"Link source 'https should not be well known.'"###)
+        }
+    }
 }
