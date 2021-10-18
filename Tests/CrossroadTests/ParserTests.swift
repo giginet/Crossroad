@@ -1,17 +1,16 @@
 import XCTest
-import Crossroad
+@testable import Crossroad
 
 final class ParserTests: XCTestCase {
     func testURLParser() throws {
-        let parser = Parser()
-        let pattern = Pattern(linkSource: .customURLScheme("pokedex"),
-                              path: "/pokemons/:pokedexID")
-        let context = try parser.parse(URL(string: "pokedex://pokemons/25")!, in: pattern)
+        let parser = ContextParser<Void>()
+        let patternString = "pokedex://pokemons/:pokedexID"
+        let context = try parser.parse(URL(string: "pokedex://pokemons/25")!, in: patternString)
         XCTAssertEqual(try context?.argument(for: "pokedexID"), 25)
     }
 
     func testPatternCase() throws {
-        let parser = Parser()
+        let parser = ContextParser<Void>()
 
         let testCases: [(String, String, Bool, UInt)] = [
             ("http://my-awesome-pokedex.com/pokemons", "HTTP://MY-AWESOME-POKEDEX.COM/pokemons", true, #line),
@@ -23,8 +22,7 @@ final class ParserTests: XCTestCase {
 
         for (patternString, urlString, result, line) in testCases {
             let url = URL(string: urlString)!
-            let pattern = try Pattern(patternString: patternString)
-            let context = try? parser.parse(url, in: pattern)
+            let context = try? parser.parse(url, in: patternString)
             if result {
                 XCTAssertNotNil(context, line: line)
             } else {

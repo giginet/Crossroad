@@ -1,21 +1,11 @@
 import Foundation
 import UIKit
 
-@available(*, deprecated, message: "URLParser<UserInfo> is deprecated. Please use Parser instead.", renamed: "Parser")
-public class URLParser<UserInfo> {
-    @available(*, deprecated)
-    public init() {
-        fatalError()
-    }
+@available(*, deprecated, renamed: "ContextParser")
+public typealias URLParser = ContextParser
 
-    @available(*, deprecated)
-    public func parse(_ url: URL, in patternString: String) throws -> Context<Void>? {
-        fatalError()
-    }
-}
-
-public class Parser {
-    private static let keywordPrefix = ":"
+public class ContextParser<UserInfo> {
+    private let keywordPrefix = ":"
 
     public enum Error: Swift.Error {
         case schemeIsMismatch
@@ -26,12 +16,12 @@ public class Parser {
 
     public init() { }
 
-    public func parse(_ url: URL, in patternString: String) throws -> Context<Void>? {
+    public func parse(_ url: URL, in patternString: String, userInfo: UserInfo) throws -> Context<UserInfo>? {
         let pattern = try Pattern(patternString: patternString)
-        return try parse(url, in: pattern)
+        return try parse(url, in: pattern, userInfo: userInfo)
     }
 
-    public func parse(_ url: URL, in pattern: Pattern) throws -> Context<Void>? {
+    func parse(_ url: URL, in pattern: Pattern, userInfo: UserInfo) throws -> Context<UserInfo>? {
         let expectedComponents: [String]
         let actualURLComponents: [String]
         let shouldBeCaseSensitives: [Bool]
@@ -61,8 +51,8 @@ public class Parser {
 
         var arguments: Arguments.Storage = [:]
         for ((patternComponent, component), shouldBeCaseSensitive) in zip(zip(expectedComponents, actualURLComponents), shouldBeCaseSensitives) {
-            if patternComponent.hasPrefix(Self.keywordPrefix) {
-                let keyword = String(patternComponent[Self.keywordPrefix.endIndex...])
+            if patternComponent.hasPrefix(keywordPrefix) {
+                let keyword = String(patternComponent[keywordPrefix.endIndex...])
                 arguments[keyword] = component
             } else if compare(patternComponent, component, isCaseSensitive: shouldBeCaseSensitive) {
                 continue
@@ -73,7 +63,7 @@ public class Parser {
 
         let argumentContainer = Arguments(arguments)
         let parameters = parseParameters(from: url)
-        return Context<Void>(url: url, arguments: argumentContainer, parameters: parameters)
+        return Context<UserInfo>(url: url, arguments: argumentContainer, parameters: parameters, userInfo: userInfo)
     }
 
     private func compare(_ lhs: String, _ rhs: String, isCaseSensitive: Bool) -> Bool {
@@ -92,5 +82,11 @@ public class Parser {
             parameters = []
         }
         return Parameters(parameters)
+    }
+}
+
+extension ContextParser where UserInfo == Void {
+    public func parse(_ url: URL, in patternString: String) throws -> Context<UserInfo>? {
+        return try parse(url, in: patternString, userInfo: ())
     }
 }

@@ -7,7 +7,7 @@ public final class Router<UserInfo> {
 
     let linkSources: Set<LinkSource>
     private(set) var routes: [Route]
-    private let parser = Parser()
+    private let parser = ContextParser<UserInfo>()
 
     public convenience init(accepts linkSourceGroup: LinkSourceGroup) {
         self.init(linkSources: linkSourceGroup.extract())
@@ -65,15 +65,15 @@ public final class Router<UserInfo> {
         return Set(validSources.map { Pattern(linkSource: $0, path: route.path) })
     }
 
-    private struct MatchResult<UserInfo> {
+    private struct MatchResult {
         let route: Route
         let context: Context<UserInfo>
     }
-    private func searchMatchingRoutes(to url: URL, userInfo: UserInfo) -> [MatchResult<UserInfo>] {
+    private func searchMatchingRoutes(to url: URL, userInfo: UserInfo) -> [MatchResult] {
         routes.reduce(into: []) { matchings, route in
             for pattern in expandAcceptablePattern(of: route) {
-                if let context = try? parser.parse(url, in: pattern) {
-                    let result = MatchResult(route: route, context: context.attached(userInfo))
+                if let context = try? parser.parse(url, in: pattern, userInfo: userInfo) {
+                    let result = MatchResult(route: route, context: context)
                     matchings.append(result)
                 }
             }
