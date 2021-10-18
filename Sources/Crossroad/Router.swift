@@ -26,7 +26,7 @@ public final class Router<UserInfo> {
         try validator.validate()
     }
 
-    @available(*, deprecated, message: "register(_:) is deprecated. Use Router.init instead.")
+    @available(*, deprecated, message: "register(_:) is deprecated. Use new DSL instead.")
     public func register(_ routeDefinitions: [(String, Route.Handler)]) {
         let routes = routeDefinitions.compactMap { (patternString, handler) -> Route? in
             return try? Route(patternString: patternString,
