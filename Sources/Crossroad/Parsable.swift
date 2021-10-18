@@ -64,6 +64,15 @@ extension Array: Parsable where Array.Element: Parsable {
     }
 }
 
+extension Set: Parsable where Set.Element: Parsable {
+    public init?(from string: String) {
+        let components = string.split(separator: ",")
+        self = Set(components
+                    .map { String($0) }
+                    .compactMap(Element.init(from:)))
+    }
+}
+
 extension URL: Parsable {
     public init?(from string: String) {
         self.init(string, conversion: URL.init(string:))
