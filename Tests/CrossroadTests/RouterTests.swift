@@ -402,7 +402,7 @@ final class RouterTest: XCTestCase {
         let idExpectation = self.expectation(description: "Should called handler with ID")
         let keywordExpectation = self.expectation(description: "Should called handler with keyword")
 
-        let router = try SimpleRouter(accepts: [.universalLink(URL(string: "https://example.com/")!)]) { route in
+        let router = try SimpleRouter(accepts: [.universalLink(URL(string: "https://example.com")!)]) { route in
             route("https://example.com/foo/:id") { context in
                 guard let id: Int = try? context.argument(for: "id") else {
                     return false
@@ -509,7 +509,7 @@ final class RouterTest: XCTestCase {
         let expectation = self.expectation(description: "Should called handler twice")
         expectation.expectedFulfillmentCount = 2
 
-        let router = try SimpleRouter(accepts: [.universalLink(URL(string: "https://example.com/")!)]) { route in
+        let router = try SimpleRouter(accepts: [.universalLink(URL(string: "https://example.com")!)]) { route in
             route("https://example.com/foo/bar") { _ in
                 expectation.fulfill()
                 return false
@@ -603,7 +603,7 @@ final class RouterTest: XCTestCase {
         }
 
         var userInfo: UserInfo?
-        let router = try Router<UserInfo>(accepts: [.universalLink(URL(string: "https://example.com/")!)]) { route in
+        let router = try Router<UserInfo>(accepts: [.universalLink(URL(string: "https://example.com")!)]) { route in
             route("https://example.com/static") { context in
                 XCTAssertEqual(context.url, URL(string: "https://example.com/static")!)
                 userInfo = context.userInfo
