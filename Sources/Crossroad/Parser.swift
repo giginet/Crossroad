@@ -1,10 +1,17 @@
 import Foundation
 import UIKit
 
-@available(*, deprecated, renamed: "Parser")
-public class URLParser {
+@available(*, deprecated, message: "URLParser<UserInfo> is deprecated. Please use Parser instead.", renamed: "Parser")
+public class URLParser<UserInfo> {
     @available(*, deprecated)
-    public init() { }
+    public init() {
+        fatalError()
+    }
+
+    @available(*, deprecated)
+    public func parse(_ url: URL, in patternString: String) throws -> Context<Void>? {
+        fatalError()
+    }
 }
 
 public class Parser {

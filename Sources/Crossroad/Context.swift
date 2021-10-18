@@ -108,7 +108,7 @@ extension Context where UserInfo == Void {
         self.init(url: url, arguments: arguments, parameters: parameters, userInfo: ())
     }
 
-    func attached<T>(_ userInfo: T) -> Context<T> {
+    public func attached<T>(_ userInfo: T) -> Context<T> {
         Context<T>(url: url,
                    arguments: arguments,
                    parameters: parameters,

@@ -27,15 +27,15 @@ public final class Router<UserInfo> {
     }
 
     @available(*, deprecated, message: "register(_:) is deprecated. Use Router.init instead.")
-    public func register(_ routeDefinitions: [(String, Route.Handler)]) throws {
-        let routes = try routeDefinitions.map { (patternString, handler) -> Route in
-            return try Route(patternString: patternString,
+    public func register(_ routeDefinitions: [(String, Route.Handler)]) {
+        let routes = routeDefinitions.compactMap { (patternString, handler) -> Route? in
+            return try? Route(patternString: patternString,
                              acceptPolicy: .any,
                              handler: handler)
         }
         self.routes.append(contentsOf: routes)
         let validator = Validator(router: self)
-        try validator.validate()
+        try? validator.validate()
     }
 
     @discardableResult
@@ -89,5 +89,17 @@ public extension Router where UserInfo == Void {
 
     func responds(to url: URL) -> Bool {
         return responds(to: url, userInfo: ())
+    }
+}
+
+public extension Router {
+    @available(*, deprecated, renamed: "init(accepts:)")
+    convenience init(scheme: String) {
+        self.init(accepts: [.customURLScheme(scheme)])
+    }
+
+    @available(*, deprecated, renamed: "init(accepts:)")
+    convenience init(url: URL) {
+        self.init(accepts: [.universalLink(url)])
     }
 }
