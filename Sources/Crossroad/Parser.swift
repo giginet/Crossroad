@@ -1,8 +1,11 @@
 import Foundation
 import UIKit
 
-@available(*, renamed: "Parser")
-public class URLParser { }
+@available(*, deprecated, renamed: "Parser")
+public class URLParser {
+    @available(*, deprecated)
+    public init() { }
+}
 
 public class Parser {
     private static let keywordPrefix = ":"
