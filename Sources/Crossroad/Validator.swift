@@ -70,10 +70,55 @@ extension Router {
 
     }
 
+    private struct InvalidUniversalLinkSourceRule: ValidationRule {
+        func validate<UserInfo>(for router: Router<UserInfo>) throws {
+            for linkSource in router.linkSources.extract() {
+                switch linkSource {
+                case .customURLScheme:
+                    continue
+                case .universalLink(let url):
+                    guard !url.isFileURL else {
+                        throw ValidationError.invalidUniversalLinkSource(url)
+                    }
+
+                    guard url.path.isEmpty else {
+                        throw ValidationError.universalLinkSourceContainsPath(url)
+                    }
+                }
+            }
+        }
+    }
+
+    private struct InvalidSchemeLinkSourceRule: ValidationRule {
+        private let wellKnownSchemes = [
+            "http",
+            "https",
+            "tel",
+            "facetime",
+            "mailto",
+        ]
+
+        func validate<UserInfo>(for router: Router<UserInfo>) throws {
+            for linkSource in router.linkSources.extract() {
+                switch linkSource {
+                case .customURLScheme(let scheme):
+                    guard !wellKnownSchemes.contains(scheme) else {
+                        throw ValidationError.wellKnownScheme(scheme)
+                    }
+                case .universalLink:
+                    continue
+                }
+            }
+        }
+    }
+
     public enum ValidationError: LocalizedError {
         case unknownLinkSource(Set<LinkSource>)
         case duplicatedRoute(Path, Route.AcceptPolicy)
         case invalidLinkSource(Pattern, LinkSource)
+        case wellKnownScheme(String)
+        case invalidUniversalLinkSource(URL)
+        case universalLinkSourceContainsPath(URL)
 
         public var errorDescription: String? {
             switch self {
@@ -83,6 +128,12 @@ extension Router {
                 return "Route definition for \(path) (accepts \(acceptPolicy)) is duplicated"
             case .invalidLinkSource(let pattern, let linkSource):
                 return "Pattern '\(pattern)' contains invalid link source '\(linkSource)'."
+            case .wellKnownScheme(let scheme):
+                return "Link source '\(scheme) should not be well known.'"
+            case .universalLinkSourceContainsPath(let url):
+                return "Link source '\(url.absoluteString)' should not contain any pathes."
+            case .invalidUniversalLinkSource(let url):
+                return "Link source '\(url.absoluteString)' must be absolute URL."
             }
         }
     }
@@ -97,6 +148,8 @@ extension Router {
             UnknownLinkSourceRule(),
             DuplicatedRouteRule(),
             InvalidLinkSourceRule(),
+            InvalidUniversalLinkSourceRule(),
+            InvalidSchemeLinkSourceRule(),
         ]
 
         func validate() throws {
