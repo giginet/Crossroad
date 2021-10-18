@@ -1,4 +1,8 @@
 import Foundation
+import UIKit
+
+@available(*, renamed: "Parser()")
+public class URLParser { }
 
 public class Parser {
     private static let keywordPrefix = ":"
@@ -12,8 +16,12 @@ public class Parser {
 
     public init() { }
 
-    public func parse(_ url: URL, in pattern: Pattern) throws -> Context<Void>? {
+    public func parse(_ url: URL, in patternString: String) throws -> Context<Void>? {
+        let pattern = try Pattern(patternString: patternString)
+        return try parse(url, in: pattern)
+    }
 
+    public func parse(_ url: URL, in pattern: Pattern) throws -> Context<Void>? {
         let expectedComponents: [String]
         let actualURLComponents: [String]
         let shouldBeCaseSensitives: [Bool]
