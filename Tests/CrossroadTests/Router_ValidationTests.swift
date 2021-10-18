@@ -80,4 +80,30 @@ final class Router_ValidationTests: XCTestCase {
             }
         )
     }
+
+    func testValidateForUnknownSchemeContainsPattern() throws {
+        XCTAssertThrowsError(
+            try SimpleRouter(accepts: [self.universalLink]) { route in
+                route("pokedex://hoge/fuga") { _ in
+                    return true
+                }
+            }
+        ) { error in
+            let error = error as? LocalizedError
+            XCTAssertEqual(error?.errorDescription, ###"Pattern 'pokedex://hoge/fuga' contains invalid link source 'pokedex://'."###)
+        }
+    }
+
+    func testValidateForAcceptingUnknownScheme() throws {
+        XCTAssertThrowsError(
+            try SimpleRouter(accepts: [self.universalLink, self.universalLink]) { route in
+                route("pokedex://hoge/fuga", accepts: .only(for: universalLink)) { _ in
+                    return true
+                }
+            }
+        ) { error in
+            let error = error as? LocalizedError
+            XCTAssertEqual(error?.errorDescription, ###"Pattern 'pokedex://hoge/fuga' contains invalid link source 'pokedex://'."###)
+        }
+    }
 }

@@ -183,3 +183,18 @@ public struct Pattern: Hashable {
         }
     }
 }
+
+extension Pattern: CustomStringConvertible {
+    public var description: String {
+        switch linkSource {
+        case .none:
+            return "\(path)"
+        case .customURLScheme(let scheme):
+            return "\(scheme):/\(path)"
+        case .universalLink(let universalLink):
+            return path.components.reduce(into: universalLink) { url, component in
+                url = url.appendingPathComponent(component)
+            }.absoluteString
+        }
+    }
+}

@@ -8,7 +8,7 @@ final class RouterTest: XCTestCase {
         let router = try SimpleRouter(accepts: [scheme]) { route in
             route("foobar://static") { _ in true }
             route("foobar://foo/bar") { _ in true }
-            route("FOOBAR://SPAM/HAM") { _ in false }
+            route("foobar://SPAM/HAM") { _ in false }
             route("foobar://:keyword") { _ in true }
             route("foobar://foo/:keyword") { _ in true }
         }
@@ -60,7 +60,7 @@ final class RouterTest: XCTestCase {
         let router = try SimpleRouter(accepts: [.universalLink(URL(string: "https://example.com")!)]) { route in
             route("https://example.com/static") { _ in true }
             route("https://example.com/foo/bar") { _ in true }
-            route("HTTPS://EXAMPLE.COM/SPAM/HAM") { _ in false }
+            route("https://example.com/SPAM/HAM") { _ in false }
             route("https://example.com/:keyword") { _ in true }
             route("https://example.com/foo/:keyword") { _ in true }
         }

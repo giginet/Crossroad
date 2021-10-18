@@ -2,7 +2,7 @@ import Foundation
 
 public struct Route<UserInfo> {
     public typealias Handler = (Context<UserInfo>) throws -> Bool
-    var path: Path
+    var pattern: Pattern
     var acceptPolicy: AcceptPolicy
     var handler: Handler
 
@@ -11,9 +11,12 @@ public struct Route<UserInfo> {
         case only(for: LinkSource)
     }
 
+    var path: Path {
+        pattern.path
+    }
+
     init(patternString: String, acceptPolicy: AcceptPolicy, handler: @escaping Handler) throws {
-        let pattern = try Pattern(patternString: patternString)
-        self.path = pattern.path
+        self.pattern = try Pattern(patternString: patternString)
         self.acceptPolicy = acceptPolicy
         self.handler = handler
     }

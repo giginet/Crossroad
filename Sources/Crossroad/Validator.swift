@@ -9,7 +9,7 @@ extension Router {
         func validate<UserInfo>(for router: Router<UserInfo>) throws {
             for route in router.routes {
                 guard case let .only(group) = route.acceptPolicy else {
-                    return
+                    continue
                 }
                 let acceptSources = group.extract()
                 guard acceptSources.isSubset(of: router.linkSources) else {
@@ -46,9 +46,34 @@ extension Router {
         }
     }
 
+    private struct InvalidLinkSourceRule: ValidationRule {
+        func validate<UserInfo>(for router: Router<UserInfo>) throws {
+            for route in router.routes {
+                guard let patternLinkSource = route.pattern.linkSource else {
+                    continue
+                }
+                guard router.linkSources.contains(patternLinkSource) else {
+                    throw ValidationError.invalidLinkSource(route.pattern, patternLinkSource)
+                }
+
+                switch route.acceptPolicy {
+                case .any:
+                    continue
+                case .only(let linkSources):
+                    guard linkSources.extract().contains(patternLinkSource) else {
+                        throw ValidationError.invalidLinkSource(route.pattern, patternLinkSource)
+                    }
+
+                }
+            }
+        }
+
+    }
+
     public enum ValidationError: LocalizedError {
         case unknownLinkSource(Set<LinkSource>)
         case duplicatedRoute(Path, Route.AcceptPolicy)
+        case invalidLinkSource(Pattern, LinkSource)
 
         public var errorDescription: String? {
             switch self {
@@ -56,6 +81,8 @@ extension Router {
                 return "Unknown link sources \(linkSources) is registered"
             case .duplicatedRoute(let path, let acceptPolicy):
                 return "Route definition for \(path) (accepts \(acceptPolicy)) is duplicated"
+            case .invalidLinkSource(let pattern, let linkSource):
+                return "Pattern '\(pattern)' contains invalid link source '\(linkSource)'."
             }
         }
     }
@@ -69,6 +96,7 @@ extension Router {
         private let rules: [ValidationRule] = [
             UnknownLinkSourceRule(),
             DuplicatedRouteRule(),
+            InvalidLinkSourceRule(),
         ]
 
         func validate() throws {
