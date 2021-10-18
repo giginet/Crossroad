@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-@available(*, renamed: "Parser()")
+@available(*, renamed: "Parser")
 public class URLParser { }
 
 public class Parser {
