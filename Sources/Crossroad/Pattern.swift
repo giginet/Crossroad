@@ -96,19 +96,12 @@ public struct Pattern: Hashable {
         }
 
         private func containsSchemeSeparator(in string: String) -> String.Index? {
-            guard let firstColon = string.firstIndex(of: ":") else { return nil }
-            let separatorEndIndex = string.index(firstColon, offsetBy: 2)
-            guard separatorEndIndex <= string.endIndex else { return nil }
-            let separator = string[firstColon...separatorEndIndex]
-            if separator == "://" {
-                return firstColon
-            }
-            return nil
+            string.range(of: "://")?.lowerBound
         }
 
         private func extractScheme(from urlString: String) -> String? {
             guard let index = containsSchemeSeparator(in: urlString) else { return nil }
-            return String(urlString[urlString.startIndex..<index])
+            return String(urlString[..<index])
         }
 
         private func guessLinkSource(from patternString: String) throws -> LinkSource? {
