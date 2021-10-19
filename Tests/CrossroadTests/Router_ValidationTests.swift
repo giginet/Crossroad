@@ -159,7 +159,21 @@ final class Router_ValidationTests: XCTestCase {
             }
         ) { error in
             let error = error as? LocalizedError
-            XCTAssertEqual(error?.errorDescription, ###"Link source 'https should not be well known.'"###)
+            XCTAssertEqual(error?.errorDescription, ###"Link source 'https' should not be well known."###)
+        }
+    }
+
+    func testValidateForSchemeContainsSlash() throws {
+        let wellKnownScheme: LinkSource = .customURLScheme("poke/dex")
+        XCTAssertThrowsError(
+            try SimpleRouter(accepts: [wellKnownScheme]) { route in
+                route("/hoge/fuga") { _ in
+                    return true
+                }
+            }
+        ) { error in
+            let error = error as? LocalizedError
+            XCTAssertEqual(error?.errorDescription, ###"Link source 'scheme' contains invalid characters."###)
         }
     }
 }

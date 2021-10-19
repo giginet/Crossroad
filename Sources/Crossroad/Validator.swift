@@ -105,6 +105,9 @@ extension Router {
             for linkSource in router.linkSources {
                 switch linkSource {
                 case .customURLScheme(let scheme):
+                    guard !scheme.contains("/") else {
+                        throw ValidationError.invalidSchemeLinkSource(scheme)
+                    }
                     guard !wellKnownSchemes.contains(scheme) else {
                         throw ValidationError.wellKnownScheme(scheme)
                     }
@@ -119,6 +122,7 @@ extension Router {
         case unknownLinkSource(Set<LinkSource>)
         case duplicatedRoute(Path, Route.AcceptPolicy)
         case invalidLinkSource(Pattern, LinkSource)
+        case invalidSchemeLinkSource(String)
         case wellKnownScheme(String)
         case invalidUniversalLinkSource(URL)
         case universalLinkSourceContainsPath(URL)
@@ -132,11 +136,13 @@ extension Router {
             case .invalidLinkSource(let pattern, let linkSource):
                 return "Pattern '\(pattern)' contains invalid link source '\(linkSource)'."
             case .wellKnownScheme(let scheme):
-                return "Link source '\(scheme) should not be well known.'"
+                return "Link source '\(scheme)' should not be well known."
             case .universalLinkSourceContainsPath(let url):
                 return "Link source '\(url.absoluteString)' should not contain any pathes."
             case .invalidUniversalLinkSource(let url):
                 return "Link source '\(url.absoluteString)' must be absolute URL."
+            case .invalidSchemeLinkSource(_):
+                return "Link source 'scheme' contains invalid characters."
             }
         }
     }
