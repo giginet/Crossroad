@@ -202,7 +202,7 @@ let router = try DefaultRouter(accepts: [customURLScheme, pokedexWeb, anotherWeb
     }
 
     // You can pass acceptPolicy for a specific page.
-    route("/regions", acceptPolicy: .only(for: pokedexWeb)) { context in 
+    route("/regions", accepts: .only(for: pokedexWeb)) { context in 
         presentRegionListViewController()
         return true 
     }
