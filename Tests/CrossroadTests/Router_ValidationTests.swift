@@ -63,7 +63,7 @@ final class Router_ValidationTests: XCTestCase {
             }
         ) { error in
             let error = error as? LocalizedError
-            XCTAssertEqual(error?.errorDescription, ###"Route definition for /hoge/fuga (accepts only(for: pokedex://)) is duplicated"###)
+            XCTAssertEqual(error?.errorDescription, ###"Route definition for /hoge/fuga (accepts only(for: Set([pokedex://]))) is duplicated"###)
         }
     }
 
