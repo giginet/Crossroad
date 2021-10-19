@@ -39,12 +39,12 @@ extension Router {
                 [Definition(patternString, accepts: acceptPolicy, handler: handler)]
             }
 
-            public func group(acceptsOnlyFor linkSources: Set<LinkSource>, @RouteBuilder _ routeBuilder: (Definition.GrouptedRouteFactory) -> [Definition]) -> [Definition] {
+            public func group(accepts linkSources: Set<LinkSource>, @RouteBuilder _ routeBuilder: (Definition.GrouptedRouteFactory) -> [Definition]) -> [Definition] {
                 routeBuilder(GrouptedRouteFactory(parentLinkSources: linkSources))
             }
 
-            public func group(acceptsOnlyFor linkSource: LinkSource, @RouteBuilder _ routeBuilder: (Definition.GrouptedRouteFactory) -> [Definition]) -> [Definition] {
-                routeBuilder(GrouptedRouteFactory(parentLinkSources: [linkSource]))
+            public func group(accepts linkSource: LinkSource, @RouteBuilder _ routeBuilder: (Definition.GrouptedRouteFactory) -> [Definition]) -> [Definition] {
+                group(accepts: [linkSource], routeBuilder)
             }
         }
 

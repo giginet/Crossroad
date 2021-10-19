@@ -26,7 +26,7 @@ final class DSLTests: XCTestCase {
                 return true
             }
 
-            route("/pokemons/search", accepts: .only(for: customURLScheme)) { context in
+            route("/pokemons", accepts: .only(for: customURLScheme)) { context in
                 let name: String? = context.parameters.name
                 let types: [PokemonType]? = context.parameters.types
                 presentPokemonSearchViewController(name: name, types: types)
@@ -34,6 +34,9 @@ final class DSLTests: XCTestCase {
             }
         }
         XCTAssertTrue(router.responds(to: URL(string: "pokedex://pokemons/42")!))
+        XCTAssertTrue(router.responds(to: URL(string: "https://my-awesome-pokedex.com/pokemons/42")!))
+        XCTAssertTrue(router.responds(to: URL(string: "pokedex://pokemons")!))
+        XCTAssertFalse(router.responds(to: URL(string: "https://my-awesome-pokedex.com/pokemons")!), "Route for '/pokemon' is registerd only for Custom URL Scheme.")
     }
 
     func testGroupedDSL() throws {
@@ -44,8 +47,8 @@ final class DSLTests: XCTestCase {
                 return true
             }
 
-            route.group(acceptsOnlyFor: universalLink) { route in
-                route("/pokemons/search") { context in
+            route.group(accepts: universalLink) { route in
+                route("/pokemons") { context in
                     let name: String? = context.parameters.name
                     let types: [PokemonType]? = context.parameters.types
                     presentPokemonSearchViewController(name: name, types: types)
@@ -54,5 +57,8 @@ final class DSLTests: XCTestCase {
             }
         }
         XCTAssertTrue(router.responds(to: URL(string: "pokedex://pokemons/42")!))
+        XCTAssertTrue(router.responds(to: URL(string: "https://my-awesome-pokedex.com/pokemons/42")!))
+        XCTAssertFalse(router.responds(to: URL(string: "pokedex://pokemons")!), "Route for '/pokemons' is registered in accepts group.")
+        XCTAssertTrue(router.responds(to: URL(string: "https://my-awesome-pokedex.com/pokemons")!))
     }
 }
