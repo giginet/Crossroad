@@ -1,18 +1,28 @@
 #if os(iOS)
 import UIKit
 import XCTest
-import Crossroad
+@testable import Crossroad
 
 final class OpenURLOptionTests: XCTestCase {
-    func testInit() {
+    let options: OpenURLOption = {
         let options: [UIApplication.OpenURLOptionsKey: Any] = [
             .sourceApplication: "org.giginet.myapp",
             .openInPlace: true,
         ]
-        let option = OpenURLOption(options: options)
-        XCTAssertEqual(option.sourceApplication, "org.giginet.myapp")
-        XCTAssertNil(option.annotation)
-        XCTAssertEqual(option.openInPlace, true)
+        return OpenURLOption(options: options)
+    }()
+    func testInit() {
+        XCTAssertEqual(options.sourceApplication, "org.giginet.myapp")
+        XCTAssertNil(options.annotation)
+        XCTAssertEqual(options.openInPlace, true)
+    }
+
+    func testContextWithOpenURLOption() {
+        let context = Context<OpenURLOption>(url: URL(string: "https://example.com")!,
+                                             arguments: .init([:]),
+                                             parameters: .init([]),
+                                             userInfo: options)
+        XCTAssertEqual(context.options.sourceApplication, "org.giginet.myapp")
     }
 }
 
