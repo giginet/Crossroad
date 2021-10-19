@@ -1,30 +1,12 @@
 import Foundation
 
-public protocol LinkSourceGroup {
-    func extract() -> Set<LinkSource>
-}
-
-extension LinkSource: LinkSourceGroup {
-    public func extract() -> Set<LinkSource> {
-        Set([self])
-    }
-}
-
-extension Set: LinkSourceGroup where Element == LinkSource {
-    public func extract() -> Set<LinkSource> {
-        self
-    }
-}
-
-extension Array: LinkSourceGroup where Element == LinkSource {
-    public func extract() -> Set<LinkSource> {
-        Set(self)
-    }
-}
-
 public enum LinkSource: Hashable, CustomStringConvertible {
     case customURLScheme(String)
     case universalLink(URL)
+
+    func asSet() -> Set<LinkSource> {
+        [self]
+    }
 
     public func hash(into hasher: inout Hasher) {
         switch self {

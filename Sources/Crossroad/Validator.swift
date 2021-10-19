@@ -8,10 +8,10 @@ extension Router {
     private struct UnknownLinkSourceRule: ValidationRule {
         func validate<UserInfo>(for router: Router<UserInfo>) throws {
             for route in router.routes {
-                guard case let .only(group) = route.acceptPolicy else {
+                guard case let .only(linkSource) = route.acceptPolicy else {
                     continue
                 }
-                let acceptSources = group.extract()
+                let acceptSources = linkSource.asSet()
                 guard acceptSources.isSubset(of: router.linkSources) else {
                     let notContains = acceptSources.subtracting(router.linkSources)
                     throw ValidationError.unknownLinkSource(notContains)
@@ -27,16 +27,16 @@ extension Router {
                 switch route.acceptPolicy {
                 case .any:
                     acceptSources = router.linkSources
-                case .only(let linkSources):
-                    acceptSources = linkSources.extract()
+                case .only(let linkSource):
+                    acceptSources = linkSource.asSet()
                 }
 
                 let count = router.routes.filter { other in
                     switch other.acceptPolicy {
                     case .any:
                         return route.path == other.path
-                    case .only(let linkSources):
-                        return route.path == other.path && !linkSources.extract().isDisjoint(with: acceptSources)
+                    case .only(let linkSource):
+                        return route.path == other.path && !linkSource.asSet().isDisjoint(with: acceptSources)
                     }
                 }.count
                 guard count == 1 else {
@@ -59,8 +59,8 @@ extension Router {
                 switch route.acceptPolicy {
                 case .any:
                     continue
-                case .only(let linkSources):
-                    guard linkSources.extract().contains(patternLinkSource) else {
+                case .only(let linkSource):
+                    guard linkSource.asSet().contains(patternLinkSource) else {
                         throw ValidationError.invalidLinkSource(route.pattern, patternLinkSource)
                     }
 
@@ -72,7 +72,7 @@ extension Router {
 
     private struct InvalidUniversalLinkSourceRule: ValidationRule {
         func validate<UserInfo>(for router: Router<UserInfo>) throws {
-            for linkSource in router.linkSources.extract() {
+            for linkSource in router.linkSources {
                 switch linkSource {
                 case .customURLScheme:
                     continue
@@ -103,7 +103,7 @@ extension Router {
         ]
 
         func validate<UserInfo>(for router: Router<UserInfo>) throws {
-            for linkSource in router.linkSources.extract() {
+            for linkSource in router.linkSources {
                 switch linkSource {
                 case .customURLScheme(let scheme):
                     guard !wellKnownSchemes.contains(scheme) else {

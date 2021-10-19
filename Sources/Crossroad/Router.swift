@@ -9,8 +9,12 @@ public final class Router<UserInfo> {
     private(set) var routes: [Route]
     private let parser = ContextParser<UserInfo>()
 
-    public convenience init(accepts linkSourceGroup: LinkSourceGroup) {
-        self.init(linkSources: linkSourceGroup.extract())
+    public convenience init(accepts linkSource: LinkSource) {
+        self.init(linkSources: [linkSource])
+    }
+
+    public convenience init(accepts linkSources: Set<LinkSource>) {
+        self.init(linkSources: linkSources)
     }
 
     init(linkSources: Set<LinkSource>) {
@@ -68,7 +72,7 @@ public final class Router<UserInfo> {
         case .any:
             validSources = linkSources
         case .only(let accepteds):
-            validSources = linkSources.intersection(accepteds.extract())
+            validSources = linkSources.intersection([accepteds])
         }
         return Set(validSources.map { Pattern(linkSource: $0, path: route.path) })
     }
