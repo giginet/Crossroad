@@ -84,7 +84,7 @@ extension Router {
                         throw ValidationError.invalidUniversalLinkSource(url)
                     }
 
-                    guard url.path.isEmpty else {
+                    guard url.path.isEmpty || url.path == "/" else {
                         throw ValidationError.universalLinkSourceContainsPath(url)
                     }
                 }

@@ -136,7 +136,7 @@ final class Router_ValidationTests: XCTestCase {
     }
 
     func testValidateForUniversalLinkURLContainsPath() throws {
-        let invalidUniversalLink: LinkSource = .universalLink(URL(string: "https://my-awesome-pokedex.com/")!)
+        let invalidUniversalLink: LinkSource = .universalLink(URL(string: "https://my-awesome-pokedex.com/path")!)
         XCTAssertThrowsError(
             try SimpleRouter(accepts: [invalidUniversalLink]) { route in
                 route("/hoge/fuga") { _ in
@@ -145,8 +145,19 @@ final class Router_ValidationTests: XCTestCase {
             }
         ) { error in
             let error = error as? LocalizedError
-            XCTAssertEqual(error?.errorDescription, ###"Link source 'https://my-awesome-pokedex.com/' should not contain any pathes."###)
+            XCTAssertEqual(error?.errorDescription, ###"Link source 'https://my-awesome-pokedex.com/path' should not contain any pathes."###)
         }
+    }
+
+    func testValidateForUniversalLinkURLContainsSlash() throws {
+        let invalidUniversalLink: LinkSource = .universalLink(URL(string: "https://my-awesome-pokedex.com/")!)
+        XCTAssertNoThrow(
+            try SimpleRouter(accepts: [invalidUniversalLink]) { route in
+                route("/hoge/fuga") { _ in
+                    return true
+                }
+            }
+        )
     }
 
     func testValidateForSchemeIsWellKnown() throws {
