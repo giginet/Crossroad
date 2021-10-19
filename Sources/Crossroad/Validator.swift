@@ -141,8 +141,8 @@ extension Router {
                 return "Link source '\(url.absoluteString)' should not contain any pathes."
             case .invalidUniversalLinkSource(let url):
                 return "Link source '\(url.absoluteString)' must be absolute URL."
-            case .invalidSchemeLinkSource(_):
-                return "Link source 'scheme' contains invalid characters."
+            case .invalidSchemeLinkSource(let scheme):
+                return "Link source '\(scheme)' contains invalid characters."
             }
         }
     }

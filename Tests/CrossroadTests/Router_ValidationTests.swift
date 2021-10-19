@@ -184,7 +184,7 @@ final class Router_ValidationTests: XCTestCase {
             }
         ) { error in
             let error = error as? LocalizedError
-            XCTAssertEqual(error?.errorDescription, ###"Link source 'scheme' contains invalid characters."###)
+            XCTAssertEqual(error?.errorDescription, ###"Link source 'poke/dex' contains invalid characters."###)
         }
     }
 }
