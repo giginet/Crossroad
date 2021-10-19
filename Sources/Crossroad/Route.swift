@@ -8,7 +8,10 @@ public struct Route<UserInfo> {
 
     public enum AcceptPolicy: Equatable {
         case any
-        case only(for: LinkSource)
+        case only(for: Set<LinkSource>)
+        static func only(for linkSource: LinkSource) -> Self {
+            .only(for: [linkSource])
+        }
     }
 
     var path: Path {

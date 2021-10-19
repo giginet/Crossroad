@@ -8,10 +8,9 @@ extension Router {
     private struct UnknownLinkSourceRule: ValidationRule {
         func validate<UserInfo>(for router: Router<UserInfo>) throws {
             for route in router.routes {
-                guard case let .only(linkSource) = route.acceptPolicy else {
+                guard case let .only(acceptSources) = route.acceptPolicy else {
                     continue
                 }
-                let acceptSources = linkSource.asSet()
                 guard acceptSources.isSubset(of: router.linkSources) else {
                     let notContains = acceptSources.subtracting(router.linkSources)
                     throw ValidationError.unknownLinkSource(notContains)
@@ -27,16 +26,16 @@ extension Router {
                 switch route.acceptPolicy {
                 case .any:
                     acceptSources = router.linkSources
-                case .only(let linkSource):
-                    acceptSources = linkSource.asSet()
+                case .only(let linkSources):
+                    acceptSources = linkSources
                 }
 
                 let count = router.routes.filter { other in
                     switch other.acceptPolicy {
                     case .any:
                         return route.path == other.path
-                    case .only(let linkSource):
-                        return route.path == other.path && !linkSource.asSet().isDisjoint(with: acceptSources)
+                    case .only(let linkSources):
+                        return route.path == other.path && !linkSources.isDisjoint(with: acceptSources)
                     }
                 }.count
                 guard count == 1 else {
@@ -59,8 +58,8 @@ extension Router {
                 switch route.acceptPolicy {
                 case .any:
                     continue
-                case .only(let linkSource):
-                    guard linkSource.asSet().contains(patternLinkSource) else {
+                case .only(let linkSources):
+                    guard linkSources.contains(patternLinkSource) else {
                         throw ValidationError.invalidLinkSource(route.pattern, patternLinkSource)
                     }
 

@@ -72,7 +72,7 @@ public final class Router<UserInfo> {
         case .any:
             validSources = linkSources
         case .only(let accepteds):
-            validSources = linkSources.intersection([accepteds])
+            validSources = linkSources.intersection(accepteds)
         }
         return Set(validSources.map { Pattern(linkSource: $0, path: route.path) })
     }

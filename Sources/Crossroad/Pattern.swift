@@ -4,10 +4,6 @@ public enum LinkSource: Hashable, CustomStringConvertible {
     case customURLScheme(String)
     case universalLink(URL)
 
-    func asSet() -> Set<LinkSource> {
-        [self]
-    }
-
     public func hash(into hasher: inout Hasher) {
         switch self {
         case .customURLScheme(let scheme):
