@@ -15,10 +15,10 @@ func presentPokemonSearchViewController(name: String?, types: [PokemonType]?) {
 }
 
 final class DSLTests: XCTestCase {
-    func testDSL() throws {
-        let customURLScheme: LinkSource = .customURLScheme("pokedex")
-        let universalLink: LinkSource = .universalLink(URL(string: "https://my-awesome-pokedex.com")!)
+    let customURLScheme: LinkSource = .customURLScheme("pokedex")
+    let universalLink: LinkSource = .universalLink(URL(string: "https://my-awesome-pokedex.com")!)
 
+    func testDSL() throws {
         let router = try SimpleRouter(accepts: [customURLScheme, universalLink]) { route in
             route("/pokemons/:id") { context in
                 let pokedexID: Int = try context.argument(for: "id")
@@ -31,6 +31,26 @@ final class DSLTests: XCTestCase {
                 let types: [PokemonType]? = context.parameters.types
                 presentPokemonSearchViewController(name: name, types: types)
                 return true
+            }
+        }
+        XCTAssertTrue(router.responds(to: URL(string: "pokedex://pokemons/42")!))
+    }
+
+    func testGroupedDSL() throws {
+        let router = try SimpleRouter(accepts: [customURLScheme, universalLink]) { route in
+            route("/pokemons/:id") { context in
+                let pokedexID: Int = try context.argument(for: "id")
+                presentPokemonViewController(pokedexID: pokedexID)
+                return true
+            }
+
+            route.group(acceptsOnlyFor: universalLink) { route in
+                route("/pokemons/search") { context in
+                    let name: String? = context.parameters.name
+                    let types: [PokemonType]? = context.parameters.types
+                    presentPokemonSearchViewController(name: name, types: types)
+                    return true
+                }
             }
         }
         XCTAssertTrue(router.responds(to: URL(string: "pokedex://pokemons/42")!))
