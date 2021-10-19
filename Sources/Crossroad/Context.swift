@@ -1,7 +1,7 @@
 import Foundation
 
-public struct Arguments {
-    public enum Error: Swift.Error {
+struct Arguments {
+    enum Error: Swift.Error {
         case keyNotFound(String)
     }
     typealias Storage = [String: String]
