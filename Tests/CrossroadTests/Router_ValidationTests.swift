@@ -10,13 +10,13 @@ final class Router_ValidationTests: XCTestCase {
     func testValidateForInvalidPattern() throws {
         XCTAssertThrowsError(
             try SimpleRouter(accepts: [self.customURLScheme, self.universalLink]) { route in
-                route("invalid://") { _ in
+                route("/////aaaaaa/////") { _ in
                     return true
                 }
             }
         ) { error in
             let error = error as? LocalizedError
-            XCTAssertEqual(error?.errorDescription, ###"Pattern string 'invalid://' is invalid."###)
+            XCTAssertEqual(error?.errorDescription, ###"Pattern string '/////aaaaaa/////' is invalid."###)
         }
     }
 

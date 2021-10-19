@@ -31,6 +31,16 @@ final class RouterTest: XCTestCase {
         XCTAssertFalse(router.responds(to: URL(string: "aaa/bbb")!))
     }
 
+    func testCanRespondWithNoPathComponents() throws {
+        let router = try SimpleRouter(accepts: [scheme, .universalLink(URL(string: "https://example.com")!)]) { route in
+            route("/") { _ in true }
+        }
+        XCTAssertTrue(router.responds(to: URL(string: "foobar://")!))
+        XCTAssertTrue(router.responds(to: URL(string: "https://example.com")!))
+        XCTAssertTrue(router.responds(to: URL(string: "https://example.com/")!))
+        XCTAssertFalse(router.responds(to: URL(string: "http://example.com/")!))
+    }
+
     func testCanRespondWithCapitalCase() throws {
         let router = try SimpleRouter(accepts: [.customURLScheme("FOOBAR")]) { route in
             route("FOOBAR://STATIC") { _ in true }

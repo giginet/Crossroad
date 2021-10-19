@@ -30,8 +30,8 @@ public class ContextParser<UserInfo> {
             guard url.scheme?.lowercased() == scheme.lowercased() else { throw Error.schemeIsMismatch }
 
             expectedComponents = pattern.path.components
-            guard let host = url.host else { throw Error.invalidURL }
-            actualURLComponents = [host] + url.pathComponents.droppedSlashElement() // pathComponents + host
+            let host = url.host
+            actualURLComponents = [host].compactMap { $0 } + url.pathComponents.droppedSlashElement() // pathComponents + host
             shouldBeCaseSensitives = [false] + Array(repeating: true, count: url.pathComponents.count)
 
         case .universalLink(let universalLinkURL):

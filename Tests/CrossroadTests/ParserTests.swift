@@ -18,6 +18,8 @@ final class ParserTests: XCTestCase {
             ("pokedex://pokemons/fire", "pokedex://pokemons/FIRE", false, #line),
             ("pokedex://pokemons/fire", "POKEDEX://POKEMONS/fire", true, #line),
             ("pokedex://pokemons/fire", "POKEDEX://POKEMONS/FIRE", false, #line),
+            ("pokedex://", "pokedex://", true, #line),
+            ("http://my-awesome-pokedex.com", "http://my-awesome-pokedex.com", true, #line),
         ]
 
         for (patternString, urlString, result, line) in testCases {

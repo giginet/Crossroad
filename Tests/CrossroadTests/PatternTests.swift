@@ -47,8 +47,7 @@ final class PatternTests: XCTestCase {
             ),
             (   #line,
                 "aaaaaa//////////aaaaa",
-                .success((nil,
-                          Path(components: ["aaaaaa", "aaaaa"])))
+                .failure(.invalidPattern("aaaaaa//////////aaaaa"))
             ),
             (   #line,
                 "///////////////",
@@ -60,7 +59,13 @@ final class PatternTests: XCTestCase {
             ),
             (   #line,
                 "pokedex://",
-                .failure(.invalidPattern("pokedex://"))
+                .success((.customURLScheme("pokedex"),
+                          Path(components: [])))
+            ),
+            (   #line,
+                "/",
+                .success((nil,
+                          Path(components: [])))
             ),
         ]
 
@@ -71,7 +76,7 @@ final class PatternTests: XCTestCase {
                 XCTAssertEqual(pattern.linkSource, success.0, line: line)
                 XCTAssertEqual(pattern.path, success.1, line: line)
             case .failure:
-                XCTAssertThrowsError(try Pattern(patternString: patternString)) { error in
+                XCTAssertThrowsError(try Pattern(patternString: patternString), line: line) { error in
                     let parsingError = error as? Crossroad.Pattern.ParsingError
                     if case .invalidPattern(let pattern) = parsingError {
                         XCTAssertEqual(pattern, patternString)

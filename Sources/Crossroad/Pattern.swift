@@ -144,18 +144,24 @@ public struct Pattern: Hashable {
             switch linkSource {
             case .customURLScheme(let scheme):
                 let pathString = patternString.replacingOccurrences(of: "\(scheme)://", with: "")
+                guard !pathString.contains("//") else {
+                    throw ParsingError.invalidPattern(patternString)
+                }
                 let components = pathString.split(separator: "/").droppedSlashElement()
                 path = Path(components: components)
             case .universalLink(let url):
                 let pathString = patternString.replacingOccurrences(of: url.absoluteString, with: "")
+                guard !pathString.contains("//") else {
+                    throw ParsingError.invalidPattern(patternString)
+                }
                 let components = pathString.split(separator: "/").droppedSlashElement()
                 path = Path(components: components)
             case .none:
+                guard !patternString.contains("//") else {
+                    throw ParsingError.invalidPattern(patternString)
+                }
                 let components = patternString.split(separator: "/").droppedSlashElement()
                 path = Path(components: components)
-            }
-            guard !path.components.isEmpty else {
-                throw ParsingError.invalidPattern(patternString)
             }
             return path
         }
