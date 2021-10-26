@@ -15,12 +15,17 @@ public class ContextParser<UserInfo> {
 
     public init() { }
 
-    public func parse(_ url: URL, in patternString: String, userInfo: UserInfo) throws -> Context<UserInfo> {
+    public func parse(_ url: URL, with patternString: String, userInfo: UserInfo) throws -> Context<UserInfo> {
         let pattern = try Pattern(patternString: patternString)
-        return try parse(url, in: pattern, userInfo: userInfo)
+        return try parse(url, with: pattern, userInfo: userInfo)
     }
 
-    func parse(_ url: URL, in pattern: Pattern, userInfo: UserInfo) throws -> Context<UserInfo> {
+    @available(*, renamed: "parse(_:with:userInfo:)")
+    public func parse(_ url: URL, in patternString: String, userInfo: UserInfo) throws -> Context<UserInfo> {
+        try parse(url, with: patternString, userInfo: userInfo)
+    }
+
+    func parse(_ url: URL, with pattern: Pattern, userInfo: UserInfo) throws -> Context<UserInfo> {
         let expectedComponents: [String]
         let actualURLComponents: [String]
         let shouldBeCaseSensitives: [Bool]
@@ -85,7 +90,12 @@ public class ContextParser<UserInfo> {
 }
 
 extension ContextParser where UserInfo == Void {
-    public func parse(_ url: URL, in patternString: String) throws -> Context<UserInfo> {
-        return try parse(url, in: patternString, userInfo: ())
+    public func parse(_ url: URL, with patternString: String) throws -> Context<UserInfo> {
+        return try parse(url, with: patternString, userInfo: ())
+    }
+
+    @available(*, renamed: "parse(_:with:)")
+    public func parse(_ url: URL, in patternString: String, userInfo: UserInfo) throws -> Context<UserInfo> {
+        try parse(url, with: patternString, userInfo: userInfo)
     }
 }

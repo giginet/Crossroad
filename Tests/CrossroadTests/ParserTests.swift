@@ -5,7 +5,7 @@ final class ParserTests: XCTestCase {
     func testURLParser() throws {
         let parser = ContextParser<Void>()
         let patternString = "pokedex://pokemons/:pokedexID"
-        let context = try parser.parse(URL(string: "pokedex://pokemons/25")!, in: patternString)
+        let context = try parser.parse(URL(string: "pokedex://pokemons/25")!, with: patternString)
         XCTAssertEqual(try context.argument(for: "pokedexID"), 25)
     }
 
@@ -24,7 +24,7 @@ final class ParserTests: XCTestCase {
 
         for (patternString, urlString, result, line) in testCases {
             let url = URL(string: urlString)!
-            let context = try? parser.parse(url, in: patternString)
+            let context = try? parser.parse(url, with: patternString)
             if result {
                 XCTAssertNotNil(context, line: line)
             } else {

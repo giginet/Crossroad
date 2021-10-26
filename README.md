@@ -239,7 +239,7 @@ You can use `ContextParser`.
 ```swift
 let parser = ContextParser<Void>()
 let context = parser.parse(URL(string: "pokedex:/pokemons/25")!, 
-                           in: "pokedex://pokemons/:id")
+                           with: "pokedex://pokemons/:id")
 ```
 
 ## Installation
