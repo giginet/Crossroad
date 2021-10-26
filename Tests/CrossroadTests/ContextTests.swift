@@ -27,9 +27,32 @@ final class ContextTests: XCTestCase {
         return try! NSRegularExpression(pattern: string, options: [])
     }
 
-    func testParameter() {
+    func testArguments() throws {
+        XCTAssertEqual(try context.argument(for: "pokedexID"), 25)
+        XCTAssertEqual(try context.argument(for: "pokedexID", as: Int.self), 25)
+        XCTAssertEqual(try context.argument(for: "name"), "Pikachu")
+        XCTAssertThrowsError(try context.argument(for: "name", as: Int.self)) { error in
+            switch error as? Arguments.Error {
+            case .couldNotParse(let invalidType):
+                XCTAssertNotNil(invalidType)
+            case .keyNotFound, .none:
+                XCTFail("This error should not be raised.")
+            }
+        }
+        XCTAssertThrowsError(try context.argument(for: "unknown_key", as: Int.self)) { error in
+            switch error as? Arguments.Error {
+            case .keyNotFound(let unknownKey):
+                XCTAssertEqual(unknownKey, "unknown_key")
+            case .couldNotParse, .none:
+                XCTFail("This error should not be raised.")
+            }
+        }
+    }
+
+    func testParameters() {
         XCTAssertEqual(context.parameter(for: "name"), "Pikachu")
         XCTAssertNil(context.parameter(for: "foo") as String?)
+        XCTAssertNil(context.parameter(for: "foo", as: String.self))
         XCTAssertEqual(context.parameter(for: "region"), Region.kanto)
         XCTAssertEqual(context.parameter(for: "NaMe"), "Pikachu")
         XCTAssertEqual(context.parameter(for: "NAME2"), "Mewtwo")

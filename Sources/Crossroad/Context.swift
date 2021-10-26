@@ -3,6 +3,7 @@ import Foundation
 struct Arguments {
     enum Error: Swift.Error {
         case keyNotFound(String)
+        case couldNotParse(Parsable.Type)
     }
     typealias Storage = [String: String]
 
@@ -15,6 +16,7 @@ struct Arguments {
             if let value = T(from: argument) {
                 return value
             }
+            throw Error.couldNotParse(T.self)
         }
         throw Error.keyNotFound(key)
     }
@@ -84,11 +86,11 @@ public struct Context<UserInfo> {
         return parameters.get(for: key)
     }
 
-    public func argument<T: Parsable>(for key: String) throws -> T {
+    public func argument<T: Parsable>(for key: String, as type: T.Type = T.self) throws -> T {
         return try arguments.get(for: key)
     }
 
-    public func parameter<T: Parsable>(for key: String) -> T? {
+    public func parameter<T: Parsable>(for key: String, as type: T.Type = T.self) -> T? {
         return parameters.get(for: key)
     }
 
