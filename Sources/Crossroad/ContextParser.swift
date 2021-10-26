@@ -95,7 +95,7 @@ extension ContextParser where UserInfo == Void {
     }
 
     @available(*, renamed: "parse(_:with:)")
-    public func parse(_ url: URL, in patternString: String, userInfo: UserInfo) throws -> Context<UserInfo> {
-        try parse(url, with: patternString, userInfo: userInfo)
+    public func parse(_ url: URL, in patternString: String) throws -> Context<UserInfo> {
+        try parse(url, with: patternString, userInfo: ())
     }
 }
