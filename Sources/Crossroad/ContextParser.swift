@@ -20,7 +20,7 @@ public class ContextParser<UserInfo> {
         return try parse(url, with: pattern, userInfo: userInfo)
     }
 
-    @available(*, renamed: "parse(_:with:userInfo:)")
+    @available(*, deprecated, renamed: "parse(_:with:userInfo:)")
     public func parse(_ url: URL, in patternString: String, userInfo: UserInfo) throws -> Context<UserInfo> {
         try parse(url, with: patternString, userInfo: userInfo)
     }
@@ -94,7 +94,7 @@ extension ContextParser where UserInfo == Void {
         return try parse(url, with: patternString, userInfo: ())
     }
 
-    @available(*, renamed: "parse(_:with:)")
+    @available(*, deprecated, renamed: "parse(_:with:)")
     public func parse(_ url: URL, in patternString: String) throws -> Context<UserInfo> {
         try parse(url, with: patternString, userInfo: ())
     }
