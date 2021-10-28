@@ -40,7 +40,7 @@ do {
             return true 
         }
         route("/pokemons") { context in 
-            let type: Type? = context[parameter: "type"] // If URL contains &type=fire, you can get Fire type.
+            let type: Type? = context.queryParameters.type // If URL contains &type=fire, you can get Fire type.
             presentPokedexListViewController(for: type)
             return true 
         }
@@ -104,18 +104,18 @@ For example, if passed URL matches `pokedex://search/:keyword`, you can get `key
 let keyword: String = try context.arguments(for: "keyword") // Pikachu
 ```
 
-### Parameter
+### QueryParameter
 
 And more, you can get query parameters if exist.
 
 ```swift
 // actual URL: pokedex://search/Pikachu?generation=1
-let generation: Int? = context[parameter: "generation"] // 1
+let generation: Int? = context[queryParameter: "generation"] // 1
 // or you can also get value using DynamicMemberLookup
-let generation: Int? = context.parameters.generation // 1
+let generation: Int? = context.queryParameters.generation // 1
 ```
 
-You can cast arguments/parameters as any type. Crossroad attempt to cast each String values to the type.
+You can cast arguments/query parameters as any type. Crossroad attempt to cast each String values to the type.
 
 ```swift
 // expected pattern: pokedex://search/:pokedexID
@@ -139,7 +139,7 @@ enum Type: String, Parsable {
 }
 
 // matches: pokedex://pokemons?type=fire
-let type: Type? = context[parameter: "type"] // .fire
+let type: Type? = context.queryParameters.type // .fire
 ```
 
 ### Comma-separated list
@@ -148,7 +148,7 @@ You can treat comma-separated query strings as `Array` or `Set`.
 
 ```swift
 // matches: pokedex://pokemons?types=water,grass
-let types: [Type]? = context[parameter: "types"] // [.water, .grass]
+let types: [Type]? = context.queryParameters.types // [.water, .grass]
 ```
 
 ### Custom argument

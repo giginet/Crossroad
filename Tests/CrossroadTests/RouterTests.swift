@@ -171,7 +171,7 @@ final class RouterTest: XCTestCase {
                 return true
             }
             route("foobar://foo/bar") { context in
-                XCTAssertEqual(context.parameter(for: "param0"), 123)
+                XCTAssertEqual(context.queryParameter(for: "param0"), 123)
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/bar?param0=123")!)
                 expectation.fulfill()
                 return true
@@ -214,7 +214,7 @@ final class RouterTest: XCTestCase {
                 return true
             }
             route("https://example.com/foo/bar") { context in
-                XCTAssertEqual(context.parameter(for: "param0"), 123)
+                XCTAssertEqual(context.queryParameter(for: "param0"), 123)
                 XCTAssertEqual(context.url, URL(string: "https://example.com/foo/bar?param0=123")!)
                 expectation.fulfill()
                 return true
@@ -258,7 +258,7 @@ final class RouterTest: XCTestCase {
                 return true
             }
             route("foo/bar") { context in
-                XCTAssertEqual(context.parameter(for: "param0"), 123)
+                XCTAssertEqual(context.queryParameter(for: "param0"), 123)
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/bar?param0=123")!)
                 expectation.fulfill()
                 return true
@@ -302,7 +302,7 @@ final class RouterTest: XCTestCase {
                 return true
             }
             route("/foo/bar") { context in
-                XCTAssertEqual(context.parameter(for: "param0"), 123)
+                XCTAssertEqual(context.queryParameter(for: "param0"), 123)
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/bar?param0=123")!)
                 expectation.fulfill()
                 return true
@@ -346,7 +346,7 @@ final class RouterTest: XCTestCase {
                 return true
             }
             route("foo/bar") { context in
-                XCTAssertEqual(context.parameter(for: "param0"), 123)
+                XCTAssertEqual(context.queryParameter(for: "param0"), 123)
                 XCTAssertEqual(context.url, URL(string: "https://example.com/foo/bar?param0=123")!)
                 expectation.fulfill()
                 return true

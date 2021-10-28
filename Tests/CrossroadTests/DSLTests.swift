@@ -27,8 +27,8 @@ final class DSLTests: XCTestCase {
             }
 
             route("/pokemons", accepts: .only(for: customURLScheme)) { context in
-                let name: String? = context.parameters.name
-                let types: [PokemonType]? = context.parameters.types
+                let name: String? = context.queryParameters.name
+                let types: [PokemonType]? = context.queryParameters.types
                 presentPokemonSearchViewController(name: name, types: types)
                 return true
             }
@@ -49,8 +49,8 @@ final class DSLTests: XCTestCase {
 
             route.group(accepts: universalLink) { route in
                 route("/pokemons") { context in
-                    let name: String? = context.parameters.name
-                    let types: [PokemonType]? = context.parameters.types
+                    let name: String? = context.queryParameters.name
+                    let types: [PokemonType]? = context.queryParameters.types
                     presentPokemonSearchViewController(name: name, types: types)
                     return true
                 }

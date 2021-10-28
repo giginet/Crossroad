@@ -67,7 +67,7 @@ public class ContextParser<UserInfo> {
 
         let argumentContainer = Arguments(arguments)
         let parameters = parseParameters(from: url)
-        return Context<UserInfo>(url: url, arguments: argumentContainer, parameters: parameters, userInfo: userInfo)
+        return Context<UserInfo>(url: url, arguments: argumentContainer, queryParameters: parameters, userInfo: userInfo)
     }
 
     private func compare(_ lhs: String, _ rhs: String, isCaseSensitive: Bool) -> Bool {
@@ -78,14 +78,14 @@ public class ContextParser<UserInfo> {
         }
     }
 
-    private func parseParameters(from url: URL) -> Parameters {
-        let parameters: Parameters.Storage
+    private func parseParameters(from url: URL) -> QueryParameters {
+        let parameters: QueryParameters.Storage
         if let components = URLComponents(url: url, resolvingAgainstBaseURL: true) {
             parameters = components.queryItems ?? []
         } else {
             parameters = []
         }
-        return Parameters(parameters)
+        return QueryParameters(parameters)
     }
 }
 

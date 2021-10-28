@@ -14,7 +14,7 @@ final class ContextTests: XCTestCase {
     var context: Context<Void> {
         return  Context<Void>(url: url,
                               arguments: Arguments(["pokedexID": "25", "name": "Pikachu"]),
-                              parameters: Parameters([
+                              queryParameters: QueryParameters([
                                 URLQueryItem(name: "name", value: "Pikachu"),
                                 URLQueryItem(name: "type", value: "electric"),
                                 URLQueryItem(name: "region", value: "kanto"),
@@ -50,12 +50,12 @@ final class ContextTests: XCTestCase {
     }
 
     func testParameters() {
-        XCTAssertEqual(context.parameter(for: "name"), "Pikachu")
-        XCTAssertNil(context.parameter(for: "foo") as String?)
-        XCTAssertNil(context.parameter(for: "foo", as: String.self))
-        XCTAssertEqual(context.parameter(for: "region"), Region.kanto)
-        XCTAssertEqual(context.parameter(for: "NaMe"), "Pikachu")
-        XCTAssertEqual(context.parameter(for: "NAME2"), "Mewtwo")
+        XCTAssertEqual(context.queryParameter(for: "name"), "Pikachu")
+        XCTAssertNil(context.queryParameter(for: "foo") as String?)
+        XCTAssertNil(context.queryParameter(for: "foo", as: String.self))
+        XCTAssertEqual(context.queryParameter(for: "region"), Region.kanto)
+        XCTAssertEqual(context.queryParameter(for: "NaMe"), "Pikachu")
+        XCTAssertEqual(context.queryParameter(for: "NAME2"), "Mewtwo")
     }
 
     func testParametersByRegexp() {
@@ -68,14 +68,14 @@ final class ContextTests: XCTestCase {
     }
 
     func testSubscriptParameter() {
-        XCTAssertEqual(context[parameter: "name"], "Pikachu")
-        XCTAssertEqual(context[parameter: "type"], "electric")
-        XCTAssertEqual(context[parameter: "region"], Region.kanto)
-        XCTAssertNil(context[parameter: "moves"] as [String]?)
+        XCTAssertEqual(context[queryParameter: "name"], "Pikachu")
+        XCTAssertEqual(context[queryParameter: "type"], "electric")
+        XCTAssertEqual(context[queryParameter: "region"], Region.kanto)
+        XCTAssertNil(context[queryParameter: "moves"] as [String]?)
     }
 
     func testDynamicMemberLookup() {
-        XCTAssertNil(context.parameters.pokedexID as Int?)
-        XCTAssertEqual(context.parameters.region, "kanto")
+        XCTAssertNil(context.queryParameters.pokedexID as Int?)
+        XCTAssertEqual(context.queryParameters.region, "kanto")
     }
 }
