@@ -48,7 +48,11 @@ struct TopView: View {
                 VStack {
                     Link(placeholder: "pokedex://pokemons/25")
                         .environment(\.application, application)
-                    Link(placeholder: "pokedex://pokemons/search?types=fire")
+                    Link(placeholder: "pokedex://pokemons/search")
+                        .environment(\.application, application)
+                    Link(placeholder: "pokedex://pokemons/search?types=water")
+                        .environment(\.application, application)
+                    Link(placeholder: "pokedex://pokemons/search?region=kanto")
                         .environment(\.application, application)
                 }
             }

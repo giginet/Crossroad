@@ -51,6 +51,7 @@ struct Pokedex {
         ヒトカゲ,
         ゼニガメ,
         フシギダネ,
+        ゲッコウガ,
     ]
 
     func pokemon(for id: Int) -> Pokemon? {
