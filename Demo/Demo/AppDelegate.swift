@@ -42,8 +42,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
 
             route("/pokemons/search") { context in
-                let types: [Pokemon.PokemonType]? = context.parameters.types
-                let region: Pokemon.Region? = context.parameters.region
+                let types: [Pokemon.PokemonType]? = context.queryParameters.types
+                let region: Pokemon.Region? = context.queryParameters.region
 
                 let query = PokemonSearchView.Query(types: types.map(Set.init), region: region)
 

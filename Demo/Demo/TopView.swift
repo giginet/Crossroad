@@ -1,47 +1,59 @@
 import SwiftUI
 
-struct MyButton: View {
-    private let action: () -> Void
-    private let text: String
-
-    init(_ text: String, action: @escaping () -> Void) {
-        self.action = action
-        self.text = text
-    }
-
-    var body: some View {
-        Button(action: action) {
-            Text(text)
-                .font(.largeTitle)
-                .foregroundColor(.blue)
-        }.overlay(
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(.blue, lineWidth: 1)
-        )
-    }
-}
-
 struct TopView: View {
     @Environment(\.application) var application: UIApplication!
-
+    
+    private struct Link: View {
+        @State var destination: String
+        @Environment(\.application) var application: UIApplication!
+        
+        private var destinationURL: URL? {
+            URL(string: destination)
+        }
+        
+        init(placeholder: String) {
+            self.destination = placeholder
+        }
+        
+        
+        private func open(_ url: URL) {
+            application.open(url, options: [:], completionHandler: nil)
+        }
+        
+        var body: some View {
+            HStack {
+                TextEditor(text: $destination)
+                    .lineLimit(3)
+                    .frame(minHeight: 30)
+                Button("Go!") {
+                    if let url = destinationURL {
+                        open(url)
+                    }
+                }
+            }
+            .padding()
+            .border(.gray, width: 2)
+            .cornerRadius(4)
+            .padding(EdgeInsets(top: 8, leading: 8, bottom: 2, trailing: 8))
+        }
+    }
+    
     var body: some View {
         VStack {
             Text("Crossroad Demo")
-            MyButton("Open Pokemon Details") {
-                if application.canOpenURL(URL(string: "pokedex://pokemons/25")!) {
-                    application.open(URL(string: "pokedex://pokemons/25")!,
-                                      options: [:],
-                                      completionHandler: nil)
-                    }
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .padding()
+            ScrollView {
+                VStack {
+                    Link(placeholder: "pokedex://pokemons/25")
+                        .environment(\.application, application)
+                    Link(placeholder: "pokedex://pokemons/search?types=fire")
+                        .environment(\.application, application)
+                }
             }
-            .padding()
-            MyButton("Open Search") {
-                application.open(URL(string: "pokedex://pokemons/search?types=water,grass&region=hoenn")!,
-                                  options: [:],
-                                  completionHandler: nil)
-            }
-            .padding()
-        }.padding()
+        }
+        .frame(alignment: .top)
     }
 }
 
