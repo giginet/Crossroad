@@ -52,7 +52,6 @@ final class ContextTests: XCTestCase {
     func testParameters() {
         XCTAssertEqual(context.queryParameter(for: "name"), "Pikachu")
         XCTAssertNil(context.queryParameter(for: "foo") as String?)
-        XCTAssertNil(context.queryParameter(for: "foo", as: String.self))
         XCTAssertEqual(context.queryParameter(for: "region"), Region.kanto)
         XCTAssertEqual(context.queryParameter(for: "NaMe"), "Pikachu")
         XCTAssertEqual(context.queryParameter(for: "NAME2"), "Mewtwo")

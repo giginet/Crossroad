@@ -84,7 +84,7 @@ public struct Context<UserInfo> {
 
     @available(*, deprecated, renamed: "subscript(queryParameter:)")
     public subscript<T: Parsable>(parameter key: String) -> T? {
-        return queryParameter(for: key, as: T.self)
+        return queryParameter(for: key)
     }
 
     public subscript<T: Parsable>(queryParameter key: String) -> T? {
@@ -97,10 +97,10 @@ public struct Context<UserInfo> {
 
     @available(*, deprecated, renamed: "queryParameter(for:)")
     public func parameter<T: Parsable>(for key: String, as type: T.Type = T.self) -> T? {
-        return queryParameter(for: key, as: type)
+        return queryParameter(for: key)
     }
 
-    public func queryParameter<T: Parsable>(for key: String, as type: T.Type = T.self) -> T? {
+    public func queryParameter<T: Parsable>(for key: String) -> T? {
         return queryParameters.get(for: key)
     }
 
