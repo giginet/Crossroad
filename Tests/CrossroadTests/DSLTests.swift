@@ -19,14 +19,14 @@ final class DSLTests: XCTestCase {
     let universalLink: LinkSource = .universalLink(URL(string: "https://my-awesome-pokedex.com")!)
 
     func testDSL() throws {
-        let router = try SimpleRouter(accepts: [customURLScheme, universalLink]) { route in
+        let router = try SimpleRouter(accepting: [customURLScheme, universalLink]) { route in
             route("/pokemons/:id") { context in
                 let pokedexID: Int = try context.argument(for: "id")
                 presentPokemonViewController(pokedexID: pokedexID)
                 return true
             }
 
-            route("/pokemons", accepts: .only(for: customURLScheme)) { context in
+            route("/pokemons", accepting: .only(for: customURLScheme)) { context in
                 let name: String? = context.queryParameters.name
                 let types: [PokemonType]? = context.queryParameters.types
                 presentPokemonSearchViewController(name: name, types: types)
@@ -40,14 +40,14 @@ final class DSLTests: XCTestCase {
     }
 
     func testGroupedDSL() throws {
-        let router = try SimpleRouter(accepts: [customURLScheme, universalLink]) { route in
+        let router = try SimpleRouter(accepting: [customURLScheme, universalLink]) { route in
             route("/pokemons/:id") { context in
                 let pokedexID: Int = try context.argument(for: "id")
                 presentPokemonViewController(pokedexID: pokedexID)
                 return true
             }
 
-            route.group(accepts: universalLink) { route in
+            route.group(accepting: universalLink) { route in
                 route("/pokemons") { context in
                     let name: String? = context.queryParameters.name
                     let types: [PokemonType]? = context.queryParameters.types
@@ -58,7 +58,7 @@ final class DSLTests: XCTestCase {
         }
         XCTAssertTrue(router.responds(to: URL(string: "pokedex://pokemons/42")!))
         XCTAssertTrue(router.responds(to: URL(string: "https://my-awesome-pokedex.com/pokemons/42")!))
-        XCTAssertFalse(router.responds(to: URL(string: "pokedex://pokemons")!), "Route for '/pokemons' is registered in accepts group.")
+        XCTAssertFalse(router.responds(to: URL(string: "pokedex://pokemons")!), "Route for '/pokemons' is registered in accepting group.")
         XCTAssertTrue(router.responds(to: URL(string: "https://my-awesome-pokedex.com/pokemons")!))
     }
 }

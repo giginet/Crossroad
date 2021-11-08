@@ -7,8 +7,8 @@ final class Router_AcceptanceTests: XCTestCase {
     private let universalLink: LinkSource = .universalLink(URL(string: "https://my-awesome-pokedex.com")!)
 
     func testAcceptOnly() throws {
-        let router = try SimpleRouter(accepts: [customURLScheme, universalLink]) { route in
-            route("/pokemons/:id", accepts: .only(for: universalLink)) { _ in
+        let router = try SimpleRouter(accepting: [customURLScheme, universalLink]) { route in
+            route("/pokemons/:id", accepting: .only(for: universalLink)) { _ in
                 true
             }
         }
@@ -18,14 +18,14 @@ final class Router_AcceptanceTests: XCTestCase {
     }
 
     func testAcceptOnlyWithGroup() throws {
-        let router = try SimpleRouter(accepts: [customURLScheme, universalLink]) { route in
-            route.group(accepts: [universalLink]) { route in
+        let router = try SimpleRouter(accepting: [customURLScheme, universalLink]) { route in
+            route.group(accepting: [universalLink]) { route in
                 route("/pokemons/:id") { _ in
                     true
                 }
             }
 
-            route.group(accepts: [customURLScheme]) { route in
+            route.group(accepting: [customURLScheme]) { route in
                 route("/moves/:id") { _ in
                     true
                 }

@@ -132,7 +132,7 @@ extension Router {
             case .unknownLinkSource(let linkSources):
                 return "Unknown link sources \(linkSources) is registered"
             case .duplicatedRoute(let path, let acceptPolicy):
-                return "Route definition for \(path) (accepts \(acceptPolicy)) is duplicated"
+                return "Route definition for \(path) (accepting \(acceptPolicy)) is duplicated"
             case .invalidLinkSource(let pattern, let linkSource):
                 return "Pattern '\(pattern)' contains invalid link source '\(linkSource)'."
             case .wellKnownScheme(let scheme):

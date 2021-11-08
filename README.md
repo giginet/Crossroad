@@ -30,7 +30,7 @@ let customURLScheme: LinkSource = .customURLScheme("pokedex")
 let universalLink: LinkSource = .universalLink("https://my-awesome-pokedex.com")
 
 do {
-    let router = try DefaultRouter(accepts: [customURLScheme, universalLink]) { route in
+    let router = try DefaultRouter(accepting: [customURLScheme, universalLink]) { route in
         route("/pokemons/:pokedexID") { context in 
             let pokedexID: Int = try context.argument(for: "pokedexID") // Parse 'pokedexID' from URL
             if !Pokedex.isExist(pokedexID) { // Find the Pokémon by ID
@@ -176,7 +176,7 @@ let customURLScheme: LinkSource = .customURLScheme("pokedex")
 let pokedexWeb: LinkSource = .universalLink(URL(string: "https://my-awesome-pokedex.com")!)
 let anotherWeb: LinkSource = .universalLink(URL(string: "https://kanto.my-awesome-pokedex.com")!)
 
-let router = try DefaultRouter(accepts: [customURLScheme, pokedexWeb, anotherWeb]) { route in
+let router = try DefaultRouter(accepting: [customURLScheme, pokedexWeb, anotherWeb]) { route in
     // Pokémon detail pages can be opened from all sources.
     route("/pokemons/:pokedexID") { context in 
         let pokedexID: Int = try context.argument(for: "pokedexID") // Parse 'pokedexID' from URL
@@ -188,7 +188,7 @@ let router = try DefaultRouter(accepts: [customURLScheme, pokedexWeb, anotherWeb
     }
 
     // Move related pages can be opened only from Custom URL Schemes
-    route.group(accepts: [customURLScheme]) { route in
+    route.group(accepting: [customURLScheme]) { route in
         route("/moves/:move_name") { context in 
             let moveName: String = try context.argument(for: "move_name")
             presentMoveViewController(for: moveName)
@@ -202,7 +202,7 @@ let router = try DefaultRouter(accepts: [customURLScheme, pokedexWeb, anotherWeb
     }
 
     // You can pass acceptPolicy for a specific page.
-    route("/regions", accepts: .only(for: pokedexWeb)) { context in 
+    route("/regions", accepting: .only(for: pokedexWeb)) { context in 
         presentRegionListViewController()
         return true 
     }
@@ -219,7 +219,7 @@ You can add any payload to `Router`.
 struct UserInfo {
     let userID: Int64
 }
-let router = try Router<UserInfo>(accepts: customURLScheme) { route in
+let router = try Router<UserInfo>(accepting: customURLScheme) { route in
     route("pokedex://pokemons") { context in 
         let userInfo: UserInfo = context.userInfo
         let userID = userInfo.userID

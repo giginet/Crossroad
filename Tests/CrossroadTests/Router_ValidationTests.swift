@@ -9,7 +9,7 @@ final class Router_ValidationTests: XCTestCase {
 
     func testValidateForInvalidPattern() throws {
         XCTAssertThrowsError(
-            try SimpleRouter(accepts: [self.customURLScheme, self.universalLink]) { route in
+            try SimpleRouter(accepting: [self.customURLScheme, self.universalLink]) { route in
                 route("/////aaaaaa/////") { _ in
                     return true
                 }
@@ -22,8 +22,8 @@ final class Router_ValidationTests: XCTestCase {
 
     func testValidateForUnknownLinkSource() throws {
         XCTAssertThrowsError(
-            try SimpleRouter(accepts: [self.customURLScheme, self.universalLink]) { route in
-                route("/hoge/fuga", accepts: .only(for: unknownCustomURLScheme)) { _ in
+            try SimpleRouter(accepting: [self.customURLScheme, self.universalLink]) { route in
+                route("/hoge/fuga", accepting: .only(for: unknownCustomURLScheme)) { _ in
                     return true
                 }
             }
@@ -35,7 +35,7 @@ final class Router_ValidationTests: XCTestCase {
 
     func testValidateForDuplicatedRoute() throws {
         XCTAssertThrowsError(
-            try SimpleRouter(accepts: [self.customURLScheme, self.universalLink]) { route in
+            try SimpleRouter(accepting: [self.customURLScheme, self.universalLink]) { route in
                 route("/hoge/fuga") { _ in
                     return true
                 }
@@ -46,35 +46,35 @@ final class Router_ValidationTests: XCTestCase {
             }
         ) { error in
             let error = error as? LocalizedError
-            XCTAssertEqual(error?.errorDescription, ###"Route definition for /hoge/fuga (accepts any) is duplicated"###)
+            XCTAssertEqual(error?.errorDescription, ###"Route definition for /hoge/fuga (accepting any) is duplicated"###)
         }
     }
 
     func testValidateForDuplicatedRouteWithAcceptPolicy() throws {
         XCTAssertThrowsError(
-            try SimpleRouter(accepts: [self.customURLScheme, self.universalLink]) { route in
-                route("/hoge/fuga", accepts: .only(for: customURLScheme)) { _ in
+            try SimpleRouter(accepting: [self.customURLScheme, self.universalLink]) { route in
+                route("/hoge/fuga", accepting: .only(for: customURLScheme)) { _ in
                     return true
                 }
 
-                route("/hoge/fuga", accepts: .only(for: customURLScheme)) { _ in
+                route("/hoge/fuga", accepting: .only(for: customURLScheme)) { _ in
                     return true
                 }
             }
         ) { error in
             let error = error as? LocalizedError
-            XCTAssertEqual(error?.errorDescription, ###"Route definition for /hoge/fuga (accepts only(for: Set([pokedex://]))) is duplicated"###)
+            XCTAssertEqual(error?.errorDescription, ###"Route definition for /hoge/fuga (accepting only(for: Set([pokedex://]))) is duplicated"###)
         }
     }
 
     func testValidateForDuplicatedRouteWithSamePathAndNotIntercectedAcceptPolicy() throws {
         XCTAssertNoThrow(
-            try SimpleRouter(accepts: [self.customURLScheme, self.universalLink]) { route in
-                route("/hoge/fuga", accepts: .only(for: customURLScheme)) { _ in
+            try SimpleRouter(accepting: [self.customURLScheme, self.universalLink]) { route in
+                route("/hoge/fuga", accepting: .only(for: customURLScheme)) { _ in
                     return true
                 }
 
-                route("/hoge/fuga", accepts: .only(for: universalLink)) { _ in
+                route("/hoge/fuga", accepting: .only(for: universalLink)) { _ in
                     return true
                 }
             }
@@ -83,7 +83,7 @@ final class Router_ValidationTests: XCTestCase {
 
     func testValidateForUnknownSchemeContainsPattern() throws {
         XCTAssertThrowsError(
-            try SimpleRouter(accepts: [self.universalLink]) { route in
+            try SimpleRouter(accepting: [self.universalLink]) { route in
                 route("pokedex://hoge/fuga") { _ in
                     return true
                 }
@@ -96,8 +96,8 @@ final class Router_ValidationTests: XCTestCase {
 
     func testValidateForAcceptingUnknownScheme() throws {
         XCTAssertThrowsError(
-            try SimpleRouter(accepts: [self.universalLink, self.universalLink]) { route in
-                route("pokedex://hoge/fuga", accepts: .only(for: universalLink)) { _ in
+            try SimpleRouter(accepting: [self.universalLink, self.universalLink]) { route in
+                route("pokedex://hoge/fuga", accepting: .only(for: universalLink)) { _ in
                     return true
                 }
             }
@@ -110,7 +110,7 @@ final class Router_ValidationTests: XCTestCase {
     func testValidateForUniversalLinkURLIsInvalid() throws {
         let invalidUniversalLink: LinkSource = .universalLink(URL(string: "/invalid")!)
         XCTAssertThrowsError(
-            try SimpleRouter(accepts: [invalidUniversalLink]) { route in
+            try SimpleRouter(accepting: [invalidUniversalLink]) { route in
                 route("/hoge/fuga") { _ in
                     return true
                 }
@@ -124,7 +124,7 @@ final class Router_ValidationTests: XCTestCase {
     func testValidateForUniversalLinkURLIsFileURL() throws {
         let invalidUniversalLink: LinkSource = .universalLink(URL(string: "file://fileURL")!)
         XCTAssertThrowsError(
-            try SimpleRouter(accepts: [invalidUniversalLink]) { route in
+            try SimpleRouter(accepting: [invalidUniversalLink]) { route in
                 route("/hoge/fuga") { _ in
                     return true
                 }
@@ -138,7 +138,7 @@ final class Router_ValidationTests: XCTestCase {
     func testValidateForUniversalLinkURLContainsPath() throws {
         let invalidUniversalLink: LinkSource = .universalLink(URL(string: "https://my-awesome-pokedex.com/path")!)
         XCTAssertThrowsError(
-            try SimpleRouter(accepts: [invalidUniversalLink]) { route in
+            try SimpleRouter(accepting: [invalidUniversalLink]) { route in
                 route("/hoge/fuga") { _ in
                     return true
                 }
@@ -152,7 +152,7 @@ final class Router_ValidationTests: XCTestCase {
     func testValidateForUniversalLinkURLContainsSlash() throws {
         let invalidUniversalLink: LinkSource = .universalLink(URL(string: "https://my-awesome-pokedex.com/")!)
         XCTAssertNoThrow(
-            try SimpleRouter(accepts: [invalidUniversalLink]) { route in
+            try SimpleRouter(accepting: [invalidUniversalLink]) { route in
                 route("/hoge/fuga") { _ in
                     return true
                 }
@@ -163,7 +163,7 @@ final class Router_ValidationTests: XCTestCase {
     func testValidateForSchemeIsWellKnown() throws {
         let wellKnownScheme: LinkSource = .customURLScheme("https")
         XCTAssertThrowsError(
-            try SimpleRouter(accepts: [wellKnownScheme]) { route in
+            try SimpleRouter(accepting: [wellKnownScheme]) { route in
                 route("/hoge/fuga") { _ in
                     return true
                 }
@@ -177,7 +177,7 @@ final class Router_ValidationTests: XCTestCase {
     func testValidateForSchemeContainsSlash() throws {
         let wellKnownScheme: LinkSource = .customURLScheme("poke/dex")
         XCTAssertThrowsError(
-            try SimpleRouter(accepts: [wellKnownScheme]) { route in
+            try SimpleRouter(accepting: [wellKnownScheme]) { route in
                 route("/hoge/fuga") { _ in
                     return true
                 }

@@ -9,11 +9,11 @@ public final class Router<UserInfo> {
     private(set) var routes: [Route]
     private let parser = ContextParser<UserInfo>()
 
-    public convenience init(accepts linkSource: LinkSource) {
+    public convenience init(accepting linkSource: LinkSource) {
         self.init(linkSources: [linkSource])
     }
 
-    public convenience init(accepts linkSources: Set<LinkSource>) {
+    public convenience init(accepting linkSources: Set<LinkSource>) {
         self.init(linkSources: linkSources)
     }
 
@@ -30,7 +30,7 @@ public final class Router<UserInfo> {
         try validator.validate()
     }
 
-    @available(*, deprecated, message: "Use new DSL instead. This method would cause fatalError when registered Routes are invalid for safety.", renamed: "init(accepts:_:)")
+    @available(*, deprecated, message: "Use new DSL instead. This method would cause fatalError when registered Routes are invalid for safety.", renamed: "init(accepting:_:)")
     public func register(_ routeDefinitions: [(String, Route.Handler)]) {
         let routes = routeDefinitions.map { (patternString, handler) -> Route in
             do {
@@ -105,13 +105,13 @@ public extension Router where UserInfo == Void {
 }
 
 public extension Router {
-    @available(*, deprecated, renamed: "init(accepts:)")
+    @available(*, deprecated, renamed: "init(accepting:)")
     convenience init(scheme: String) {
-        self.init(accepts: [.customURLScheme(scheme)])
+        self.init(accepting: [.customURLScheme(scheme)])
     }
 
-    @available(*, deprecated, renamed: "init(accepts:)")
+    @available(*, deprecated, renamed: "init(accepting:)")
     convenience init(url: URL) {
-        self.init(accepts: [.universalLink(url)])
+        self.init(accepting: [.universalLink(url)])
     }
 }
