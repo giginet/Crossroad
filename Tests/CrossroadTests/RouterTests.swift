@@ -171,21 +171,21 @@ final class RouterTest: XCTestCase {
                 return true
             }
             route("foobar://foo/bar") { context in
-                XCTAssertEqual(context.queryParameter(for: "param0"), 123)
+                XCTAssertEqual(context.queryParameter(named: "param0"), 123)
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/bar?param0=123")!)
                 expectation.fulfill()
                 return true
             }
             route("foobar://:pokemonName") { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://hoge")!)
-                XCTAssertEqual(try? context.argument(for: "pokemonName"), "hoge")
+                XCTAssertEqual(try? context.argument(named: "pokemonName"), "hoge")
                 expectation.fulfill()
                 return true
             }
             route("foobar://foo/:pokemonName/:keyword2") { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/hoge/fuga")!)
-                XCTAssertEqual(try? context.argument(for: "pokemonName"), "hoge")
-                XCTAssertEqual(try? context.argument(for: "keyword2"), "fuga")
+                XCTAssertEqual(try? context.argument(named: "pokemonName"), "hoge")
+                XCTAssertEqual(try? context.argument(named: "keyword2"), "fuga")
                 expectation.fulfill()
                 return true
             }
@@ -214,21 +214,21 @@ final class RouterTest: XCTestCase {
                 return true
             }
             route("https://example.com/foo/bar") { context in
-                XCTAssertEqual(context.queryParameter(for: "param0"), 123)
+                XCTAssertEqual(context.queryParameter(named: "param0"), 123)
                 XCTAssertEqual(context.url, URL(string: "https://example.com/foo/bar?param0=123")!)
                 expectation.fulfill()
                 return true
             }
             route("https://example.com/:pokemonName") { context in
                 XCTAssertEqual(context.url, URL(string: "https://example.com/hoge")!)
-                XCTAssertEqual(try? context.argument(for: "pokemonName"), "hoge")
+                XCTAssertEqual(try? context.argument(named: "pokemonName"), "hoge")
                 expectation.fulfill()
                 return true
             }
             route("https://example.com/foo/:pokemonName/:keyword2") { context in
                 XCTAssertEqual(context.url, URL(string: "https://example.com/foo/hoge/fuga")!)
-                XCTAssertEqual(try? context.argument(for: "pokemonName"), "hoge")
-                XCTAssertEqual(try? context.argument(for: "keyword2"), "fuga")
+                XCTAssertEqual(try? context.argument(named: "pokemonName"), "hoge")
+                XCTAssertEqual(try? context.argument(named: "keyword2"), "fuga")
                 expectation.fulfill()
                 return true
             }
@@ -258,21 +258,21 @@ final class RouterTest: XCTestCase {
                 return true
             }
             route("foo/bar") { context in
-                XCTAssertEqual(context.queryParameter(for: "param0"), 123)
+                XCTAssertEqual(context.queryParameter(named: "param0"), 123)
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/bar?param0=123")!)
                 expectation.fulfill()
                 return true
             }
             route(":pokemonName") { context in
                 XCTAssertEqual(context.url, URL(string: "FOOBAR://HOGE")!)
-                XCTAssertEqual(try? context.argument(for: "pokemonName"), "HOGE")
+                XCTAssertEqual(try? context.argument(named: "pokemonName"), "HOGE")
                 expectation.fulfill()
                 return true
             }
             route("foo/:pokemonName/:keyword2") { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/hoge/fuga")!)
-                XCTAssertEqual(try? context.argument(for: "pokemonName"), "hoge")
-                XCTAssertEqual(try? context.argument(for: "keyword2"), "fuga")
+                XCTAssertEqual(try? context.argument(named: "pokemonName"), "hoge")
+                XCTAssertEqual(try? context.argument(named: "keyword2"), "fuga")
                 expectation.fulfill()
                 return true
             }
@@ -302,21 +302,21 @@ final class RouterTest: XCTestCase {
                 return true
             }
             route("/foo/bar") { context in
-                XCTAssertEqual(context.queryParameter(for: "param0"), 123)
+                XCTAssertEqual(context.queryParameter(named: "param0"), 123)
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/bar?param0=123")!)
                 expectation.fulfill()
                 return true
             }
             route("/:pokemonName") { context in
                 XCTAssertEqual(context.url, URL(string: "FOOBAR://HOGE")!)
-                XCTAssertEqual(try? context.argument(for: "pokemonName"), "HOGE")
+                XCTAssertEqual(try? context.argument(named: "pokemonName"), "HOGE")
                 expectation.fulfill()
                 return true
             }
             route("/foo/:pokemonName/:keyword2") { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/hoge/fuga")!)
-                XCTAssertEqual(try? context.argument(for: "pokemonName"), "hoge")
-                XCTAssertEqual(try? context.argument(for: "keyword2"), "fuga")
+                XCTAssertEqual(try? context.argument(named: "pokemonName"), "hoge")
+                XCTAssertEqual(try? context.argument(named: "keyword2"), "fuga")
                 expectation.fulfill()
                 return true
             }
@@ -346,21 +346,21 @@ final class RouterTest: XCTestCase {
                 return true
             }
             route("foo/bar") { context in
-                XCTAssertEqual(context.queryParameter(for: "param0"), 123)
+                XCTAssertEqual(context.queryParameter(named: "param0"), 123)
                 XCTAssertEqual(context.url, URL(string: "https://example.com/foo/bar?param0=123")!)
                 expectation.fulfill()
                 return true
             }
             route(":pokemonName") { context in
                 XCTAssertEqual(context.url, URL(string: "https://example.com/HOGE")!)
-                XCTAssertEqual(try? context.argument(for: "pokemonName"), "HOGE")
+                XCTAssertEqual(try? context.argument(named: "pokemonName"), "HOGE")
                 expectation.fulfill()
                 return true
             }
             route("foo/:pokemonName/:keyword2") { context in
                 XCTAssertEqual(context.url, URL(string: "https://example.com/foo/hoge/fuga")!)
-                XCTAssertEqual(try? context.argument(for: "pokemonName"), "hoge")
-                XCTAssertEqual(try? context.argument(for: "keyword2"), "fuga")
+                XCTAssertEqual(try? context.argument(named: "pokemonName"), "hoge")
+                XCTAssertEqual(try? context.argument(named: "keyword2"), "fuga")
                 expectation.fulfill()
                 return true
             }
@@ -385,7 +385,7 @@ final class RouterTest: XCTestCase {
 
         let router = try SimpleRouter(accepting: [scheme]) { route in
             route("foobar://foo/:id") { context in
-                guard let id: Int = try? context.argument(for: "id") else {
+                guard let id: Int = try? context.argument(named: "id") else {
                     return false
                 }
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/42")!)
@@ -394,7 +394,7 @@ final class RouterTest: XCTestCase {
                 return true
             }
             route("foobar://foo/:pokemonName") { context in
-                let pokemonName: String = try! context.argument(for: "pokemonName")
+                let pokemonName: String = try! context.argument(named: "pokemonName")
                 XCTAssertEqual(context.url, URL(string: "FOOBAR://FOO/BAR")!)
                 XCTAssertEqual(pokemonName, "BAR")
                 keywordExpectation.fulfill()
@@ -414,7 +414,7 @@ final class RouterTest: XCTestCase {
 
         let router = try SimpleRouter(accepting: [.universalLink(URL(string: "https://example.com")!)]) { route in
             route("https://example.com/foo/:id") { context in
-                guard let id: Int = try? context.argument(for: "id") else {
+                guard let id: Int = try? context.argument(named: "id") else {
                     return false
                 }
                 XCTAssertEqual(context.url, URL(string: "https://example.com/foo/42")!)
@@ -423,7 +423,7 @@ final class RouterTest: XCTestCase {
                 return true
             }
             route("https://example.com/foo/:pokemonName") { context in
-                let pokemonName: String = try! context.argument(for: "pokemonName")
+                let pokemonName: String = try! context.argument(named: "pokemonName")
                 XCTAssertEqual(context.url, URL(string: "https://example.com/foo/bar")!)
                 XCTAssertEqual(pokemonName, "bar")
                 keywordExpectation.fulfill()
@@ -443,7 +443,7 @@ final class RouterTest: XCTestCase {
 
         let router = try SimpleRouter(accepting: [scheme]) { route in
             route("foo/:id") { context in
-                guard let id: Int = try? context.argument(for: "id") else {
+                guard let id: Int = try? context.argument(named: "id") else {
                     return false
                 }
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/42")!)
@@ -452,7 +452,7 @@ final class RouterTest: XCTestCase {
                 return true
             }
             route("foo/:pokemonName") { context in
-                let pokemonName: String = try! context.argument(for: "pokemonName")
+                let pokemonName: String = try! context.argument(named: "pokemonName")
                 XCTAssertEqual(context.url, URL(string: "FOOBAR://FOO/BAR")!)
                 XCTAssertEqual(pokemonName, "BAR")
                 keywordExpectation.fulfill()
@@ -472,7 +472,7 @@ final class RouterTest: XCTestCase {
 
         let router = try SimpleRouter(accepting: [.universalLink(URL(string: "https://example.com")!)]) { route in
             route("foo/:id") { context in
-                guard let id: Int = try? context.argument(for: "id") else {
+                guard let id: Int = try? context.argument(named: "id") else {
                     return false
                 }
                 XCTAssertEqual(context.url, URL(string: "https://example.com/foo/42")!)
@@ -481,7 +481,7 @@ final class RouterTest: XCTestCase {
                 return true
             }
             route("foo/:pokemonName") { context in
-                let pokemonName: String = try! context.argument(for: "pokemonName")
+                let pokemonName: String = try! context.argument(named: "pokemonName")
                 XCTAssertEqual(context.url, URL(string: "https://example.com/foo/bar")!)
                 XCTAssertEqual(pokemonName, "bar")
                 keywordExpectation.fulfill()
@@ -505,7 +505,7 @@ final class RouterTest: XCTestCase {
                 return false
             }
             route("/spam/:matchingKeyword") { context in
-                XCTAssertEqual(try? context.argument(for: "matchingKeyword"), "ham")
+                XCTAssertEqual(try? context.argument(named: "matchingKeyword"), "ham")
                 expectation.fulfill()
                 return true
             }
@@ -525,7 +525,7 @@ final class RouterTest: XCTestCase {
                 return false
             }
             route("/pokemons/:pokemonName") { context in
-                XCTAssertEqual(try? context.argument(for: "pokemonName"), "Pikachu")
+                XCTAssertEqual(try? context.argument(named: "pokemonName"), "Pikachu")
                 expectation.fulfill()
                 return true
             }
@@ -545,7 +545,7 @@ final class RouterTest: XCTestCase {
                 return false
             }
             route("/pokemons/:pokemonName") { context in
-                XCTAssertEqual(try? context.argument(for: "pokemonName"), "Pikachu")
+                XCTAssertEqual(try? context.argument(named: "pokemonName"), "Pikachu")
                 expectation.fulfill()
                 return true
             }
@@ -561,7 +561,7 @@ final class RouterTest: XCTestCase {
         let router = try SimpleRouter(accepting: [scheme]) { route in
             route(":pokemonName") { context in
                 XCTAssertEqual(context.url.absoluteString, "FOOBAR://FOO")
-                XCTAssertEqual(try! context.argument(for: "pokemonName"), "FOO")
+                XCTAssertEqual(try! context.argument(named: "pokemonName"), "FOO")
                 expectation.fulfill()
                 return true
             }
@@ -580,7 +580,7 @@ final class RouterTest: XCTestCase {
                 return false
             }
             route("/foo/:pokemonName") { context in
-                XCTAssertEqual(try? context.argument(for: "pokemonName"), "bar")
+                XCTAssertEqual(try? context.argument(named: "pokemonName"), "bar")
                 expectation.fulfill()
                 return true
             }

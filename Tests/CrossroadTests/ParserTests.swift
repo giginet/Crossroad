@@ -6,7 +6,7 @@ final class ParserTests: XCTestCase {
         let parser = ContextParser<Void>()
         let patternString = "pokedex://pokemons/:pokedexID"
         let context = try parser.parse(URL(string: "pokedex://pokemons/25")!, with: patternString)
-        XCTAssertEqual(try context.argument(for: "pokedexID"), 25)
+        XCTAssertEqual(try context.argument(named: "pokedexID"), 25)
     }
 
     func testPatternCase() throws {

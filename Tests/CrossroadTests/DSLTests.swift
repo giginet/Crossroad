@@ -21,7 +21,7 @@ final class DSLTests: XCTestCase {
     func testDSL() throws {
         let router = try SimpleRouter(accepting: [customURLScheme, universalLink]) { route in
             route("/pokemons/:id") { context in
-                let pokedexID: Int = try context.argument(for: "id")
+                let pokedexID: Int = try context.argument(named: "id")
                 presentPokemonViewController(pokedexID: pokedexID)
                 return true
             }
@@ -42,7 +42,7 @@ final class DSLTests: XCTestCase {
     func testGroupedDSL() throws {
         let router = try SimpleRouter(accepting: [customURLScheme, universalLink]) { route in
             route("/pokemons/:id") { context in
-                let pokedexID: Int = try context.argument(for: "id")
+                let pokedexID: Int = try context.argument(named: "id")
                 presentPokemonViewController(pokedexID: pokedexID)
                 return true
             }

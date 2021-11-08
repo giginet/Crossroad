@@ -32,7 +32,7 @@ let universalLink: LinkSource = .universalLink("https://my-awesome-pokedex.com")
 do {
     let router = try DefaultRouter(accepting: [customURLScheme, universalLink]) { route in
         route("/pokemons/:pokedexID") { context in 
-            let pokedexID: Int = try context.argument(for: "pokedexID") // Parse 'pokedexID' from URL
+            let pokedexID: Int = try context.argument(named: "pokedexID") // Parse 'pokedexID' from URL
             if !Pokedex.isExist(pokedexID) { // Find the Pokémon by ID
                 return false // If Pokémon is not found. Try next route definition.
             }
@@ -101,7 +101,7 @@ For example, if passed URL matches `pokedex://search/:keyword`, you can get `key
 
 ```swift
 // actual URL: pokedex://search/Pikachu
-let keyword: String = try context.arguments(for: "keyword") // Pikachu
+let keyword: String = try context.arguments(named: "keyword") // Pikachu
 ```
 
 ### QueryParameter
@@ -120,7 +120,7 @@ You can cast arguments/query parameters as any type. Crossroad attempt to cast e
 ```swift
 // expected pattern: pokedex://search/:pokedexID
 // actual URL: pokedex://search/25
-let pokedexID: Int = try context.arguments(for: "keyword") // 25
+let pokedexID: Int = try context.arguments(named: "keyword") // 25
 ```
 
 Currently supported types are `Int`, `Int64`, `Float`, `Double`, `Bool`, `String` and `URL`.
@@ -179,7 +179,7 @@ let anotherWeb: LinkSource = .universalLink(URL(string: "https://kanto.my-awesom
 let router = try DefaultRouter(accepting: [customURLScheme, pokedexWeb, anotherWeb]) { route in
     // Pokémon detail pages can be opened from all sources.
     route("/pokemons/:pokedexID") { context in 
-        let pokedexID: Int = try context.argument(for: "pokedexID") // Parse 'pokedexID' from URL
+        let pokedexID: Int = try context.argument(named: "pokedexID") // Parse 'pokedexID' from URL
         if !Pokedex.isExist(pokedexID) { // Find the Pokémon by ID
             return false
         }
@@ -190,12 +190,12 @@ let router = try DefaultRouter(accepting: [customURLScheme, pokedexWeb, anotherW
     // Move related pages can be opened only from Custom URL Schemes
     route.group(accepting: [customURLScheme]) { route in
         route("/moves/:move_name") { context in 
-            let moveName: String = try context.argument(for: "move_name")
+            let moveName: String = try context.argument(named: "move_name")
             presentMoveViewController(for: moveName)
             return true 
         }
         route("/pokemons/:pokedexID/move") { context in 
-            let pokedexID: Int = try context.argument(for: "pokedexID")
+            let pokedexID: Int = try context.argument(named: "pokedexID")
             presentPokemonMoveViewController(for: pokedexID)
             return true 
         }

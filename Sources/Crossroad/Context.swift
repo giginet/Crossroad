@@ -11,7 +11,7 @@ struct Arguments {
         self.storage = storage
     }
 
-    fileprivate func get<T>(for key: String) throws -> T where T: Parsable {
+    fileprivate func get<T>(named key: String) throws -> T where T: Parsable {
         if let argument = storage[key] {
             if let value = T(from: argument) {
                 return value
@@ -32,7 +32,7 @@ public struct QueryParameters {
         self.storage = storage
     }
 
-    fileprivate func get<T>(for key: String) -> T? where T: Parsable {
+    fileprivate func get<T>(named key: String) -> T? where T: Parsable {
         if let queryItem = queryItem(from: key) {
             if let queryValue = queryItem.value,
                let value = T(from: queryValue) {
@@ -43,7 +43,7 @@ public struct QueryParameters {
     }
 
     public subscript<T: Parsable>(dynamicMember key: String) -> T? {
-        return get(for: key)
+        return get(named: key)
     }
 
     private func queryItem(from key: String) -> URLQueryItem? {
@@ -77,31 +77,31 @@ public struct Context<UserInfo> {
         self.userInfo = userInfo
     }
 
-    @available(*, deprecated, message: "subscript for an argument is depricated.", renamed: "argument(for:)")
+    @available(*, deprecated, message: "subscript for an argument is depricated.", renamed: "argument(named:)")
     public subscript<T: Parsable>(argument keyword: String) -> T? {
-        return try? arguments.get(for: keyword)
+        return try? arguments.get(named: keyword)
     }
 
     @available(*, deprecated, renamed: "subscript(queryParameter:)")
     public subscript<T: Parsable>(parameter key: String) -> T? {
-        return queryParameter(for: key)
+        return queryParameter(named: key)
     }
 
     public subscript<T: Parsable>(queryParameter key: String) -> T? {
-        return queryParameters.get(for: key)
+        return queryParameters.get(named: key)
     }
 
-    public func argument<T: Parsable>(for key: String, as type: T.Type = T.self) throws -> T {
-        return try arguments.get(for: key)
+    public func argument<T: Parsable>(named key: String, as type: T.Type = T.self) throws -> T {
+        return try arguments.get(named: key)
     }
 
-    @available(*, deprecated, renamed: "queryParameter(for:)")
+    @available(*, deprecated, renamed: "queryParameter(named:)")
     public func parameter<T: Parsable>(for key: String, as type: T.Type = T.self) -> T? {
-        return queryParameter(for: key)
+        return queryParameter(named: key)
     }
 
-    public func queryParameter<T: Parsable>(for key: String) -> T? {
-        return queryParameters.get(for: key)
+    public func queryParameter<T: Parsable>(named key: String) -> T? {
+        return queryParameters.get(named: key)
     }
 
     public func parameter<T: Parsable>(matchesIn regexp: NSRegularExpression) -> T? {

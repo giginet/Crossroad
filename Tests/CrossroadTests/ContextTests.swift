@@ -28,10 +28,10 @@ final class ContextTests: XCTestCase {
     }
 
     func testArguments() throws {
-        XCTAssertEqual(try context.argument(for: "pokedexID"), 25)
-        XCTAssertEqual(try context.argument(for: "pokedexID", as: Int.self), 25)
-        XCTAssertEqual(try context.argument(for: "name"), "Pikachu")
-        XCTAssertThrowsError(try context.argument(for: "name", as: Int.self)) { error in
+        XCTAssertEqual(try context.argument(named: "pokedexID"), 25)
+        XCTAssertEqual(try context.argument(named: "pokedexID", as: Int.self), 25)
+        XCTAssertEqual(try context.argument(named: "name"), "Pikachu")
+        XCTAssertThrowsError(try context.argument(named: "name", as: Int.self)) { error in
             switch error as? Arguments.Error {
             case .couldNotParse(let invalidType):
                 XCTAssertNotNil(invalidType)
@@ -39,7 +39,7 @@ final class ContextTests: XCTestCase {
                 XCTFail("This error should not be raised.")
             }
         }
-        XCTAssertThrowsError(try context.argument(for: "unknown_key", as: Int.self)) { error in
+        XCTAssertThrowsError(try context.argument(named: "unknown_key", as: Int.self)) { error in
             switch error as? Arguments.Error {
             case .keyNotFound(let unknownKey):
                 XCTAssertEqual(unknownKey, "unknown_key")
@@ -50,11 +50,11 @@ final class ContextTests: XCTestCase {
     }
 
     func testParameters() {
-        XCTAssertEqual(context.queryParameter(for: "name"), "Pikachu")
-        XCTAssertNil(context.queryParameter(for: "foo") as String?)
-        XCTAssertEqual(context.queryParameter(for: "region"), Region.kanto)
-        XCTAssertEqual(context.queryParameter(for: "NaMe"), "Pikachu")
-        XCTAssertEqual(context.queryParameter(for: "NAME2"), "Mewtwo")
+        XCTAssertEqual(context.queryParameter(named: "name"), "Pikachu")
+        XCTAssertNil(context.queryParameter(named: "foo") as String?)
+        XCTAssertEqual(context.queryParameter(named: "region"), Region.kanto)
+        XCTAssertEqual(context.queryParameter(named: "NaMe"), "Pikachu")
+        XCTAssertEqual(context.queryParameter(named: "NAME2"), "Mewtwo")
     }
 
     func testParametersByRegexp() {
