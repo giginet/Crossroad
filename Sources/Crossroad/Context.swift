@@ -46,6 +46,10 @@ public struct QueryParameters {
         return get(named: key)
     }
 
+    public subscript<T: Parsable>(_ key: String) -> T? {
+        return get(named: key)
+    }
+
     private func queryItem(from key: String) -> URLQueryItem? {
         func isEqual(_ lhs: String, _ rhs: String) -> Bool {
             return lhs.lowercased() == rhs.lowercased()
@@ -82,13 +86,9 @@ public struct Context<UserInfo> {
         return try? arguments.get(named: keyword)
     }
 
-    @available(*, deprecated, renamed: "subscript(queryParameter:)")
+    @available(*, deprecated, message: "Use queryParameters[key] instead")
     public subscript<T: Parsable>(parameter key: String) -> T? {
         return queryParameter(named: key)
-    }
-
-    public subscript<T: Parsable>(queryParameter key: String) -> T? {
-        return queryParameters.get(named: key)
     }
 
     public func argument<T: Parsable>(named key: String, as type: T.Type = T.self) throws -> T {

@@ -110,7 +110,7 @@ And more, you can get query parameters if exist.
 
 ```swift
 // actual URL: pokedex://search/Pikachu?generation=1
-let generation: Int? = context[queryParameter: "generation"] // 1
+let generation: Int? = context.queryParameters["generation"] // 1
 // or you can also get value using DynamicMemberLookup
 let generation: Int? = context.queryParameters.generation // 1
 ```

@@ -67,10 +67,10 @@ final class ContextTests: XCTestCase {
     }
 
     func testSubscriptParameter() {
-        XCTAssertEqual(context[queryParameter: "name"], "Pikachu")
-        XCTAssertEqual(context[queryParameter: "type"], "electric")
-        XCTAssertEqual(context[queryParameter: "region"], Region.kanto)
-        XCTAssertNil(context[queryParameter: "moves"] as [String]?)
+        XCTAssertEqual(context.queryParameters["name"], "Pikachu")
+        XCTAssertEqual(context.queryParameters["type"], "electric")
+        XCTAssertEqual(context.queryParameters["region"], Region.kanto)
+        XCTAssertNil(context.queryParameters["moves"] as [String]?)
     }
 
     func testDynamicMemberLookup() {
