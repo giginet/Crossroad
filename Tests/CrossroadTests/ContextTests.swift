@@ -57,6 +57,23 @@ final class ContextTests: XCTestCase {
         XCTAssertEqual(context.queryParameter(named: "NAME2"), "Mewtwo")
     }
 
+    func testRequiredQueryParameters() throws {
+        XCTAssertNoThrow(try context.requiredQueryParameter(named: "name", as: String.self))
+        XCTAssertThrowsError(try context.requiredQueryParameter(named: "foo", as: String.self)) { error in
+            guard case QueryParameters.Error.missingRequiredQueryParameter(let key) = error else {
+                return XCTFail("unknown error type")
+            }
+            XCTAssertEqual(key, "foo")
+        }
+        XCTAssertNoThrow(try context.requiredQueryParameter(named: "region", as: Region.self))
+        XCTAssertThrowsError(try context.requiredQueryParameter(named: "name", as: Int.self), "'name' should not be Integer") { error in
+            guard case QueryParameters.Error.missingRequiredQueryParameter(let key) = error else {
+                return XCTFail("unknown error type")
+            }
+            XCTAssertEqual(key, "name")
+        }
+    }
+
     func testParametersByRegexp() {
         XCTAssertEqual(context.parameter(matchesIn: regexp("name")), "Pikachu")
         XCTAssertEqual(context.parameter(matchesIn: regexp("2$")), "Mewtwo")

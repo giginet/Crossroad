@@ -28,6 +28,10 @@ struct Arguments {
 public struct QueryParameters {
     typealias Storage = [URLQueryItem]
 
+    public enum Error: Swift.Error {
+        case missingRequiredQueryParameter(String)
+    }
+
     init(_ storage: [URLQueryItem]) {
         self.storage = storage
     }
@@ -102,6 +106,13 @@ public struct Context<UserInfo> {
 
     public func queryParameter<T: Parsable>(named key: String) -> T? {
         return queryParameters.get(named: key)
+    }
+
+    public func requiredQueryParameter<T: Parsable>(named key: String, as: T.Type = T.self) throws -> T {
+        guard let queryParameter: T = queryParameters.get(named: key) else {
+            throw QueryParameters.Error.missingRequiredQueryParameter(key)
+        }
+        return queryParameter
     }
 
     public func parameter<T: Parsable>(matchesIn regexp: NSRegularExpression) -> T? {
