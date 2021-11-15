@@ -10,9 +10,7 @@ final class Router_ValidationTests: XCTestCase {
     func testValidateForInvalidPattern() throws {
         XCTAssertThrowsError(
             try SimpleRouter(accepting: [self.customURLScheme, self.universalLink]) { route in
-                route("/////aaaaaa/////") { _ in
-                    return true
-                }
+                route("/////aaaaaa/////") { _ in }
             }
         ) { error in
             let error = error as? LocalizedError
@@ -23,10 +21,7 @@ final class Router_ValidationTests: XCTestCase {
     func testValidateForUnknownLinkSource() throws {
         XCTAssertThrowsError(
             try SimpleRouter(accepting: [self.customURLScheme, self.universalLink]) { route in
-                route("/hoge/fuga", accepting: .only(for: unknownCustomURLScheme)) { _ in
-                    return true
-                }
-            }
+                route("/hoge/fuga", accepting: .only(for: unknownCustomURLScheme)) { _ in }            }
         ) { error in
             let error = error as? LocalizedError
             XCTAssertEqual(error?.errorDescription, ###"Unknown link sources [unknown://] is registered"###)
@@ -36,13 +31,9 @@ final class Router_ValidationTests: XCTestCase {
     func testValidateForDuplicatedRoute() throws {
         XCTAssertThrowsError(
             try SimpleRouter(accepting: [self.customURLScheme, self.universalLink]) { route in
-                route("/hoge/fuga") { _ in
-                    return true
-                }
+                route("/hoge/fuga") { _ in }
 
-                route("/hoge/fuga") { _ in
-                    return true
-                }
+                route("/hoge/fuga") { _ in }
             }
         ) { error in
             let error = error as? LocalizedError
@@ -53,13 +44,9 @@ final class Router_ValidationTests: XCTestCase {
     func testValidateForDuplicatedRouteWithAcceptPolicy() throws {
         XCTAssertThrowsError(
             try SimpleRouter(accepting: [self.customURLScheme, self.universalLink]) { route in
-                route("/hoge/fuga", accepting: .only(for: customURLScheme)) { _ in
-                    return true
-                }
+                route("/hoge/fuga", accepting: .only(for: customURLScheme)) { _ in }
 
-                route("/hoge/fuga", accepting: .only(for: customURLScheme)) { _ in
-                    return true
-                }
+                route("/hoge/fuga", accepting: .only(for: customURLScheme)) { _ in }
             }
         ) { error in
             let error = error as? LocalizedError
@@ -70,13 +57,9 @@ final class Router_ValidationTests: XCTestCase {
     func testValidateForDuplicatedRouteWithSamePathAndNotIntercectedAcceptPolicy() throws {
         XCTAssertNoThrow(
             try SimpleRouter(accepting: [self.customURLScheme, self.universalLink]) { route in
-                route("/hoge/fuga", accepting: .only(for: customURLScheme)) { _ in
-                    return true
-                }
+                route("/hoge/fuga", accepting: .only(for: customURLScheme)) { _ in }
 
-                route("/hoge/fuga", accepting: .only(for: universalLink)) { _ in
-                    return true
-                }
+                route("/hoge/fuga", accepting: .only(for: universalLink)) { _ in }
             }
         )
     }
@@ -84,9 +67,7 @@ final class Router_ValidationTests: XCTestCase {
     func testValidateForUnknownSchemeContainsPattern() throws {
         XCTAssertThrowsError(
             try SimpleRouter(accepting: [self.universalLink]) { route in
-                route("pokedex://hoge/fuga") { _ in
-                    return true
-                }
+                route("pokedex://hoge/fuga") { _ in }
             }
         ) { error in
             let error = error as? LocalizedError
@@ -97,9 +78,7 @@ final class Router_ValidationTests: XCTestCase {
     func testValidateForAcceptingUnknownScheme() throws {
         XCTAssertThrowsError(
             try SimpleRouter(accepting: [self.universalLink, self.universalLink]) { route in
-                route("pokedex://hoge/fuga", accepting: .only(for: universalLink)) { _ in
-                    return true
-                }
+                route("pokedex://hoge/fuga", accepting: .only(for: universalLink)) { _ in }
             }
         ) { error in
             let error = error as? LocalizedError
@@ -111,9 +90,7 @@ final class Router_ValidationTests: XCTestCase {
         let invalidUniversalLink: LinkSource = .universalLink(URL(string: "/invalid")!)
         XCTAssertThrowsError(
             try SimpleRouter(accepting: [invalidUniversalLink]) { route in
-                route("/hoge/fuga") { _ in
-                    return true
-                }
+                route("/hoge/fuga") { _ in }
             }
         ) { error in
             let error = error as? LocalizedError
@@ -125,9 +102,7 @@ final class Router_ValidationTests: XCTestCase {
         let invalidUniversalLink: LinkSource = .universalLink(URL(string: "file://fileURL")!)
         XCTAssertThrowsError(
             try SimpleRouter(accepting: [invalidUniversalLink]) { route in
-                route("/hoge/fuga") { _ in
-                    return true
-                }
+                route("/hoge/fuga") { _ in }
             }
         ) { error in
             let error = error as? LocalizedError
@@ -139,9 +114,7 @@ final class Router_ValidationTests: XCTestCase {
         let invalidUniversalLink: LinkSource = .universalLink(URL(string: "https://my-awesome-pokedex.com/path")!)
         XCTAssertThrowsError(
             try SimpleRouter(accepting: [invalidUniversalLink]) { route in
-                route("/hoge/fuga") { _ in
-                    return true
-                }
+                route("/hoge/fuga") { _ in }
             }
         ) { error in
             let error = error as? LocalizedError
@@ -153,9 +126,7 @@ final class Router_ValidationTests: XCTestCase {
         let invalidUniversalLink: LinkSource = .universalLink(URL(string: "https://my-awesome-pokedex.com/")!)
         XCTAssertNoThrow(
             try SimpleRouter(accepting: [invalidUniversalLink]) { route in
-                route("/hoge/fuga") { _ in
-                    return true
-                }
+                route("/hoge/fuga") { _ in }
             }
         )
     }
@@ -164,9 +135,7 @@ final class Router_ValidationTests: XCTestCase {
         let wellKnownScheme: LinkSource = .customURLScheme("https")
         XCTAssertThrowsError(
             try SimpleRouter(accepting: [wellKnownScheme]) { route in
-                route("/hoge/fuga") { _ in
-                    return true
-                }
+                route("/hoge/fuga") { _ in }
             }
         ) { error in
             let error = error as? LocalizedError
@@ -178,9 +147,7 @@ final class Router_ValidationTests: XCTestCase {
         let wellKnownScheme: LinkSource = .customURLScheme("poke/dex")
         XCTAssertThrowsError(
             try SimpleRouter(accepting: [wellKnownScheme]) { route in
-                route("/hoge/fuga") { _ in
-                    return true
-                }
+                route("/hoge/fuga") { _ in }
             }
         ) { error in
             let error = error as? LocalizedError

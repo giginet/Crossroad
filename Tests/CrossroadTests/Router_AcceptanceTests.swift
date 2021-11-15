@@ -8,9 +8,7 @@ final class Router_AcceptanceTests: XCTestCase {
 
     func testAcceptOnly() throws {
         let router = try SimpleRouter(accepting: [customURLScheme, universalLink]) { route in
-            route("/pokemons/:id", accepting: .only(for: universalLink)) { _ in
-                true
-            }
+            route("/pokemons/:id", accepting: .only(for: universalLink)) { _ in }
         }
 
         XCTAssertFalse(router.responds(to: URL(string: "pokedex://pokemons/:id")!))
@@ -20,15 +18,11 @@ final class Router_AcceptanceTests: XCTestCase {
     func testAcceptOnlyWithGroup() throws {
         let router = try SimpleRouter(accepting: [customURLScheme, universalLink]) { route in
             route.group(accepting: [universalLink]) { groupedRoute in
-                groupedRoute("/pokemons/:id") { _ in
-                    true
-                }
+                groupedRoute("/pokemons/:id") { _ in }
             }
 
             route.group(accepting: [customURLScheme]) { groupedRoute in
-                groupedRoute("/moves/:id") { _ in
-                    true
-                }
+                groupedRoute("/moves/:id") { _ in }
             }
         }
 

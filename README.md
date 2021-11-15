@@ -34,15 +34,13 @@ do {
         route("/pokemons/:pokedexID") { context in 
             let pokedexID: Int = try context.argument(named: "pokedexID") // Parse 'pokedexID' from URL
             if !Pokedex.isExist(pokedexID) { // Find the Pokémon by ID
-                return false // If Pokémon is not found. Try next route definition.
+                throw PokedexError.pokemonIsNotExist(pokedexID) // If Pokémon is not found. Try next route definition.
             }
             presentPokedexDetailViewController(of: pokedexID)
-            return true 
         }
         route("/pokemons") { context in 
             let type: Type? = context.queryParameters.type // If URL contains &type=fire, you can get Fire type.
             presentPokedexListViewController(for: type)
-            return true 
         }
 
         // ...
@@ -181,10 +179,9 @@ let router = try DefaultRouter(accepting: [customURLScheme, pokedexWeb, anotherW
     route("/pokemons/:pokedexID") { context in 
         let pokedexID: Int = try context.argument(named: "pokedexID") // Parse 'pokedexID' from URL
         if !Pokedex.isExist(pokedexID) { // Find the Pokémon by ID
-            return false
+            throw PokedexError.pokemonIsNotExist(pokedexID)
         }
         presentPokedexDetailViewController(of: pokedexID)
-        return true 
     }
 
     // Move related pages can be opened only from Custom URL Schemes
@@ -192,19 +189,16 @@ let router = try DefaultRouter(accepting: [customURLScheme, pokedexWeb, anotherW
         route("/moves/:move_name") { context in 
             let moveName: String = try context.argument(named: "move_name")
             presentMoveViewController(for: moveName)
-            return true 
         }
         route("/pokemons/:pokedexID/move") { context in 
             let pokedexID: Int = try context.argument(named: "pokedexID")
             presentPokemonMoveViewController(for: pokedexID)
-            return true 
         }
     }
 
     // You can pass acceptPolicy for a specific page.
     route("/regions", accepting: .only(for: pokedexWeb)) { context in 
         presentRegionListViewController()
-        return true 
     }
 }
 ```
@@ -223,7 +217,6 @@ let router = try Router<UserInfo>(accepting: customURLScheme) { route in
     route("pokedex://pokemons") { context in 
         let userInfo: UserInfo = context.userInfo
         let userID = userInfo.userID
-        return true
     }
     // ...
 ])

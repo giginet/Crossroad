@@ -23,14 +23,12 @@ final class DSLTests: XCTestCase {
             route("/pokemons/:id") { context in
                 let pokedexID: Int = try context.argument(named: "id")
                 presentPokemonViewController(pokedexID: pokedexID)
-                return true
             }
 
             route("/pokemons", accepting: .only(for: customURLScheme)) { context in
                 let name: String? = context.queryParameters.name
                 let types: [PokemonType]? = context.queryParameters.types
                 presentPokemonSearchViewController(name: name, types: types)
-                return true
             }
         }
         XCTAssertTrue(router.responds(to: URL(string: "pokedex://pokemons/42")!))
@@ -44,7 +42,6 @@ final class DSLTests: XCTestCase {
             route("/pokemons/:id") { context in
                 let pokedexID: Int = try context.argument(named: "id")
                 presentPokemonViewController(pokedexID: pokedexID)
-                return true
             }
 
             route.group(accepting: universalLink) { route in
@@ -52,7 +49,6 @@ final class DSLTests: XCTestCase {
                     let name: String? = context.queryParameters.name
                     let types: [PokemonType]? = context.queryParameters.types
                     presentPokemonSearchViewController(name: name, types: types)
-                    return true
                 }
             }
         }

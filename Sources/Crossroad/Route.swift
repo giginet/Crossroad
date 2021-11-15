@@ -1,7 +1,7 @@
 import Foundation
 
 public struct Route<UserInfo> {
-    public typealias Handler = (Context<UserInfo>) throws -> Bool
+    public typealias Handler = (Context<UserInfo>) throws -> Void
     var pattern: Pattern
     var acceptPolicy: AcceptPolicy
     var handler: Handler
@@ -25,6 +25,11 @@ public struct Route<UserInfo> {
     }
 
     func executeHandler(context: Context<UserInfo>) throws -> Bool {
-        try handler(context)
+        do {
+            try handler(context)
+            return true
+        } catch {
+            return false
+        }
     }
 }
