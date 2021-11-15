@@ -7,8 +7,8 @@ final class Router_AcceptanceTests: XCTestCase {
     private let universalLink: LinkSource = .universalLink(URL(string: "https://my-awesome-pokedex.com")!)
 
     func testAcceptOnly() throws {
-        let router = try SimpleRouter(accepting: [customURLScheme, universalLink]) { route in
-            route("/pokemons/:id", accepting: .only(for: universalLink)) { _ in }
+        let router = try SimpleRouter(accepting: [customURLScheme, universalLink]) { registry in
+            registry.route("/pokemons/:id", accepting: .only(for: universalLink)) { _ in }
         }
 
         XCTAssertFalse(router.responds(to: URL(string: "pokedex://pokemons/:id")!))
@@ -16,13 +16,13 @@ final class Router_AcceptanceTests: XCTestCase {
     }
 
     func testAcceptOnlyWithGroup() throws {
-        let router = try SimpleRouter(accepting: [customURLScheme, universalLink]) { route in
-            route.group(accepting: [universalLink]) { groupedRoute in
-                groupedRoute("/pokemons/:id") { _ in }
+        let router = try SimpleRouter(accepting: [customURLScheme, universalLink]) { registry in
+            registry.group(accepting: [universalLink]) { group in
+                group.route("/pokemons/:id") { _ in }
             }
 
-            route.group(accepting: [customURLScheme]) { groupedRoute in
-                groupedRoute("/moves/:id") { _ in }
+            registry.group(accepting: [customURLScheme]) { group in
+                group.route("/moves/:id") { _ in }
             }
         }
 
@@ -34,7 +34,7 @@ final class Router_AcceptanceTests: XCTestCase {
 
     func testGroupDSLWithWrongFactory() throws {
         // It should be compilation-time error!
-//        let router = try SimpleRouter(accepting: [customURLScheme, universalLink]) { route in
+//        let router = try SimpleRouter(accepting: [customURLScheme, universalLink]) { registry in
 //            route.group(accepting: [universalLink]) { route2 in
 //                route("/pokemons/:id") { _ in
 //                    true

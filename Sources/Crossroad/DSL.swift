@@ -9,16 +9,16 @@ extension Router {
             }
         }
 
-        public struct Factory {
-            public func callAsFunction(_ patternString: String, accepting acceptPolicy: Route.AcceptPolicy = .any, handler: @escaping Route.Handler) -> [Definition] {
+        public struct Registry {
+            public func route(_ patternString: String, accepting acceptPolicy: Route.AcceptPolicy = .any, handler: @escaping Route.Handler) -> [Definition] {
                 [Definition(patternString, acceptPolicy: acceptPolicy, handler: handler)]
             }
 
-            public func group(accepting linkSources: Set<LinkSource>, @GroupedRoute.Builder _ routeBuilder: (GroupedRoute.Factory) -> [Definition]) -> [Definition] {
-                routeBuilder(GroupedRoute.Factory(parentLinkSources: linkSources))
+            public func group(accepting linkSources: Set<LinkSource>, @GroupedRoute.Builder _ routeBuilder: (GroupedRoute.Registry) -> [Definition]) -> [Definition] {
+                routeBuilder(GroupedRoute.Registry(parentLinkSources: linkSources))
             }
 
-            public func group(accepting linkSource: LinkSource, @GroupedRoute.Builder _ routeBuilder: (GroupedRoute.Factory) -> [Definition]) -> [Definition] {
+            public func group(accepting linkSource: LinkSource, @GroupedRoute.Builder _ routeBuilder: (GroupedRoute.Registry) -> [Definition]) -> [Definition] {
                 group(accepting: [linkSource], routeBuilder)
             }
         }
@@ -55,13 +55,13 @@ extension Router {
             }
         }
 
-        public struct Factory {
+        public struct Registry {
             private let parentLinkSources: Set<LinkSource>
             fileprivate init(parentLinkSources: Set<LinkSource>) {
                 self.parentLinkSources = parentLinkSources
             }
 
-            public func callAsFunction(_ patternString: String, handler: @escaping Route.Handler) -> [Definition] {
+            public func route(_ patternString: String, handler: @escaping Route.Handler) -> [Definition] {
                 [Definition(patternString, acceptPolicy: .only(for: parentLinkSources), handler: handler)]
             }
         }
@@ -82,8 +82,8 @@ extension Router {
         }
     }
 
-    public convenience init(accepting linkSources: Set<LinkSource>, @TopLevelRoute.Builder _ routeBuilder: (TopLevelRoute.Factory) -> [TopLevelRoute.Definition]) throws {
-        let routeDefinitions = routeBuilder(TopLevelRoute.Factory())
+    public convenience init(accepting linkSources: Set<LinkSource>, @TopLevelRoute.Builder _ routeBuilder: (TopLevelRoute.Registry) -> [TopLevelRoute.Definition]) throws {
+        let routeDefinitions = routeBuilder(TopLevelRoute.Registry())
         let routes = try routeDefinitions.map { definition in
             try definition.get() as Route
         }

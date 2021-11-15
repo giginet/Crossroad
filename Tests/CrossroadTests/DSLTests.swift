@@ -19,13 +19,13 @@ final class DSLTests: XCTestCase {
     let universalLink: LinkSource = .universalLink(URL(string: "https://my-awesome-pokedex.com")!)
 
     func testDSL() throws {
-        let router = try SimpleRouter(accepting: [customURLScheme, universalLink]) { route in
-            route("/pokemons/:id") { context in
+        let router = try SimpleRouter(accepting: [customURLScheme, universalLink]) { registry in
+            registry.route("/pokemons/:id") { context in
                 let pokedexID: Int = try context.argument(named: "id")
                 presentPokemonViewController(pokedexID: pokedexID)
             }
 
-            route("/pokemons", accepting: .only(for: customURLScheme)) { context in
+            registry.route("/pokemons", accepting: .only(for: customURLScheme)) { context in
                 let name: String? = context.queryParameters.name
                 let types: [PokemonType]? = context.queryParameters.types
                 presentPokemonSearchViewController(name: name, types: types)
@@ -38,14 +38,14 @@ final class DSLTests: XCTestCase {
     }
 
     func testGroupedDSL() throws {
-        let router = try SimpleRouter(accepting: [customURLScheme, universalLink]) { route in
-            route("/pokemons/:id") { context in
+        let router = try SimpleRouter(accepting: [customURLScheme, universalLink]) { registry in
+            registry.route("/pokemons/:id") { context in
                 let pokedexID: Int = try context.argument(named: "id")
                 presentPokemonViewController(pokedexID: pokedexID)
             }
 
-            route.group(accepting: universalLink) { route in
-                route("/pokemons") { context in
+            registry.group(accepting: universalLink) { group in
+                group.route("/pokemons") { context in
                     let name: String? = context.queryParameters.name
                     let types: [PokemonType]? = context.queryParameters.types
                     presentPokemonSearchViewController(name: name, types: types)

@@ -9,12 +9,12 @@ final class RouterTest: XCTestCase {
     private let scheme: LinkSource = .customURLScheme("foobar")
 
     func testCanRespond() throws {
-        let router = try SimpleRouter(accepting: [scheme]) { route in
-            route("foobar://static") { _ in }
-            route("foobar://foo/bar") { _ in }
-            route("foobar://SPAM/HAM") { _ in throw TestingError.somethingWrong }
-            route("foobar://:keyword") { _ in }
-            route("foobar://foo/:keyword") { _ in }
+        let router = try SimpleRouter(accepting: [scheme]) { registry in
+            registry.route("foobar://static") { _ in }
+            registry.route("foobar://foo/bar") { _ in }
+            registry.route("foobar://SPAM/HAM") { _ in throw TestingError.somethingWrong }
+            registry.route("foobar://:keyword") { _ in }
+            registry.route("foobar://foo/:keyword") { _ in }
         }
         XCTAssertTrue(router.responds(to: URL(string: "foobar://static")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo")!))
@@ -36,8 +36,8 @@ final class RouterTest: XCTestCase {
     }
 
     func testCanRespondWithNoPathComponents() throws {
-        let router = try SimpleRouter(accepting: [scheme, .universalLink(URL(string: "https://example.com")!)]) { route in
-            route("/") { _ in }
+        let router = try SimpleRouter(accepting: [scheme, .universalLink(URL(string: "https://example.com")!)]) { registry in
+            registry.route("/") { _ in }
         }
         XCTAssertTrue(router.responds(to: URL(string: "foobar://")!))
         XCTAssertTrue(router.responds(to: URL(string: "https://example.com")!))
@@ -46,12 +46,12 @@ final class RouterTest: XCTestCase {
     }
 
     func testCanRespondWithCapitalCase() throws {
-        let router = try SimpleRouter(accepting: [.customURLScheme("FOOBAR")]) { route in
-            route("FOOBAR://STATIC") { _ in }
-            route("FOOBAR://FOO/BAR") { _ in }
-            route("FOOBAR://SPAM/HAM") { _ in throw TestingError.somethingWrong }
-            route("FOOBAR://:keyword") { _ in }
-            route("FOOBAR://FOO/:keyword") { _ in }
+        let router = try SimpleRouter(accepting: [.customURLScheme("FOOBAR")]) { registry in
+            registry.route("FOOBAR://STATIC") { _ in }
+            registry.route("FOOBAR://FOO/BAR") { _ in }
+            registry.route("FOOBAR://SPAM/HAM") { _ in throw TestingError.somethingWrong }
+            registry.route("FOOBAR://:keyword") { _ in }
+            registry.route("FOOBAR://FOO/:keyword") { _ in }
         }
         XCTAssertTrue(router.responds(to: URL(string: "foobar://sTATic")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo")!))
@@ -71,12 +71,12 @@ final class RouterTest: XCTestCase {
     }
 
     func testCanRespondWithURLPrefix() throws {
-        let router = try SimpleRouter(accepting: [.universalLink(URL(string: "https://example.com")!)]) { route in
-            route("https://example.com/static") { _ in }
-            route("https://example.com/foo/bar") { _ in }
-            route("https://example.com/SPAM/HAM") { _ in throw TestingError.somethingWrong }
-            route("https://example.com/:keyword") { _ in }
-            route("https://example.com/foo/:keyword") { _ in }
+        let router = try SimpleRouter(accepting: [.universalLink(URL(string: "https://example.com")!)]) { registry in
+            registry.route("https://example.com/static") { _ in }
+            registry.route("https://example.com/foo/bar") { _ in }
+            registry.route("https://example.com/SPAM/HAM") { _ in throw TestingError.somethingWrong }
+            registry.route("https://example.com/:keyword") { _ in }
+            registry.route("https://example.com/foo/:keyword") { _ in }
         }
         XCTAssertTrue(router.responds(to: URL(string: "https://example.com/static")!))
         XCTAssertTrue(router.responds(to: URL(string: "https://example.com/foo")!))
@@ -95,12 +95,12 @@ final class RouterTest: XCTestCase {
     }
 
     func testCanRespondWithoutPrefix() throws {
-        let router = try SimpleRouter(accepting: [scheme]) { route in
-            route("static") { _ in }
-            route("foo/bar") { _ in }
-            route("SPAM/HAM") { _ in throw TestingError.somethingWrong }
-            route(":keyword") { _ in }
-            route("foo/:keyword") { _ in }
+        let router = try SimpleRouter(accepting: [scheme]) { registry in
+            registry.route("static") { _ in }
+            registry.route("foo/bar") { _ in }
+            registry.route("SPAM/HAM") { _ in throw TestingError.somethingWrong }
+            registry.route(":keyword") { _ in }
+            registry.route("foo/:keyword") { _ in }
         }
         XCTAssertTrue(router.responds(to: URL(string: "foobar://static")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo")!))
@@ -119,12 +119,12 @@ final class RouterTest: XCTestCase {
     }
 
     func testCanRespondWithRelativePath() throws {
-        let router = try SimpleRouter(accepting: [scheme]) { route in
-            route("/static") { _ in }
-            route("/foo/bar") { _ in }
-            route("/SPAM/HAM") { _ in throw TestingError.somethingWrong }
-            route("/:keyword") { _ in }
-            route("/foo/:keyword") { _ in }
+        let router = try SimpleRouter(accepting: [scheme]) { registry in
+            registry.route("/static") { _ in }
+            registry.route("/foo/bar") { _ in }
+            registry.route("/SPAM/HAM") { _ in throw TestingError.somethingWrong }
+            registry.route("/:keyword") { _ in }
+            registry.route("/foo/:keyword") { _ in }
         }
         XCTAssertTrue(router.responds(to: URL(string: "foobar://static")!))
         XCTAssertTrue(router.responds(to: URL(string: "foobar://foo")!))
@@ -143,12 +143,12 @@ final class RouterTest: XCTestCase {
     }
 
     func testCanRespondWithoutPrefixWithURLPrefix() throws {
-        let router = try SimpleRouter(accepting: [.universalLink(URL(string: "https://example.com")!)]) { route in
-            route("static") { _ in }
-            route("foo/bar") { _ in }
-            route("SPAM/HAM") { _ in throw TestingError.somethingWrong }
-            route(":keyword") { _ in }
-            route("foo/:keyword") { _ in }
+        let router = try SimpleRouter(accepting: [.universalLink(URL(string: "https://example.com")!)]) { registry in
+            registry.route("static") { _ in }
+            registry.route("foo/bar") { _ in }
+            registry.route("SPAM/HAM") { _ in throw TestingError.somethingWrong }
+            registry.route(":keyword") { _ in }
+            registry.route("foo/:keyword") { _ in }
         }
         XCTAssertTrue(router.responds(to: URL(string: "https://example.com/static")!))
         XCTAssertTrue(router.responds(to: URL(string: "https://example.com/foo")!))
@@ -168,22 +168,22 @@ final class RouterTest: XCTestCase {
         let expectation = self.expectation(description: "Should called handler four times")
         expectation.expectedFulfillmentCount = 4
 
-        let router = try SimpleRouter(accepting: [scheme]) { route in
-            route("foobar://static") { context in
+        let router = try SimpleRouter(accepting: [scheme]) { registry in
+            registry.route("foobar://static") { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://static")!)
                 expectation.fulfill()
             }
-            route("foobar://foo/bar") { context in
+            registry.route("foobar://foo/bar") { context in
                 XCTAssertEqual(context.queryParameter(named: "param0"), 123)
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/bar?param0=123")!)
                 expectation.fulfill()
             }
-            route("foobar://:pokemonName") { context in
+            registry.route("foobar://:pokemonName") { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://hoge")!)
                 XCTAssertEqual(try? context.argument(named: "pokemonName"), "hoge")
                 expectation.fulfill()
             }
-            route("foobar://foo/:pokemonName/:keyword2") { context in
+            registry.route("foobar://foo/:pokemonName/:keyword2") { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/hoge/fuga")!)
                 XCTAssertEqual(try? context.argument(named: "pokemonName"), "hoge")
                 XCTAssertEqual(try? context.argument(named: "keyword2"), "fuga")
@@ -207,22 +207,22 @@ final class RouterTest: XCTestCase {
     func testHandleWithURLPrefix() throws {
         let expectation = self.expectation(description: "Should called handler four times")
         expectation.expectedFulfillmentCount = 4
-        let router = try SimpleRouter(accepting: [.universalLink(URL(string: "https://example.com")!)]) { route in
-            route("https://example.com/static") { context in
+        let router = try SimpleRouter(accepting: [.universalLink(URL(string: "https://example.com")!)]) { registry in
+            registry.route("https://example.com/static") { context in
                 XCTAssertEqual(context.url, URL(string: "https://example.com/static")!)
                 expectation.fulfill()
             }
-            route("https://example.com/foo/bar") { context in
+            registry.route("https://example.com/foo/bar") { context in
                 XCTAssertEqual(context.queryParameter(named: "param0"), 123)
                 XCTAssertEqual(context.url, URL(string: "https://example.com/foo/bar?param0=123")!)
                 expectation.fulfill()
             }
-            route("https://example.com/:pokemonName") { context in
+            registry.route("https://example.com/:pokemonName") { context in
                 XCTAssertEqual(context.url, URL(string: "https://example.com/hoge")!)
                 XCTAssertEqual(try? context.argument(named: "pokemonName"), "hoge")
                 expectation.fulfill()
             }
-            route("https://example.com/foo/:pokemonName/:keyword2") { context in
+            registry.route("https://example.com/foo/:pokemonName/:keyword2") { context in
                 XCTAssertEqual(context.url, URL(string: "https://example.com/foo/hoge/fuga")!)
                 XCTAssertEqual(try? context.argument(named: "pokemonName"), "hoge")
                 XCTAssertEqual(try? context.argument(named: "keyword2"), "fuga")
@@ -247,22 +247,22 @@ final class RouterTest: XCTestCase {
         let expectation = self.expectation(description: "Should called handler four times")
         expectation.expectedFulfillmentCount = 4
 
-        let router = try SimpleRouter(accepting: [scheme]) { route in
-            route("static") { context in
+        let router = try SimpleRouter(accepting: [scheme]) { registry in
+            registry.route("static") { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://static")!)
                 expectation.fulfill()
             }
-            route("foo/bar") { context in
+            registry.route("foo/bar") { context in
                 XCTAssertEqual(context.queryParameter(named: "param0"), 123)
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/bar?param0=123")!)
                 expectation.fulfill()
             }
-            route(":pokemonName") { context in
+            registry.route(":pokemonName") { context in
                 XCTAssertEqual(context.url, URL(string: "FOOBAR://HOGE")!)
                 XCTAssertEqual(try? context.argument(named: "pokemonName"), "HOGE")
                 expectation.fulfill()
             }
-            route("foo/:pokemonName/:keyword2") { context in
+            registry.route("foo/:pokemonName/:keyword2") { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/hoge/fuga")!)
                 XCTAssertEqual(try? context.argument(named: "pokemonName"), "hoge")
                 XCTAssertEqual(try? context.argument(named: "keyword2"), "fuga")
@@ -287,22 +287,22 @@ final class RouterTest: XCTestCase {
         let expectation = self.expectation(description: "Should called handler four times")
         expectation.expectedFulfillmentCount = 4
 
-        let router = try SimpleRouter(accepting: [scheme]) { route in
-            route("/static") { context in
+        let router = try SimpleRouter(accepting: [scheme]) { registry in
+            registry.route("/static") { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://static")!)
                 expectation.fulfill()
             }
-            route("/foo/bar") { context in
+            registry.route("/foo/bar") { context in
                 XCTAssertEqual(context.queryParameter(named: "param0"), 123)
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/bar?param0=123")!)
                 expectation.fulfill()
             }
-            route("/:pokemonName") { context in
+            registry.route("/:pokemonName") { context in
                 XCTAssertEqual(context.url, URL(string: "FOOBAR://HOGE")!)
                 XCTAssertEqual(try? context.argument(named: "pokemonName"), "HOGE")
                 expectation.fulfill()
             }
-            route("/foo/:pokemonName/:keyword2") { context in
+            registry.route("/foo/:pokemonName/:keyword2") { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/hoge/fuga")!)
                 XCTAssertEqual(try? context.argument(named: "pokemonName"), "hoge")
                 XCTAssertEqual(try? context.argument(named: "keyword2"), "fuga")
@@ -327,22 +327,22 @@ final class RouterTest: XCTestCase {
         let expectation = self.expectation(description: "Should called handler four times")
         expectation.expectedFulfillmentCount = 4
 
-        let router = try SimpleRouter(accepting: [.universalLink(URL(string: "https://example.com")!)]) { route in
-            route("static") { context in
+        let router = try SimpleRouter(accepting: [.universalLink(URL(string: "https://example.com")!)]) { registry in
+            registry.route("static") { context in
                 XCTAssertEqual(context.url, URL(string: "https://example.com/static")!)
                 expectation.fulfill()
             }
-            route("foo/bar") { context in
+            registry.route("foo/bar") { context in
                 XCTAssertEqual(context.queryParameter(named: "param0"), 123)
                 XCTAssertEqual(context.url, URL(string: "https://example.com/foo/bar?param0=123")!)
                 expectation.fulfill()
             }
-            route(":pokemonName") { context in
+            registry.route(":pokemonName") { context in
                 XCTAssertEqual(context.url, URL(string: "https://example.com/HOGE")!)
                 XCTAssertEqual(try? context.argument(named: "pokemonName"), "HOGE")
                 expectation.fulfill()
             }
-            route("foo/:pokemonName/:keyword2") { context in
+            registry.route("foo/:pokemonName/:keyword2") { context in
                 XCTAssertEqual(context.url, URL(string: "https://example.com/foo/hoge/fuga")!)
                 XCTAssertEqual(try? context.argument(named: "pokemonName"), "hoge")
                 XCTAssertEqual(try? context.argument(named: "keyword2"), "fuga")
@@ -367,14 +367,14 @@ final class RouterTest: XCTestCase {
         let idExpectation = self.expectation(description: "Should called handler with ID")
         let keywordExpectation = self.expectation(description: "Should called handler with keyword")
 
-        let router = try SimpleRouter(accepting: [scheme]) { route in
-            route("foobar://foo/:id") { context in
+        let router = try SimpleRouter(accepting: [scheme]) { registry in
+            registry.route("foobar://foo/:id") { context in
                 let id: Int = try context.argument(named: "id")
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/42")!)
                 XCTAssertEqual(id, 42)
                 idExpectation.fulfill()
             }
-            route("foobar://foo/:pokemonName") { context in
+            registry.route("foobar://foo/:pokemonName") { context in
                 let pokemonName: String = try! context.argument(named: "pokemonName")
                 XCTAssertEqual(context.url, URL(string: "FOOBAR://FOO/BAR")!)
                 XCTAssertEqual(pokemonName, "BAR")
@@ -392,14 +392,14 @@ final class RouterTest: XCTestCase {
         let idExpectation = self.expectation(description: "Should called handler with ID")
         let keywordExpectation = self.expectation(description: "Should called handler with keyword")
 
-        let router = try SimpleRouter(accepting: [.universalLink(URL(string: "https://example.com")!)]) { route in
-            route("https://example.com/foo/:id") { context in
+        let router = try SimpleRouter(accepting: [.universalLink(URL(string: "https://example.com")!)]) { registry in
+            registry.route("https://example.com/foo/:id") { context in
                 let id: Int = try context.argument(named: "id")
                 XCTAssertEqual(context.url, URL(string: "https://example.com/foo/42")!)
                 XCTAssertEqual(id, 42)
                 idExpectation.fulfill()
             }
-            route("https://example.com/foo/:pokemonName") { context in
+            registry.route("https://example.com/foo/:pokemonName") { context in
                 let pokemonName: String = try! context.argument(named: "pokemonName")
                 XCTAssertEqual(context.url, URL(string: "https://example.com/foo/bar")!)
                 XCTAssertEqual(pokemonName, "bar")
@@ -417,14 +417,14 @@ final class RouterTest: XCTestCase {
         let idExpectation = self.expectation(description: "Should called handler with ID")
         let keywordExpectation = self.expectation(description: "Should called handler with keyword")
 
-        let router = try SimpleRouter(accepting: [scheme]) { route in
-            route("foo/:id") { context in
+        let router = try SimpleRouter(accepting: [scheme]) { registry in
+            registry.route("foo/:id") { context in
                 let id: Int = try context.argument(named: "id")
                 XCTAssertEqual(context.url, URL(string: "foobar://foo/42")!)
                 XCTAssertEqual(id, 42)
                 idExpectation.fulfill()
             }
-            route("foo/:pokemonName") { context in
+            registry.route("foo/:pokemonName") { context in
                 let pokemonName: String = try! context.argument(named: "pokemonName")
                 XCTAssertEqual(context.url, URL(string: "FOOBAR://FOO/BAR")!)
                 XCTAssertEqual(pokemonName, "BAR")
@@ -442,15 +442,15 @@ final class RouterTest: XCTestCase {
         let idExpectation = self.expectation(description: "Should called handler with ID")
         let keywordExpectation = self.expectation(description: "Should called handler with keyword")
 
-        let router = try SimpleRouter(accepting: [.universalLink(URL(string: "https://example.com")!)]) { route in
-            route("foo/:id") { context in
+        let router = try SimpleRouter(accepting: [.universalLink(URL(string: "https://example.com")!)]) { registry in
+            registry.route("foo/:id") { context in
                 let id: Int = try context.argument(named: "id")
 
                 XCTAssertEqual(context.url, URL(string: "https://example.com/foo/42")!)
                 XCTAssertEqual(id, 42)
                 idExpectation.fulfill()
             }
-            route("foo/:pokemonName") { context in
+            registry.route("foo/:pokemonName") { context in
                 let pokemonName: String = try! context.argument(named: "pokemonName")
                 XCTAssertEqual(context.url, URL(string: "https://example.com/foo/bar")!)
                 XCTAssertEqual(pokemonName, "bar")
@@ -468,12 +468,12 @@ final class RouterTest: XCTestCase {
         let expectation = self.expectation(description: "Should called handler twice")
         expectation.expectedFulfillmentCount = 2
 
-        let router = try SimpleRouter(accepting: [scheme]) { route in
-            route("foobar://foo/bar") { _ in
+        let router = try SimpleRouter(accepting: [scheme]) { registry in
+            registry.route("foobar://foo/bar") { _ in
                 expectation.fulfill()
                 throw TestingError.somethingWrong
             }
-            route("/spam/:matchingKeyword") { context in
+            registry.route("/spam/:matchingKeyword") { context in
                 XCTAssertEqual(try? context.argument(named: "matchingKeyword"), "ham")
                 expectation.fulfill()
             }
@@ -487,12 +487,12 @@ final class RouterTest: XCTestCase {
         let expectation = self.expectation(description: "Should called handler twice")
         expectation.expectedFulfillmentCount = 2
 
-        let router = try SimpleRouter(accepting: [.universalLink(URL(string: "https://example.com")!)]) { route in
-            route("https://example.com/foo/bar") { _ in
+        let router = try SimpleRouter(accepting: [.universalLink(URL(string: "https://example.com")!)]) { registry in
+            registry.route("https://example.com/foo/bar") { _ in
                 expectation.fulfill()
                 throw TestingError.somethingWrong
             }
-            route("/pokemons/:pokemonName") { context in
+            registry.route("/pokemons/:pokemonName") { context in
                 XCTAssertEqual(try? context.argument(named: "pokemonName"), "Pikachu")
                 expectation.fulfill()
             }
@@ -506,12 +506,12 @@ final class RouterTest: XCTestCase {
         let expectation = self.expectation(description: "Should called handler twice")
         expectation.expectedFulfillmentCount = 2
 
-            let router = try SimpleRouter(accepting: [scheme]) { route in
-            route("foo/bar") { _ in
+            let router = try SimpleRouter(accepting: [scheme]) { registry in
+            registry.route("foo/bar") { _ in
                 expectation.fulfill()
                 throw TestingError.somethingWrong
             }
-            route("/pokemons/:pokemonName") { context in
+            registry.route("/pokemons/:pokemonName") { context in
                 XCTAssertEqual(try? context.argument(named: "pokemonName"), "Pikachu")
                 expectation.fulfill()
             }
@@ -524,8 +524,8 @@ final class RouterTest: XCTestCase {
     func testHandleCapitalCasedHostKeyword() throws {
         let expectation = self.expectation(description: "Should called handler")
 
-        let router = try SimpleRouter(accepting: [scheme]) { route in
-            route(":pokemonName") { context in
+        let router = try SimpleRouter(accepting: [scheme]) { registry in
+            registry.route(":pokemonName") { context in
                 XCTAssertEqual(context.url.absoluteString, "FOOBAR://FOO")
                 XCTAssertEqual(try! context.argument(named: "pokemonName"), "FOO")
                 expectation.fulfill()
@@ -539,12 +539,12 @@ final class RouterTest: XCTestCase {
         let expectation = self.expectation(description: "Should called handler twice")
         expectation.expectedFulfillmentCount = 2
 
-        let router = try SimpleRouter(accepting: [.universalLink(URL(string: "https://example.com")!)]) { route in
-            route("foo/bar") { _ in
+        let router = try SimpleRouter(accepting: [.universalLink(URL(string: "https://example.com")!)]) { registry in
+            registry.route("foo/bar") { _ in
                 expectation.fulfill()
                 throw TestingError.somethingWrong
             }
-            route("/foo/:pokemonName") { context in
+            registry.route("/foo/:pokemonName") { context in
                 XCTAssertEqual(try? context.argument(named: "pokemonName"), "bar")
                 expectation.fulfill()
             }
@@ -559,8 +559,8 @@ final class RouterTest: XCTestCase {
             let value: Int
         }
         var userInfo: UserInfo?
-        let router = try Router<UserInfo>(accepting: [scheme]) { route in
-            route("foobar://static") { context in
+        let router = try Router<UserInfo>(accepting: [scheme]) { registry in
+            registry.route("foobar://static") { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://static")!)
                 userInfo = context.userInfo
             }
@@ -576,8 +576,8 @@ final class RouterTest: XCTestCase {
         }
 
         var userInfo: UserInfo?
-        let router = try Router<UserInfo>(accepting: [.universalLink(URL(string: "https://example.com")!)]) { route in
-            route("https://example.com/static") { context in
+        let router = try Router<UserInfo>(accepting: [.universalLink(URL(string: "https://example.com")!)]) { registry in
+            registry.route("https://example.com/static") { context in
                 XCTAssertEqual(context.url, URL(string: "https://example.com/static")!)
                 userInfo = context.userInfo
             }
@@ -593,8 +593,8 @@ final class RouterTest: XCTestCase {
         }
         var userInfo: UserInfo?
 
-        let router = try Router<UserInfo>(accepting: [scheme]) { route in
-            route("static") { context in
+        let router = try Router<UserInfo>(accepting: [scheme]) { registry in
+            registry.route("static") { context in
                 XCTAssertEqual(context.url, URL(string: "foobar://static")!)
                 userInfo = context.userInfo
             }
@@ -609,8 +609,8 @@ final class RouterTest: XCTestCase {
             let value: Int
         }
         var userInfo: UserInfo?
-        let router = try Router<UserInfo>(accepting: [.universalLink(URL(string: "https://example.com")!)]) { route in
-            route("static") { context in
+        let router = try Router<UserInfo>(accepting: [.universalLink(URL(string: "https://example.com")!)]) { registry in
+            registry.route("static") { context in
                 XCTAssertEqual(context.url, URL(string: "https://example.com/static")!)
                 userInfo = context.userInfo
             }

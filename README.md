@@ -30,15 +30,15 @@ let customURLScheme: LinkSource = .customURLScheme("pokedex")
 let universalLink: LinkSource = .universalLink("https://my-awesome-pokedex.com")
 
 do {
-    let router = try DefaultRouter(accepting: [customURLScheme, universalLink]) { route in
-        route("/pokemons/:pokedexID") { context in 
+    let router = try DefaultRouter(accepting: [customURLScheme, universalLink]) { registry in
+        registry.route("/pokemons/:pokedexID") { context in 
             let pokedexID: Int = try context.argument(named: "pokedexID") // Parse 'pokedexID' from URL
             if !Pokedex.isExist(pokedexID) { // Find the Pokémon by ID
                 throw PokedexError.pokemonIsNotExist(pokedexID) // If Pokémon is not found. Try next route definition.
             }
             presentPokedexDetailViewController(of: pokedexID)
         }
-        route("/pokemons") { context in 
+        registry.route("/pokemons") { context in 
             let type: Type? = context.queryParameters.type // If URL contains &type=fire, you can get Fire type.
             presentPokedexListViewController(for: type)
         }
@@ -174,9 +174,9 @@ let customURLScheme: LinkSource = .customURLScheme("pokedex")
 let pokedexWeb: LinkSource = .universalLink(URL(string: "https://my-awesome-pokedex.com")!)
 let anotherWeb: LinkSource = .universalLink(URL(string: "https://kanto.my-awesome-pokedex.com")!)
 
-let router = try DefaultRouter(accepting: [customURLScheme, pokedexWeb, anotherWeb]) { route in
+let router = try DefaultRouter(accepting: [customURLScheme, pokedexWeb, anotherWeb]) { registry in
     // Pokémon detail pages can be opened from all sources.
-    route("/pokemons/:pokedexID") { context in 
+    registry.route("/pokemons/:pokedexID") { context in 
         let pokedexID: Int = try context.argument(named: "pokedexID") // Parse 'pokedexID' from URL
         if !Pokedex.isExist(pokedexID) { // Find the Pokémon by ID
             throw PokedexError.pokemonIsNotExist(pokedexID)
@@ -185,19 +185,19 @@ let router = try DefaultRouter(accepting: [customURLScheme, pokedexWeb, anotherW
     }
 
     // Move related pages can be opened only from Custom URL Schemes
-    route.group(accepting: [customURLScheme]) { route in
-        route("/moves/:move_name") { context in 
+    registry.group(accepting: [customURLScheme]) { group in
+        group.route("/moves/:move_name") { context in 
             let moveName: String = try context.argument(named: "move_name")
             presentMoveViewController(for: moveName)
         }
-        route("/pokemons/:pokedexID/move") { context in 
+        group.route("/pokemons/:pokedexID/move") { context in 
             let pokedexID: Int = try context.argument(named: "pokedexID")
             presentPokemonMoveViewController(for: pokedexID)
         }
     }
 
     // You can pass acceptPolicy for a specific page.
-    route("/regions", accepting: .only(for: pokedexWeb)) { context in 
+    registry.route("/regions", accepting: .only(for: pokedexWeb)) { context in 
         presentRegionListViewController()
     }
 }
@@ -213,8 +213,8 @@ You can add any payload to `Router`.
 struct UserInfo {
     let userID: Int64
 }
-let router = try Router<UserInfo>(accepting: customURLScheme) { route in
-    route("pokedex://pokemons") { context in 
+let router = try Router<UserInfo>(accepting: customURLScheme) { registry in
+    registry.route("pokedex://pokemons") { context in 
         let userInfo: UserInfo = context.userInfo
         let userID = userInfo.userID
     }
