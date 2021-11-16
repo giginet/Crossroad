@@ -108,7 +108,7 @@ public struct Context<UserInfo> {
         return queryParameters.get(named: key)
     }
 
-    public func requiredQueryParameter<T: Parsable>(named key: String, as: T.Type = T.self) throws -> T {
+    public func requiredQueryParameter<T: Parsable>(named key: String, as type: T.Type = T.self) throws -> T {
         guard let queryParameter: T = queryParameters.get(named: key) else {
             throw QueryParameters.Error.missingRequiredQueryParameter(key)
         }
