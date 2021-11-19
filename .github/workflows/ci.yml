@@ -18,6 +18,14 @@ jobs:
       run: |
         DESTINATION="platform=iOS Simulator,name=iPhone 8" SCHEME="Crossroad-iOS"
         xcodebuild test -project Crossroad.xcodeproj -scheme "${SCHEME}" -destination "${DESTINATION}"
+  Demo:
+    runs-on: macos-11
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build Demo
+      run: |
+        DESTINATION="platform=iOS Simulator,name=iPhone 8" SCHEME="Crossroad-iOS"
+        xcodebuild build -project Demo/Demo.xcodeproj -scheme Demo -destination "${DESTINATION}"
   tvOS:
     runs-on: macos-11
     steps:

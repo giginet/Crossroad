@@ -257,6 +257,11 @@ pod 'Crossroad'
 github "giginet/Crossroad"
 ```
 
+## Demo
+
+1. Open `Demo/Demo.xcodeproj` on Xcode.
+2. Build `Demo` schema.
+
 ## Supported version
 
 Latest version of Crossroad requires Swift 5.2 or above.
