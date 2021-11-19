@@ -22,10 +22,10 @@ jobs:
     runs-on: macos-11
     steps:
     - uses: actions/checkout@v2
-    - name: Run Tests
+    - name: Build Demo
       run: |
         DESTINATION="platform=iOS Simulator,name=iPhone 8" SCHEME="Crossroad-iOS"
-        xcodebuild test -project Demo/Demo.xcodeproj -scheme Demo -destination "${DESTINATION}"
+        xcodebuild build -project Demo/Demo.xcodeproj -scheme Demo -destination "${DESTINATION}"
   tvOS:
     runs-on: macos-11
     steps:
