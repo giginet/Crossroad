@@ -1,7 +1,7 @@
 [![Crossroad](Documentation/logo.png)](https://github.com/giginet/Crossroad)
 
 [![Build Status](https://img.shields.io/github/workflow/status/giginet/Crossroad/Crossroad?style=flat-square)](https://github.com/giginet/Crossroad/actions?query=workflow%3ACrossroad)
-[![Language](https://img.shields.io/static/v1.svg?label=language&message=Swift%205.1&color=FA7343&logo=swift&style=flat-square)](https://swift.org)
+[![Language](https://img.shields.io/static/v1.svg?label=language&message=Swift%205.4&color=FA7343&logo=swift&style=flat-square)](https://swift.org)
 [![SwiftPM compatible](https://img.shields.io/badge/SwiftPM-compatible-4BC51D.svg?style=flat-square)](https://swift.org/package-manager/) 
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat-square)](https://github.com/Carthage/Carthage) 
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/Crossroad.svg?style=flat-square)](http://cocoapods.org/pods/Crossroad)
@@ -270,7 +270,7 @@ Use 1.x instead on Swift 4.1 or lower.
 
 |Crossroad Version|Swift Version|Xcode Version|
 |-----------------|-------------|-------------|
-|4.x              |5.2          |Xcode 12.5   |
+|4.x              |5.4          |Xcode 13.0   |
 |3.x              |5.0          |Xcode 10.3   |
 |2.x              |5.0          |Xcode 10.2   |
 |1.x              |4.0 ~ 4.2    |~ Xcode 10.1 |
