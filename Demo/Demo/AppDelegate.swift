@@ -20,7 +20,7 @@ extension EnvironmentValues {
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
-
+    
     private func present<V: View>(view: V) {
         self.window?.rootViewController?.present(UIHostingController(rootView: view),
                                                  animated: true,
@@ -28,20 +28,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private lazy var router: DefaultRouter! = {
-        try! DefaultRouter(accepts: [.customURLScheme("pokedex")]) { route in
-            route("/pokemons/:id") { context in
-                let pokedexID: Int = try context.argument(for: "id")
+        try! DefaultRouter(accepting: [.customURLScheme("pokedex")]) { registry in
+            registry.route("/pokemons/:id") { context in
+                let pokedexID: Int = try context.argument(named: "id")
 
                 guard let pokemon = Pokedex().pokemon(for: pokedexID) else {
-                    return false
+                    throw Pokedex.Error.pokemonNotFound(pokedexID)
                 }
                 let pokemonDetailView = PokemonDetailView(pokemon: pokemon)
                 self.present(view: pokemonDetailView)
-
-                return true
             }
 
-            route("/pokemons/search") { context in
+            registry.route("/pokemons/search") { context in
                 let types: [Pokemon.PokemonType]? = context.queryParameters.types
                 let region: Pokemon.Region? = context.queryParameters.region
 
@@ -49,8 +47,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
                 let pokemonSearchView = PokemonSearchView(query: query)
                 self.present(view: pokemonSearchView)
-
-                return true
             }
         }
     }()

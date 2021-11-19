@@ -46,6 +46,10 @@ struct Pokemon {
 }
 
 struct Pokedex {
+    enum Error: Swift.Error {
+        case pokemonNotFound(Int)
+    }
+
     let pokemons: [Pokemon] = [
         ピカチュウ,
         ヒトカゲ,

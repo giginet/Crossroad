@@ -13,6 +13,7 @@ struct PokemonDetailView: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
             }
+            .padding()
             HStack {
                 Text(pokemon.type1.rawValue)
                 Text(pokemon.type2?.rawValue ?? "")
