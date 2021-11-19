@@ -40,6 +40,14 @@ final class ParsableTests: XCTestCase {
         XCTAssertEqual([PokemonType](from: "water,grass"), [.water, .grass])
     }
 
+    func testWithCommaSeparatedSet() {
+        XCTAssertEqual(Set<Int>(from: "1,2,3,4,5"), [1, 2, 3, 4, 5])
+        XCTAssertEqual(Set<String>(from: "a,,c,d,,,,f"), ["a", "c", "d", "f"])
+        XCTAssertEqual(Set<Double>(from: "1.1"), [1.1])
+        XCTAssertEqual(Set<PokemonType>(from: "water,grass"), [.water, .grass])
+        XCTAssertEqual(Set<PokemonType>(from: "water,water"), [.water])
+    }
+
     func testWithCustomClass() {
         XCTAssertNotNil(RegularExpression(from: ".+"))
     }

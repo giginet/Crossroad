@@ -1,15 +1,16 @@
 import XCTest
-import Crossroad
+@testable import Crossroad
 
-final class URLParserTests: XCTestCase {
-    func testURLParser() {
-        let parser = URLParser<Void>()
-        let context = parser.parse(URL(string: "pokedex://pokemons/25")!, in: "pokedex://pokemons/:pokedexID")
-        XCTAssertEqual(try context?.argument(for: "pokedexID"), 25)
+final class ParserTests: XCTestCase {
+    func testURLParser() throws {
+        let parser = ContextParser<Void>()
+        let patternString = "pokedex://pokemons/:pokedexID"
+        let context = try parser.parse(URL(string: "pokedex://pokemons/25")!, with: patternString)
+        XCTAssertEqual(try context.argument(named: "pokedexID"), 25)
     }
 
-    func testPatternCase() {
-        let parser = URLParser<Void>()
+    func testPatternCase() throws {
+        let parser = ContextParser<Void>()
 
         let testCases: [(String, String, Bool, UInt)] = [
             ("http://my-awesome-pokedex.com/pokemons", "HTTP://MY-AWESOME-POKEDEX.COM/pokemons", true, #line),
@@ -17,11 +18,13 @@ final class URLParserTests: XCTestCase {
             ("pokedex://pokemons/fire", "pokedex://pokemons/FIRE", false, #line),
             ("pokedex://pokemons/fire", "POKEDEX://POKEMONS/fire", true, #line),
             ("pokedex://pokemons/fire", "POKEDEX://POKEMONS/FIRE", false, #line),
+            ("pokedex://", "pokedex://", true, #line),
+            ("http://my-awesome-pokedex.com", "http://my-awesome-pokedex.com", true, #line),
         ]
 
-        for (pattern, urlString, result, line) in testCases {
+        for (patternString, urlString, result, line) in testCases {
             let url = URL(string: urlString)!
-            let context = parser.parse(url, in: pattern)
+            let context = try? parser.parse(url, with: patternString)
             if result {
                 XCTAssertNotNil(context, line: line)
             } else {
