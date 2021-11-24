@@ -5,6 +5,7 @@ import Crossroad
 final class Router_AcceptanceTests: XCTestCase {
     private let customURLScheme: LinkSource = .customURLScheme("pokedex")
     private let universalLink: LinkSource = .universalLink(URL(string: "https://my-awesome-pokedex.com")!)
+    private let anotherUniversalLink: LinkSource = .universalLink(URL(string: "https://another-pokedex.com")!)
 
     func testAcceptOnly() throws {
         let router = try SimpleRouter(accepting: [customURLScheme, universalLink]) { registry in
@@ -30,6 +31,35 @@ final class Router_AcceptanceTests: XCTestCase {
         XCTAssertTrue(router.responds(to: URL(string: "https://my-awesome-pokedex.com/pokemons/:id")!))
         XCTAssertTrue(router.responds(to: URL(string: "pokedex://moves/:id")!))
         XCTAssertFalse(router.responds(to: URL(string: "https://my-awesome-pokedex.com/moves/:id")!))
+    }
+
+    func testAcceptOnlyWithGroupWithAnotherUniversalLink() throws {
+        let router = try SimpleRouter(accepting: [customURLScheme, universalLink, anotherUniversalLink]) { registry in
+            registry.group(accepting: [universalLink]) { group in
+                group.route("/pokemons/:id") { _ in }
+            }
+
+            registry.group(accepting: [anotherUniversalLink]) { group in
+                group.route("/moves/:id") { _ in }
+            }
+
+            registry.route("/") { _ in }
+        }
+
+        XCTAssertFalse(router.responds(to: URL(string: "pokedex://pokemons/:id")!))
+        XCTAssertFalse(router.responds(to: URL(string: "pokedex://moves/:id")!))
+        XCTAssertTrue(router.responds(to: URL(string: "pokedex://")!))
+
+        XCTAssertTrue(router.responds(to: URL(string: "https://my-awesome-pokedex.com/pokemons/:id")!))
+        XCTAssertFalse(router.responds(to: URL(string: "https://my-awesome-pokedex.com/moves/:id")!))
+        XCTAssertTrue(router.responds(to: URL(string: "https://my-awesome-pokedex.com/")!))
+
+        XCTAssertFalse(router.responds(to: URL(string: "https://another-pokedex.com/pokemons/:id")!))
+        XCTAssertTrue(router.responds(to: URL(string: "https://another-pokedex.com/moves/:id")!))
+        XCTAssertTrue(router.responds(to: URL(string: "https://another-pokedex.com/")!))
+
+        XCTAssertFalse(router.responds(to: URL(string: "https://invalid-pokedex.com/")!))
+        XCTAssertFalse(router.responds(to: URL(string: "invalid_scheme://")!))
     }
 
     func testGroupDSLWithWrongFactory() throws {
