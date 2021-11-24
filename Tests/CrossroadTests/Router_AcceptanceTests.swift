@@ -42,15 +42,21 @@ final class Router_AcceptanceTests: XCTestCase {
             registry.group(accepting: [anotherUniversalLink]) { group in
                 group.route("/moves/:id") { _ in }
             }
+
+            registry.route("/") { _ in }
         }
 
         XCTAssertFalse(router.responds(to: URL(string: "pokedex://pokemons/:id")!))
         XCTAssertFalse(router.responds(to: URL(string: "pokedex://moves/:id")!))
+        XCTAssertTrue(router.responds(to: URL(string: "pokedex://")!))
 
         XCTAssertTrue(router.responds(to: URL(string: "https://my-awesome-pokedex.com/pokemons/:id")!))
         XCTAssertFalse(router.responds(to: URL(string: "https://my-awesome-pokedex.com/moves/:id")!))
+        XCTAssertTrue(router.responds(to: URL(string: "https://my-awesome-pokedex.com/")!))
+
         XCTAssertFalse(router.responds(to: URL(string: "https://another-pokedex.com/pokemons/:id")!))
         XCTAssertTrue(router.responds(to: URL(string: "https://another-pokedex.com/moves/:id")!))
+        XCTAssertTrue(router.responds(to: URL(string: "https://another-pokedex.com/")!))
     }
 
     func testGroupDSLWithWrongFactory() throws {
