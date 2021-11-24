@@ -8,6 +8,7 @@ public class ContextParser<UserInfo> {
 
     public enum Error: Swift.Error {
         case schemeIsMismatch
+        case hostIsMismatch
         case componentIsMismatch(expected: String, actual: String)
         case componentsCountMismatch
         case invalidURL
@@ -41,6 +42,7 @@ public class ContextParser<UserInfo> {
 
         case .universalLink(let universalLinkURL):
             guard url.scheme?.lowercased() == universalLinkURL.scheme?.lowercased() else { throw Error.schemeIsMismatch }
+            guard url.host?.lowercased() == universalLinkURL.host?.lowercased() else { throw Error.hostIsMismatch }
 
             expectedComponents = pattern.path.components
             actualURLComponents = url.pathComponents.droppedSlashElement() // only pathComponents
