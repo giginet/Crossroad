@@ -57,6 +57,9 @@ final class Router_AcceptanceTests: XCTestCase {
         XCTAssertFalse(router.responds(to: URL(string: "https://another-pokedex.com/pokemons/:id")!))
         XCTAssertTrue(router.responds(to: URL(string: "https://another-pokedex.com/moves/:id")!))
         XCTAssertTrue(router.responds(to: URL(string: "https://another-pokedex.com/")!))
+
+        XCTAssertFalse(router.responds(to: URL(string: "https://invalid-pokedex.com/")!))
+        XCTAssertFalse(router.responds(to: URL(string: "invalid_scheme://")!))
     }
 
     func testGroupDSLWithWrongFactory() throws {
