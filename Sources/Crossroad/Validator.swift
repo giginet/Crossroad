@@ -39,7 +39,7 @@ extension Router {
                     }
                 }.count
                 guard count == 1 else {
-                    throw ValidationError.duplicatedRoute(route.path, (route.acceptPolicy as? Route.AcceptPolicy) ?? .any) // need casting. it seems to be a compiler's bug
+                    throw ValidationError.duplicatedRoute(route.path.absoluteString, (route.acceptPolicy as? Route.AcceptPolicy) ?? .any) // need casting. it seems to be a compiler's bug
                 }
             }
         }
@@ -52,7 +52,7 @@ extension Router {
                     continue
                 }
                 guard router.linkSources.contains(patternLinkSource) else {
-                    throw ValidationError.invalidLinkSource(route.pattern, patternLinkSource)
+                    throw ValidationError.invalidLinkSource(route.pattern.absoluteString, patternLinkSource)
                 }
 
                 switch route.acceptPolicy {
@@ -60,7 +60,7 @@ extension Router {
                     continue
                 case .only(let linkSources):
                     guard linkSources.contains(patternLinkSource) else {
-                        throw ValidationError.invalidLinkSource(route.pattern, patternLinkSource)
+                        throw ValidationError.invalidLinkSource(route.pattern.absoluteString, patternLinkSource)
                     }
 
                 }
@@ -120,8 +120,8 @@ extension Router {
 
     public enum ValidationError: LocalizedError {
         case unknownLinkSource(Set<LinkSource>)
-        case duplicatedRoute(Path, Route.AcceptPolicy)
-        case invalidLinkSource(Pattern, LinkSource)
+        case duplicatedRoute(String, Route.AcceptPolicy)
+        case invalidLinkSource(String, LinkSource)
         case invalidSchemeLinkSource(String)
         case wellKnownScheme(String)
         case invalidUniversalLinkSource(URL)
@@ -131,8 +131,8 @@ extension Router {
             switch self {
             case .unknownLinkSource(let linkSources):
                 return "Unknown link sources \(linkSources) is registered"
-            case .duplicatedRoute(let path, let acceptPolicy):
-                return "Route definition for \(path) (accepting \(acceptPolicy)) is duplicated"
+            case .duplicatedRoute(let pathString, let acceptPolicy):
+                return "Route definition for \(pathString) (accepting \(acceptPolicy)) is duplicated"
             case .invalidLinkSource(let pattern, let linkSource):
                 return "Pattern '\(pattern)' contains invalid link source '\(linkSource)'."
             case .wellKnownScheme(let scheme):

@@ -1,7 +1,9 @@
 import Foundation
 
+/// Router without any payload
 public typealias SimpleRouter = Router<Void>
 
+/// 
 public final class Router<UserInfo> {
     public typealias Route = Crossroad.Route<UserInfo>
 

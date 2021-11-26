@@ -1,7 +1,14 @@
 import Foundation
 
+/// An enum representing link sources
 public enum LinkSource: Hashable, CustomStringConvertible {
+    /// LinkSource representing custom URL scheme
+    /// - Parameters:
+    ///     - Custom URL Scheme e.g. `pokedex`
     case customURLScheme(String)
+    /// LinkSource representing universal link
+    /// - Parameters:
+    ///     - A base URL of Universal Link source
     case universalLink(URL)
 
     public func hash(into hasher: inout Hasher) {
@@ -23,7 +30,8 @@ public enum LinkSource: Hashable, CustomStringConvertible {
     }
 }
 
-public struct Path: Hashable, CustomStringConvertible {
+/// A model representing path
+struct Path: Hashable, CustomStringConvertible {
     var components: [String]
 
     var absoluteString: String {
@@ -44,13 +52,13 @@ public struct Path: Hashable, CustomStringConvertible {
 }
 
 extension Path: ExpressibleByStringLiteral {
-    public typealias StringLiteralType = String
+    typealias StringLiteralType = String
 
-    public init(stringLiteral value: String) {
+    init(stringLiteral value: String) {
         self.init(pathString: value)
     }
 
-    public init(unicodeScalarLiteral value: String) {
+    init(unicodeScalarLiteral value: String) {
         self.init(pathString: value)
     }
 
@@ -59,26 +67,45 @@ extension Path: ExpressibleByStringLiteral {
     }
 }
 
-public struct Pattern: Hashable {
-    public let linkSource: LinkSource?
-    public let path: Path
+/// A model representing matching patterns
+struct Pattern: Hashable {
+    let linkSource: LinkSource?
+    let path: Path
 
-    public init(linkSource: LinkSource?, path: Path) {
+    init(linkSource: LinkSource?, path: Path) {
         self.linkSource = linkSource
         self.path = path
     }
 
-    public init(patternString: String) throws {
+    /// Create Pattern instance from pattern string
+    /// - Parameters:
+    ///     - patternString: patternString. like `pokedex://pokemons/:pokedex_id`
+    /// - Throws: An error type of `ParsingError`
+    init(patternString: String) throws {
         let (linkSource, path) = try PatternParser().parse(patternString: patternString)
         self.linkSource = linkSource
         self.path = path
     }
 
-    public enum ParsingError: LocalizedError {
+    var absoluteString: String {
+        switch linkSource {
+        case .customURLScheme(let scheme):
+            return "\(scheme):/\(path.absoluteString)"
+        case .universalLink(let url):
+            let concated = path.components.reduce(url, { $0.appendingPathComponent($1) })
+            return concated.absoluteString
+        case .none:
+            return path.absoluteString
+        }
+    }
+
+    /// An error type describes parsing error
+    enum ParsingError: LocalizedError {
+        /// A passed pattern is wrong format
         case invalidPattern(String)
         case unknownError
 
-        public var errorDescription: String? {
+        var errorDescription: String? {
             switch self {
             case .invalidPattern(let pattern):
                 return "Pattern string '\(pattern)' is invalid."
