@@ -47,7 +47,7 @@ do {
     }
 } catch {
     // If route definitions have some problems, routers fail initialization and raise reasons.
-    fatalError(error.localizeDescription)
+    fatalError(error.localizedDescription)
 }
 
 // Pikachu(No. 25) is exist! so you can open Pikachu's page.
