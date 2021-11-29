@@ -7,7 +7,7 @@ public final class Router<UserInfo> {
 
     let linkSources: Set<LinkSource>
     private(set) var routes: [Route]
-    private let parser = ContextParser<UserInfo>()
+    private let parser = ContextParser()
 
     public convenience init(accepting linkSource: LinkSource) {
         self.init(linkSources: [linkSource])
@@ -52,18 +52,18 @@ public final class Router<UserInfo> {
 
     @discardableResult
     public func openIfPossible(_ url: URL, userInfo: UserInfo) -> Bool {
-        searchMatchingRoutes(to: url, userInfo: userInfo)
+        searchMatchingRoutes(to: url)
             .first { result in
                 do {
-                    return try result.route.executeHandler(context: result.context)
+                    return try result.route.executeHandler(context: result.context.attach(userInfo))
                 } catch {
                     return false
                 }
             } != nil
     }
 
-    public func responds(to url: URL, userInfo: UserInfo) -> Bool {
-        !searchMatchingRoutes(to: url, userInfo: userInfo).isEmpty
+    public func responds(to url: URL) -> Bool {
+        !searchMatchingRoutes(to: url).isEmpty
     }
 
     private func expandAcceptablePattern(of route: Route) -> Set<Pattern> {
@@ -79,12 +79,12 @@ public final class Router<UserInfo> {
 
     private struct MatchResult {
         let route: Route
-        let context: Context<UserInfo>
+        let context: ContextProtocol
     }
-    private func searchMatchingRoutes(to url: URL, userInfo: UserInfo) -> [MatchResult] {
+    private func searchMatchingRoutes(to url: URL) -> [MatchResult] {
         routes.reduce(into: []) { matchings, route in
             for pattern in expandAcceptablePattern(of: route) {
-                if let context = try? parser.parse(url, with: pattern, userInfo: userInfo) {
+                if let context = try? parser.parse(url, with: pattern) {
                     let result = MatchResult(route: route, context: context)
                     matchings.append(result)
                 }
@@ -97,10 +97,6 @@ public extension Router where UserInfo == Void {
     @discardableResult
     func openIfPossible(_ url: URL) -> Bool {
         return openIfPossible(url, userInfo: ())
-    }
-
-    func responds(to url: URL) -> Bool {
-        return responds(to: url, userInfo: ())
     }
 }
 

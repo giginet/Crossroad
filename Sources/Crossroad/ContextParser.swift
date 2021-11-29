@@ -3,7 +3,7 @@ import Foundation
 @available(*, deprecated, renamed: "ContextParser")
 public typealias URLParser = ContextParser
 
-public class ContextParser<UserInfo> {
+public class ContextParser {
     private let keywordPrefix = ":"
 
     public enum Error: Swift.Error {
@@ -16,17 +16,17 @@ public class ContextParser<UserInfo> {
 
     public init() { }
 
-    public func parse(_ url: URL, with patternString: String, userInfo: UserInfo) throws -> Context<UserInfo> {
+    public func parse(_ url: URL, with patternString: String) throws -> ContextProtocol {
         let pattern = try Pattern(patternString: patternString)
-        return try parse(url, with: pattern, userInfo: userInfo)
+        return try parse(url, with: pattern)
     }
 
     @available(*, deprecated, renamed: "parse(_:with:userInfo:)")
-    public func parse(_ url: URL, in patternString: String, userInfo: UserInfo) throws -> Context<UserInfo> {
-        try parse(url, with: patternString, userInfo: userInfo)
+    public func parse(_ url: URL, in patternString: String) throws -> ContextProtocol {
+        try parse(url, with: patternString)
     }
 
-    func parse(_ url: URL, with pattern: Pattern, userInfo: UserInfo) throws -> Context<UserInfo> {
+    func parse(_ url: URL, with pattern: Pattern) throws -> ContextProtocol {
         let expectedComponents: [String]
         let actualURLComponents: [String]
         let shouldBeCaseSensitives: [Bool]
@@ -69,7 +69,7 @@ public class ContextParser<UserInfo> {
 
         let argumentContainer = Arguments(arguments)
         let parameters = parseParameters(from: url)
-        return Context<UserInfo>(url: url, arguments: argumentContainer, queryParameters: parameters, userInfo: userInfo)
+        return AbstractContext(url: url, arguments: argumentContainer, queryParameters: parameters)
     }
 
     private func compare(_ lhs: String, _ rhs: String, isCaseSensitive: Bool) -> Bool {
@@ -88,16 +88,5 @@ public class ContextParser<UserInfo> {
             parameters = []
         }
         return QueryParameters(parameters)
-    }
-}
-
-extension ContextParser where UserInfo == Void {
-    public func parse(_ url: URL, with patternString: String) throws -> Context<UserInfo> {
-        return try parse(url, with: patternString, userInfo: ())
-    }
-
-    @available(*, deprecated, renamed: "parse(_:with:)")
-    public func parse(_ url: URL, in patternString: String) throws -> Context<UserInfo> {
-        try parse(url, with: patternString, userInfo: ())
     }
 }

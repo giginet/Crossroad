@@ -1,6 +1,6 @@
 import Foundation
 
-struct Arguments {
+public struct Arguments {
     enum Error: Swift.Error {
         case keyNotFound(String)
         case couldNotParse(Parsable.Type)
@@ -72,9 +72,33 @@ public struct QueryParameters {
     private var storage: [URLQueryItem]
 }
 
-public struct Context<UserInfo> {
+public protocol ContextProtocol {
+    var url: URL { get }
+    var arguments: Arguments { get }
+    var queryParameters: QueryParameters { get }
+}
+
+extension ContextProtocol {
+    func attach<UserInfo>(_ userInfo: UserInfo) -> Context<UserInfo> {
+        Context<UserInfo>(url: url, arguments: arguments, queryParameters: queryParameters, userInfo: userInfo)
+    }
+}
+
+struct AbstractContext: ContextProtocol {
+    let url: URL
+    let arguments: Arguments
+    let queryParameters: QueryParameters
+
+    init(url: URL, arguments: Arguments, queryParameters: QueryParameters) {
+        self.url = url
+        self.arguments = arguments
+        self.queryParameters = queryParameters
+    }
+}
+
+public struct Context<UserInfo>: ContextProtocol {
     public let url: URL
-    private let arguments: Arguments
+    public let arguments: Arguments
     public let queryParameters: QueryParameters
     public let userInfo: UserInfo
 
@@ -84,7 +108,9 @@ public struct Context<UserInfo> {
         self.queryParameters = queryParameters
         self.userInfo = userInfo
     }
+}
 
+extension ContextProtocol {
     @available(*, deprecated, message: "subscript for an argument is depricated.", renamed: "argument(named:)")
     public subscript<T: Parsable>(argument keyword: String) -> T? {
         return try? arguments.get(named: keyword)
