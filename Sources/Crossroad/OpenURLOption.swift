@@ -32,10 +32,6 @@ public extension Router where UserInfo == OpenURLOption {
     func openIfPossible(_ url: URL, options: ApplicationOpenURLOptions) -> Bool {
         return openIfPossible(url, userInfo: OpenURLOption(options: options))
     }
-
-    func responds(to url: URL, options: ApplicationOpenURLOptions) -> Bool {
-        return responds(to: url, userInfo: OpenURLOption(options: options))
-    }
 }
 
 @available(iOS 13.0, *)
@@ -43,10 +39,6 @@ extension Router where UserInfo == OpenURLOption {
     @discardableResult
     public func openIfPossible(_ url: URL, options: UIScene.OpenURLOptions) -> Bool {
         return openIfPossible(url, userInfo: OpenURLOption(options: options))
-    }
-
-    public func responds(to url: URL, options: UIScene.OpenURLOptions) -> Bool {
-        return responds(to: url, userInfo: OpenURLOption(options: options))
     }
 }
 
