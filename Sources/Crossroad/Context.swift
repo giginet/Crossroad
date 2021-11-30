@@ -74,37 +74,38 @@ public struct QueryParameters {
 
 public protocol ContextProtocol {
     var url: URL { get }
-    var arguments: Arguments { get }
+    /// This struct is for internal usage.
+    var internalArgumentsContainer: Arguments { get }
     var queryParameters: QueryParameters { get }
 }
 
 extension ContextProtocol {
     func attach<UserInfo>(_ userInfo: UserInfo) -> Context<UserInfo> {
-        Context<UserInfo>(url: url, arguments: arguments, queryParameters: queryParameters, userInfo: userInfo)
+        Context<UserInfo>(url: url, arguments: internalArgumentsContainer, queryParameters: queryParameters, userInfo: userInfo)
     }
 }
 
 struct AbstractContext: ContextProtocol {
     let url: URL
-    let arguments: Arguments
+    let internalArgumentsContainer: Arguments
     let queryParameters: QueryParameters
 
     init(url: URL, arguments: Arguments, queryParameters: QueryParameters) {
         self.url = url
-        self.arguments = arguments
+        self.internalArgumentsContainer = arguments
         self.queryParameters = queryParameters
     }
 }
 
 public struct Context<UserInfo>: ContextProtocol {
     public let url: URL
-    public let arguments: Arguments
+    public let internalArgumentsContainer: Arguments
     public let queryParameters: QueryParameters
     public let userInfo: UserInfo
 
     internal init(url: URL, arguments: Arguments, queryParameters: QueryParameters, userInfo: UserInfo) {
         self.url = url
-        self.arguments = arguments
+        self.internalArgumentsContainer = arguments
         self.queryParameters = queryParameters
         self.userInfo = userInfo
     }
@@ -113,7 +114,7 @@ public struct Context<UserInfo>: ContextProtocol {
 extension ContextProtocol {
     @available(*, deprecated, message: "subscript for an argument is depricated.", renamed: "argument(named:)")
     public subscript<T: Parsable>(argument keyword: String) -> T? {
-        return try? arguments.get(named: keyword)
+        return try? internalArgumentsContainer.get(named: keyword)
     }
 
     @available(*, deprecated, message: "Use queryParameters[key] instead")
@@ -122,7 +123,7 @@ extension ContextProtocol {
     }
 
     public func argument<T: Parsable>(named key: String, as type: T.Type = T.self) throws -> T {
-        return try arguments.get(named: key)
+        return try internalArgumentsContainer.get(named: key)
     }
 
     @available(*, deprecated, renamed: "queryParameter(named:)")
