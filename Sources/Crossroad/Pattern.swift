@@ -23,7 +23,7 @@ public enum LinkSource: Hashable, CustomStringConvertible {
     }
 }
 
-public struct Path: Hashable, CustomStringConvertible {
+struct Path: Hashable, CustomStringConvertible {
     var components: [String]
 
     var absoluteString: String {
@@ -44,13 +44,13 @@ public struct Path: Hashable, CustomStringConvertible {
 }
 
 extension Path: ExpressibleByStringLiteral {
-    public typealias StringLiteralType = String
+    typealias StringLiteralType = String
 
-    public init(stringLiteral value: String) {
+    init(stringLiteral value: String) {
         self.init(pathString: value)
     }
 
-    public init(unicodeScalarLiteral value: String) {
+    init(unicodeScalarLiteral value: String) {
         self.init(pathString: value)
     }
 
@@ -59,26 +59,38 @@ extension Path: ExpressibleByStringLiteral {
     }
 }
 
-public struct Pattern: Hashable {
-    public let linkSource: LinkSource?
-    public let path: Path
+struct Pattern: Hashable {
+    let linkSource: LinkSource?
+    let path: Path
 
-    public init(linkSource: LinkSource?, path: Path) {
+    init(linkSource: LinkSource?, path: Path) {
         self.linkSource = linkSource
         self.path = path
     }
 
-    public init(patternString: String) throws {
+    init(patternString: String) throws {
         let (linkSource, path) = try PatternParser().parse(patternString: patternString)
         self.linkSource = linkSource
         self.path = path
     }
 
-    public enum ParsingError: LocalizedError {
+    var absoluteString: String {
+        switch linkSource {
+        case .customURLScheme(let scheme):
+            return "\(scheme):/\(path.absoluteString)"
+        case .universalLink(let url):
+            let concated = path.components.reduce(url, { $0.appendingPathComponent($1) })
+            return concated.absoluteString
+        case .none:
+            return path.absoluteString
+        }
+    }
+
+    enum ParsingError: LocalizedError {
         case invalidPattern(String)
         case unknownError
 
-        public var errorDescription: String? {
+        var errorDescription: String? {
             switch self {
             case .invalidPattern(let pattern):
                 return "Pattern string '\(pattern)' is invalid."
