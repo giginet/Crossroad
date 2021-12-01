@@ -164,7 +164,7 @@ final class RouterTest: XCTestCase {
         XCTAssertFalse(router.responds(to: URL(string: "spam/ham")!))
     }
 
-    func testHandle() throws {
+    func testHandle() async throws {
         let expectation = self.expectation(description: "Should called handler four times")
         expectation.expectedFulfillmentCount = 4
 
@@ -190,21 +190,21 @@ final class RouterTest: XCTestCase {
                 expectation.fulfill()
             }
         }
-        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://static")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/bar?param0=123")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://hoge")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/hoge/fuga")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "foobar://spam/ham")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "notfoobar://static")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "static")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar?param0=123")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "hoge")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "foo/hoge/fuga")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "spam/ham")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "foobar://static")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "foobar://foo/bar?param0=123")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "foobar://hoge")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "foobar://foo/hoge/fuga")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "foobar://spam/ham")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "notfoobar://static")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "static")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "foo/bar?param0=123")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "hoge")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "foo/hoge/fuga")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "spam/ham")!))
         wait(for: [expectation], timeout: 2.0)
     }
 
-    func testHandleWithURLPrefix() throws {
+    func testHandleWithURLPrefix() async throws {
         let expectation = self.expectation(description: "Should called handler four times")
         expectation.expectedFulfillmentCount = 4
         let router = try SimpleRouter(accepting: [.universalLink(URL(string: "https://example.com")!)]) { registry in
@@ -229,21 +229,21 @@ final class RouterTest: XCTestCase {
                 expectation.fulfill()
             }
         }
-        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/static")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/foo/bar?param0=123")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/hoge")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/foo/hoge/fuga")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "https://example.com/spam/ham")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "nothttps://example.com/static")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "static")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar?param0=123")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "hoge")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "foo/hoge/fuga")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "spam/ham")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "https://example.com/static")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "https://example.com/foo/bar?param0=123")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "https://example.com/hoge")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "https://example.com/foo/hoge/fuga")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "https://example.com/spam/ham")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "nothttps://example.com/static")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "static")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "foo/bar?param0=123")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "hoge")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "foo/hoge/fuga")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "spam/ham")!))
         wait(for: [expectation], timeout: 2.0)
     }
 
-    func testHandleWithoutPrefix() throws {
+    func testHandleWithoutPrefix() async throws {
         let expectation = self.expectation(description: "Should called handler four times")
         expectation.expectedFulfillmentCount = 4
 
@@ -269,21 +269,21 @@ final class RouterTest: XCTestCase {
                 expectation.fulfill()
             }
         }
-        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://static")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/bar?param0=123")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "FOOBAR://HOGE")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/hoge/fuga")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "foobar://spam/ham")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "notfoobar://static")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "static")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar?param0=123")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "hoge")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "foo/hoge/fuga")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "spam/ham")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "foobar://static")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "foobar://foo/bar?param0=123")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "FOOBAR://HOGE")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "foobar://foo/hoge/fuga")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "foobar://spam/ham")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "notfoobar://static")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "static")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "foo/bar?param0=123")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "hoge")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "foo/hoge/fuga")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "spam/ham")!))
         wait(for: [expectation], timeout: 2.0)
     }
 
-    func testHandleWithSlashPrefix() throws {
+    func testHandleWithSlashPrefix() async throws {
         let expectation = self.expectation(description: "Should called handler four times")
         expectation.expectedFulfillmentCount = 4
 
@@ -309,21 +309,21 @@ final class RouterTest: XCTestCase {
                 expectation.fulfill()
             }
         }
-        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://static")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/bar?param0=123")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "FOOBAR://HOGE")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/hoge/fuga")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "foobar://spam/ham")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "notfoobar://static")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "static")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar?param0=123")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "hoge")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "foo/hoge/fuga")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "spam/ham")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "foobar://static")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "foobar://foo/bar?param0=123")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "FOOBAR://HOGE")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "foobar://foo/hoge/fuga")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "foobar://spam/ham")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "notfoobar://static")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "static")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "foo/bar?param0=123")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "hoge")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "foo/hoge/fuga")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "spam/ham")!))
         wait(for: [expectation], timeout: 2.0)
     }
 
-    func testHandleWithoutPrefixWithURLPrefix() throws {
+    func testHandleWithoutPrefixWithURLPrefix() async throws {
         let expectation = self.expectation(description: "Should called handler four times")
         expectation.expectedFulfillmentCount = 4
 
@@ -349,21 +349,21 @@ final class RouterTest: XCTestCase {
                 expectation.fulfill()
             }
         }
-        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/static")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/foo/bar?param0=123")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/HOGE")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/foo/hoge/fuga")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "https://example.com/spam/ham")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "nothttps://example.com/static")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "static")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar?param0=123")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "hoge")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "foo/hoge/fuga")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "spam/ham")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "https://example.com/static")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "https://example.com/foo/bar?param0=123")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "https://example.com/HOGE")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "https://example.com/foo/hoge/fuga")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "https://example.com/spam/ham")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "nothttps://example.com/static")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "static")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "foo/bar?param0=123")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "hoge")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "foo/hoge/fuga")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "spam/ham")!))
         wait(for: [expectation], timeout: 2.0)
     }
 
-    func testHandlerWithSamePatterns() throws {
+    func testHandlerWithSamePatterns() async throws {
         let idExpectation = self.expectation(description: "Should called handler with ID")
         let keywordExpectation = self.expectation(description: "Should called handler with keyword")
 
@@ -381,14 +381,14 @@ final class RouterTest: XCTestCase {
                 keywordExpectation.fulfill()
             }
         }
-        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/42")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "FOOBAR://FOO/BAR")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "foo/42")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "foobar://foo/42")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "FOOBAR://FOO/BAR")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "foo/42")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [idExpectation, keywordExpectation], timeout: 2.0)
     }
 
-    func testHandlerWithSamePatternsWithURLPrefix() throws {
+    func testHandlerWithSamePatternsWithURLPrefix() async throws {
         let idExpectation = self.expectation(description: "Should called handler with ID")
         let keywordExpectation = self.expectation(description: "Should called handler with keyword")
 
@@ -406,14 +406,14 @@ final class RouterTest: XCTestCase {
                 keywordExpectation.fulfill()
             }
         }
-        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/foo/42")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/foo/bar")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "foo/42")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "https://example.com/foo/42")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "https://example.com/foo/bar")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "foo/42")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [idExpectation, keywordExpectation], timeout: 2.0)
     }
 
-    func testHandlerWithSamePatternsWithoutPrefix() throws {
+    func testHandlerWithSamePatternsWithoutPrefix() async throws {
         let idExpectation = self.expectation(description: "Should called handler with ID")
         let keywordExpectation = self.expectation(description: "Should called handler with keyword")
 
@@ -431,14 +431,14 @@ final class RouterTest: XCTestCase {
                 keywordExpectation.fulfill()
             }
         }
-        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://foo/42")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "FOOBAR://FOO/BAR")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "foo/42")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "foobar://foo/42")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "FOOBAR://FOO/BAR")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "foo/42")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [idExpectation, keywordExpectation], timeout: 2.0)
     }
 
-    func testHandlerWithSamePatternsWithoutPrefixWithURLPrefix() throws {
+    func testHandlerWithSamePatternsWithoutPrefixWithURLPrefix() async throws {
         let idExpectation = self.expectation(description: "Should called handler with ID")
         let keywordExpectation = self.expectation(description: "Should called handler with keyword")
 
@@ -457,14 +457,14 @@ final class RouterTest: XCTestCase {
                 keywordExpectation.fulfill()
             }
         }
-        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/foo/42")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/foo/bar")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "foo/42")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "https://example.com/foo/42")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "https://example.com/foo/bar")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "foo/42")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [idExpectation, keywordExpectation], timeout: 2.0)
     }
 
-    func testHandleReturnsFalse() throws {
+    func testHandleReturnsFalse() async throws {
         let expectation = self.expectation(description: "Should called handler twice")
         expectation.expectedFulfillmentCount = 2
 
@@ -478,12 +478,12 @@ final class RouterTest: XCTestCase {
                 expectation.fulfill()
             }
         }
-        XCTAssertFalse(router.openIfPossible(URL(string: "foobar://foo/bar")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://spam/ham")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "foobar://foo/bar")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "foobar://spam/ham")!))
         wait(for: [expectation], timeout: 2.0)
     }
 
-    func testHandleReturnsFalseWithURLPrefix() throws {
+    func testHandleReturnsFalseWithURLPrefix() async throws {
         let expectation = self.expectation(description: "Should called handler twice")
         expectation.expectedFulfillmentCount = 2
 
@@ -497,12 +497,12 @@ final class RouterTest: XCTestCase {
                 expectation.fulfill()
             }
         }
-        XCTAssertFalse(router.openIfPossible(URL(string: "https://example.com/foo/bar")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/pokemons/Pikachu")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "https://example.com/foo/bar")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "https://example.com/pokemons/Pikachu")!))
         wait(for: [expectation], timeout: 2.0)
     }
 
-    func testHandleReturnsFalseWithoutPrefix() throws {
+    func testHandleReturnsFalseWithoutPrefix() async throws {
         let expectation = self.expectation(description: "Should called handler twice")
         expectation.expectedFulfillmentCount = 2
 
@@ -516,12 +516,12 @@ final class RouterTest: XCTestCase {
                 expectation.fulfill()
             }
             }
-        XCTAssertFalse(router.openIfPossible(URL(string: "foobar://foo/bar")!))
-        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://pokemons/Pikachu")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "foobar://foo/bar")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "foobar://pokemons/Pikachu")!))
         wait(for: [expectation], timeout: 2.0)
     }
 
-    func testHandleCapitalCasedHostKeyword() throws {
+    func testHandleCapitalCasedHostKeyword() async throws {
         let expectation = self.expectation(description: "Should called handler")
 
         let router = try SimpleRouter(accepting: [scheme]) { registry in
@@ -531,11 +531,11 @@ final class RouterTest: XCTestCase {
                 expectation.fulfill()
             }
         }
-        XCTAssertTrue(router.openIfPossible(URL(string: "FOOBAR://FOO")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "FOOBAR://FOO")!))
         wait(for: [expectation], timeout: 2.0)
     }
 
-    func testHandleReturnsFalseWithoutPrefixWithURLPrefix() throws {
+    func testHandleReturnsFalseWithoutPrefixWithURLPrefix() async throws {
         let expectation = self.expectation(description: "Should called handler twice")
         expectation.expectedFulfillmentCount = 2
 
@@ -549,12 +549,12 @@ final class RouterTest: XCTestCase {
                 expectation.fulfill()
             }
         }
-        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/foo/bar")!))
-        XCTAssertFalse(router.openIfPossible(URL(string: "foo/bar")!))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "https://example.com/foo/bar")!))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "foo/bar")!))
         wait(for: [expectation], timeout: 2.0)
     }
 
-    func testWithUserInfo() throws {
+    func testWithUserInfo() async throws {
         struct UserInfo {
             let value: Int
         }
@@ -565,12 +565,12 @@ final class RouterTest: XCTestCase {
                 userInfo = context.userInfo
             }
         }
-        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://static")!, userInfo: UserInfo(value: 42)))
-        XCTAssertFalse(router.openIfPossible(URL(string: "static")!, userInfo: UserInfo(value: 42)))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "foobar://static")!, userInfo: UserInfo(value: 42)))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "static")!, userInfo: UserInfo(value: 42)))
         XCTAssertEqual(userInfo?.value, 42)
     }
 
-    func testWithUserInfoWithURLPrefix() throws {
+    func testWithUserInfoWithURLPrefix() async throws {
         struct UserInfo {
             let value: Int
         }
@@ -582,12 +582,12 @@ final class RouterTest: XCTestCase {
                 userInfo = context.userInfo
             }
         }
-        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/static")!, userInfo: UserInfo(value: 42)))
-        XCTAssertFalse(router.openIfPossible(URL(string: "static")!, userInfo: UserInfo(value: 42)))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "https://example.com/static")!, userInfo: UserInfo(value: 42)))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "static")!, userInfo: UserInfo(value: 42)))
         XCTAssertEqual(userInfo?.value, 42)
     }
 
-    func testWithUserInfoWithoutPrefix() throws {
+    func testWithUserInfoWithoutPrefix() async throws {
         struct UserInfo {
             let value: Int
         }
@@ -599,12 +599,12 @@ final class RouterTest: XCTestCase {
                 userInfo = context.userInfo
             }
         }
-        XCTAssertTrue(router.openIfPossible(URL(string: "foobar://static")!, userInfo: UserInfo(value: 42)))
-        XCTAssertFalse(router.openIfPossible(URL(string: "static")!, userInfo: UserInfo(value: 42)))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "foobar://static")!, userInfo: UserInfo(value: 42)))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "static")!, userInfo: UserInfo(value: 42)))
         XCTAssertEqual(userInfo?.value, 42)
     }
 
-    func testWithUserInfoWithoutPrefixWithURLPrefix() throws {
+    func testWithUserInfoWithoutPrefixWithURLPrefix() async throws {
         struct UserInfo {
             let value: Int
         }
@@ -615,8 +615,8 @@ final class RouterTest: XCTestCase {
                 userInfo = context.userInfo
             }
         }
-        XCTAssertTrue(router.openIfPossible(URL(string: "https://example.com/static")!, userInfo: UserInfo(value: 42)))
-        XCTAssertFalse(router.openIfPossible(URL(string: "static")!, userInfo: UserInfo(value: 42)))
+        await assertTrueAsynchronously(await router.openIfPossible(URL(string: "https://example.com/static")!, userInfo: UserInfo(value: 42)))
+        await assertFalseAsynchronously(await router.openIfPossible(URL(string: "static")!, userInfo: UserInfo(value: 42)))
         XCTAssertEqual(userInfo?.value, 42)
     }
 }
