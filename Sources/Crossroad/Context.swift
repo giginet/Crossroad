@@ -81,7 +81,7 @@ public protocol ContextProtocol {
 
 extension ContextProtocol {
     func attach<UserInfo>(_ userInfo: UserInfo) -> Context<UserInfo> {
-        Context<UserInfo>(url: url, arguments: internalArgumentsContainer, queryParameters: queryParameters, userInfo: userInfo)
+        Context<UserInfo>(url: url, internalArgumentsContainer: internalArgumentsContainer, queryParameters: queryParameters, userInfo: userInfo)
     }
 }
 
@@ -103,9 +103,9 @@ public struct Context<UserInfo>: ContextProtocol {
     public let queryParameters: QueryParameters
     public let userInfo: UserInfo
 
-    internal init(url: URL, arguments: Arguments, queryParameters: QueryParameters, userInfo: UserInfo) {
+    internal init(url: URL, internalArgumentsContainer: Arguments, queryParameters: QueryParameters, userInfo: UserInfo) {
         self.url = url
-        self.internalArgumentsContainer = arguments
+        self.internalArgumentsContainer = internalArgumentsContainer
         self.queryParameters = queryParameters
         self.userInfo = userInfo
     }
@@ -159,6 +159,6 @@ extension ContextProtocol {
 
 extension Context where UserInfo == Void {
     init(url: URL, arguments: Arguments, queryParameters: QueryParameters) {
-        self.init(url: url, arguments: arguments, queryParameters: queryParameters, userInfo: ())
+        self.init(url: url, internalArgumentsContainer: arguments, queryParameters: queryParameters, userInfo: ())
     }
 }
