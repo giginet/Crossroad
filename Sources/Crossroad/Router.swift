@@ -51,15 +51,16 @@ public final class Router<UserInfo> {
     }
 
     @discardableResult
-    public func openIfPossible(_ url: URL, userInfo: UserInfo) -> Bool {
-        searchMatchingRoutes(to: url, userInfo: userInfo)
-            .first { result in
-                do {
-                    return try result.route.executeHandler(context: result.context)
-                } catch {
-                    return false
-                }
-            } != nil
+    @MainActor public func openIfPossible(_ url: URL, userInfo: UserInfo) async -> Bool {
+        for result in searchMatchingRoutes(to: url, userInfo: userInfo) {
+            do {
+                let succeeded = try await result.route.executeHandler(context: result.context)
+                if succeeded { return true }
+            } catch {
+                continue
+            }
+        }
+        return false
     }
 
     public func responds(to url: URL, userInfo: UserInfo) -> Bool {
@@ -95,8 +96,8 @@ public final class Router<UserInfo> {
 
 public extension Router where UserInfo == Void {
     @discardableResult
-    func openIfPossible(_ url: URL) -> Bool {
-        return openIfPossible(url, userInfo: ())
+    func openIfPossible(_ url: URL) async -> Bool {
+        return await openIfPossible(url, userInfo: ())
     }
 
     func responds(to url: URL) -> Bool {
