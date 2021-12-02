@@ -230,7 +230,7 @@ If you maintain a complex application and you want to use independent URL patter
 You can use `ContextParser`.
 
 ```swift
-let parser = ContextParser<Void>()
+let parser = ContextParser()
 let context = parser.parse(URL(string: "pokedex:/pokemons/25")!, 
                            with: "pokedex://pokemons/:id")
 ```

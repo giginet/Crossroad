@@ -3,14 +3,14 @@ import XCTest
 
 final class ParserTests: XCTestCase {
     func testURLParser() throws {
-        let parser = ContextParser<Void>()
+        let parser = ContextParser()
         let patternString = "pokedex://pokemons/:pokedexID"
         let context = try parser.parse(URL(string: "pokedex://pokemons/25")!, with: patternString)
         XCTAssertEqual(try context.argument(named: "pokedexID"), 25)
     }
 
     func testPatternCase() throws {
-        let parser = ContextParser<Void>()
+        let parser = ContextParser()
 
         let testCases: [(String, String, Bool, UInt)] = [
             ("http://my-awesome-pokedex.com/pokemons", "HTTP://MY-AWESOME-POKEDEX.COM/pokemons", true, #line),
