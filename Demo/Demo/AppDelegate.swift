@@ -65,6 +65,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-        return router.openIfPossible(url, options: options)
+        let shouldResponds = router.responds(to: url)
+        if shouldResponds {
+            Task {
+                await router.openIfPossible(url, options: options)
+            }
+        }
+        return shouldResponds
     }
 }
