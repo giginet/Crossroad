@@ -18,6 +18,7 @@ extension EnvironmentValues {
 }
 
 @main
+@MainActor
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
@@ -65,12 +66,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-        let shouldResponds = router.responds(to: url)
-        if shouldResponds {
-            Task {
-                await router.openIfPossible(url, options: options)
-            }
-        }
-        return shouldResponds
+        return router.openIfPossible(url, options: options)
     }
 }

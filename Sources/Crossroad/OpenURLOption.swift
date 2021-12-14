@@ -29,15 +29,15 @@ public typealias DefaultRouter = Router<OpenURLOption>
 
 public extension Router where UserInfo == OpenURLOption {
     @discardableResult
-    func openIfPossible(_ url: URL, options: ApplicationOpenURLOptions) async -> Bool {
-        return await openIfPossible(url, userInfo: OpenURLOption(options: options))
+    @MainActor func openIfPossible(_ url: URL, options: ApplicationOpenURLOptions) -> Bool {
+        return openIfPossible(url, userInfo: OpenURLOption(options: options))
     }
 }
 
 extension Router where UserInfo == OpenURLOption {
     @discardableResult
-    public func openIfPossible(_ url: URL, options: UIScene.OpenURLOptions) async -> Bool {
-        return await openIfPossible(url, userInfo: OpenURLOption(options: options))
+    @MainActor public func openIfPossible(_ url: URL, options: UIScene.OpenURLOptions) -> Bool {
+        return openIfPossible(url, userInfo: OpenURLOption(options: options))
     }
 }
 
