@@ -13,7 +13,7 @@ final class ContextTests: XCTestCase {
 
     var context: Context<Void> {
         return  Context<Void>(url: url,
-                              arguments: Arguments(["pokedexID": "25", "name": "Pikachu"]),
+                              internalArgumentsContainer: Arguments(["pokedexID": "25", "name": "Pikachu"]),
                               queryParameters: QueryParameters([
                                 URLQueryItem(name: "name", value: "Pikachu"),
                                 URLQueryItem(name: "type", value: "electric"),

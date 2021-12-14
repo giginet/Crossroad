@@ -19,7 +19,7 @@ final class OpenURLOptionTests: XCTestCase {
 
     func testContextWithOpenURLOption() {
         let context = Context<OpenURLOption>(url: URL(string: "https://example.com")!,
-                                             arguments: .init([:]),
+                                             internalArgumentsContainer: .init([:]),
                                              queryParameters: .init([]),
                                              userInfo: options)
         XCTAssertEqual(context.options.sourceApplication, "org.giginet.myapp")
