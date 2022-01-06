@@ -27,7 +27,7 @@ Imagine to implement Pokédex on iOS. You can access somewhere via URL scheme.
 import Crossroad
 
 let customURLScheme: LinkSource = .customURLScheme("pokedex")
-let universalLink: LinkSource = .universalLink("https://my-awesome-pokedex.com")
+let universalLink: LinkSource = .universalLink(URL(string: "https://my-awesome-pokedex.com")!)
 
 do {
     let router = try DefaultRouter(accepting: [customURLScheme, universalLink]) { registry in
