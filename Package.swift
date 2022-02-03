@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "Crossroad",
-    platforms: [.iOS(.v9),.tvOS(.v9)],
+    platforms: [.iOS(.v13),.tvOS(.v13)],
     products: [
         .library(
             name: "Crossroad",

@@ -18,6 +18,7 @@ extension EnvironmentValues {
 }
 
 @main
+@MainActor
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     

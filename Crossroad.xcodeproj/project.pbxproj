@@ -47,6 +47,8 @@
 		072F8EE2271C397C002F767C /* Parsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F8ECA271C397C002F767C /* Parsable.swift */; };
 		54019C7C271D92AD002D00D6 /* ContextParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54019C7B271D92AD002D00D6 /* ContextParser.swift */; };
 		54019C7D271D92AD002D00D6 /* ContextParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54019C7B271D92AD002D00D6 /* ContextParser.swift */; };
+		54675FA72768937100185500 /* AsyncAssertion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54675FA62768937100185500 /* AsyncAssertion.swift */; };
+		54675FA82768937100185500 /* AsyncAssertion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54675FA62768937100185500 /* AsyncAssertion.swift */; };
 		546DEA8420AD77F800923325 /* Crossroad.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 546DEA7A20AD77F800923325 /* Crossroad.framework */; };
 		FF4DE71B238CA19200FAC931 /* Crossroad.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF4DE70C238C9B7600FAC931 /* Crossroad.framework */; };
 /* End PBXBuildFile section */
@@ -91,6 +93,7 @@
 		072F8EC9271C397C002F767C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		072F8ECA271C397C002F767C /* Parsable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parsable.swift; sourceTree = "<group>"; };
 		54019C7B271D92AD002D00D6 /* ContextParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContextParser.swift; sourceTree = "<group>"; };
+		54675FA62768937100185500 /* AsyncAssertion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncAssertion.swift; sourceTree = "<group>"; };
 		546DEA7A20AD77F800923325 /* Crossroad.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Crossroad.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		546DEA8320AD77F800923325 /* CrossroadTests-iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CrossroadTests-iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF4DE70C238C9B7600FAC931 /* Crossroad.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Crossroad.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -174,6 +177,7 @@
 		546DEAAB20B098C800923325 /* CrossroadTests */ = {
 			isa = PBXGroup;
 			children = (
+				54675FA62768937100185500 /* AsyncAssertion.swift */,
 				072F8EA8271C3962002F767C /* ContextTests.swift */,
 				072F8EA4271C3962002F767C /* DSLTests.swift */,
 				072F8EA2271C3962002F767C /* Info.plist */,
@@ -386,6 +390,7 @@
 				072F8EB5271C3962002F767C /* Router_AcceptanceTests.swift in Sources */,
 				072F8EAB271C3962002F767C /* RouterTests.swift in Sources */,
 				072F8EB7271C3962002F767C /* OpenURLOptionTests.swift in Sources */,
+				54675FA72768937100185500 /* AsyncAssertion.swift in Sources */,
 				072F8EB3271C3962002F767C /* Router_ValidationTests.swift in Sources */,
 				072F8EB1271C3962002F767C /* DSLTests.swift in Sources */,
 				072F8EB9271C3962002F767C /* ContextTests.swift in Sources */,
@@ -419,6 +424,7 @@
 				072F8EB6271C3962002F767C /* Router_AcceptanceTests.swift in Sources */,
 				072F8EAC271C3962002F767C /* RouterTests.swift in Sources */,
 				072F8EB8271C3962002F767C /* OpenURLOptionTests.swift in Sources */,
+				54675FA82768937100185500 /* AsyncAssertion.swift in Sources */,
 				072F8EB4271C3962002F767C /* Router_ValidationTests.swift in Sources */,
 				072F8EB2271C3962002F767C /* DSLTests.swift in Sources */,
 				072F8EBA271C3962002F767C /* ContextTests.swift in Sources */,
@@ -497,7 +503,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -555,7 +561,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -594,6 +600,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 13.0;
 			};
 			name = Debug;
 		};
@@ -624,6 +631,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 13.0;
 			};
 			name = Release;
 		};
@@ -647,6 +655,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 13.0;
 			};
 			name = Debug;
 		};
@@ -669,6 +678,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 13.0;
 			};
 			name = Release;
 		};
@@ -698,6 +708,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TVOS_DEPLOYMENT_TARGET = 13.0;
 			};
 			name = Debug;
 		};
@@ -726,6 +737,7 @@
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
+				TVOS_DEPLOYMENT_TARGET = 13.0;
 			};
 			name = Release;
 		};
@@ -748,6 +760,7 @@
 				SDKROOT = appletvos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TVOS_DEPLOYMENT_TARGET = 13.0;
 			};
 			name = Debug;
 		};
@@ -769,6 +782,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 5.0;
+				TVOS_DEPLOYMENT_TARGET = 13.0;
 			};
 			name = Release;
 		};
