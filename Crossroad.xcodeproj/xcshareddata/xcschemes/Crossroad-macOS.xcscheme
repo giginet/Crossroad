@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8F73B0B5282CEA1E00F333E6"
-               BuildableName = "Crossroad-macOSTests.xctest"
+               BuildableName = "CrossroadTests-macOS.xctest"
                BlueprintName = "CrossroadTests-macOS"
                ReferencedContainer = "container:Crossroad.xcodeproj">
             </BuildableReference>
