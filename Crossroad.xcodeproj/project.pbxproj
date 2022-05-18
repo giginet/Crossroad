@@ -48,6 +48,27 @@
 		54019C7C271D92AD002D00D6 /* ContextParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54019C7B271D92AD002D00D6 /* ContextParser.swift */; };
 		54019C7D271D92AD002D00D6 /* ContextParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54019C7B271D92AD002D00D6 /* ContextParser.swift */; };
 		546DEA8420AD77F800923325 /* Crossroad.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 546DEA7A20AD77F800923325 /* Crossroad.framework */; };
+		8F73B0C4282CFB4C00F333E6 /* ContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F8EA8271C3962002F767C /* ContextTests.swift */; };
+		8F73B0C5282CFB4C00F333E6 /* DSLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F8EA4271C3962002F767C /* DSLTests.swift */; };
+		8F73B0C6282CFB4C00F333E6 /* OpenURLOptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F8EA7271C3962002F767C /* OpenURLOptionTests.swift */; };
+		8F73B0C7282CFB4C00F333E6 /* ParsableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F8EA3271C3962002F767C /* ParsableTests.swift */; };
+		8F73B0C8282CFB4C00F333E6 /* ParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F8EAA271C3962002F767C /* ParserTests.swift */; };
+		8F73B0C9282CFB4C00F333E6 /* PatternTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F8EA9271C3962002F767C /* PatternTests.swift */; };
+		8F73B0CA282CFB4C00F333E6 /* Router_AcceptanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F8EA6271C3962002F767C /* Router_AcceptanceTests.swift */; };
+		8F73B0CB282CFB4C00F333E6 /* Router_ValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F8EA5271C3962002F767C /* Router_ValidationTests.swift */; };
+		8F73B0CC282CFB4C00F333E6 /* RouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F8EA1271C3962002F767C /* RouterTests.swift */; };
+		8F73B0CE282CFBCE00F333E6 /* Crossroad.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 546DEA7A20AD77F800923325 /* Crossroad.framework */; };
+		8F73B0CF282CFC5300F333E6 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F8EC4271C397C002F767C /* Context.swift */; };
+		8F73B0D0282CFC5300F333E6 /* ContextParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54019C7B271D92AD002D00D6 /* ContextParser.swift */; };
+		8F73B0D2282CFC5300F333E6 /* DSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F8EC8271C397C002F767C /* DSL.swift */; };
+		8F73B0D3282CFC5300F333E6 /* OpenURLOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F8EBF271C397C002F767C /* OpenURLOption.swift */; };
+		8F73B0D4282CFC5300F333E6 /* Parsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F8ECA271C397C002F767C /* Parsable.swift */; };
+		8F73B0D5282CFC5300F333E6 /* Pattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F8EC0271C397C002F767C /* Pattern.swift */; };
+		8F73B0D6282CFC5300F333E6 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F8EC2271C397C002F767C /* Route.swift */; };
+		8F73B0D7282CFC5300F333E6 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F8EC7271C397C002F767C /* Router.swift */; };
+		8F73B0D8282CFC5300F333E6 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F8EC1271C397C002F767C /* Utils.swift */; };
+		8F73B0D9282CFC5300F333E6 /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072F8EC6271C397C002F767C /* Validator.swift */; };
+		8F73B0DA282CFC7900F333E6 /* Crossroad.h in Headers */ = {isa = PBXBuildFile; fileRef = 072F8EC3271C397C002F767C /* Crossroad.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FF4DE71B238CA19200FAC931 /* Crossroad.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF4DE70C238C9B7600FAC931 /* Crossroad.framework */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +79,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 546DEA7920AD77F800923325;
 			remoteInfo = Crossroad;
+		};
+		8F73B0B8282CEA1E00F333E6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 546DEA7120AD77F800923325 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8F73B0AC282CEA1E00F333E6;
+			remoteInfo = "Crossroad-macOS";
 		};
 		FF4DE722238DCFE600FAC931 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -93,6 +121,8 @@
 		54019C7B271D92AD002D00D6 /* ContextParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContextParser.swift; sourceTree = "<group>"; };
 		546DEA7A20AD77F800923325 /* Crossroad.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Crossroad.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		546DEA8320AD77F800923325 /* CrossroadTests-iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CrossroadTests-iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F73B0AD282CEA1E00F333E6 /* Crossroad.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Crossroad.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F73B0B6282CEA1E00F333E6 /* CrossroadTests-macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CrossroadTests-macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF4DE70C238C9B7600FAC931 /* Crossroad.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Crossroad.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF4DE720238CA19200FAC931 /* CrossroadTests-tvOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CrossroadTests-tvOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -110,6 +140,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				546DEA8420AD77F800923325 /* Crossroad.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F73B0AA282CEA1E00F333E6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F73B0B3282CEA1E00F333E6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F73B0CE282CFBCE00F333E6 /* Crossroad.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,6 +182,7 @@
 				546DEAAA20B098BF00923325 /* Crossroad */,
 				546DEAAB20B098C800923325 /* CrossroadTests */,
 				546DEA7B20AD77F800923325 /* Products */,
+				8F73B0CD282CFBCE00F333E6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -147,6 +193,8 @@
 				546DEA8320AD77F800923325 /* CrossroadTests-iOS.xctest */,
 				FF4DE70C238C9B7600FAC931 /* Crossroad.framework */,
 				FF4DE720238CA19200FAC931 /* CrossroadTests-tvOS.xctest */,
+				8F73B0AD282CEA1E00F333E6 /* Crossroad.framework */,
+				8F73B0B6282CEA1E00F333E6 /* CrossroadTests-macOS.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -189,6 +237,13 @@
 			path = Tests/CrossroadTests;
 			sourceTree = "<group>";
 		};
+		8F73B0CD282CFBCE00F333E6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -197,6 +252,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				072F8ED3271C397C002F767C /* Crossroad.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F73B0A8282CEA1E00F333E6 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F73B0DA282CFC7900F333E6 /* Crossroad.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,6 +310,42 @@
 			productReference = 546DEA8320AD77F800923325 /* CrossroadTests-iOS.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		8F73B0AC282CEA1E00F333E6 /* Crossroad-macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8F73B0C2282CEA1E00F333E6 /* Build configuration list for PBXNativeTarget "Crossroad-macOS" */;
+			buildPhases = (
+				8F73B0A9282CEA1E00F333E6 /* Sources */,
+				8F73B0AA282CEA1E00F333E6 /* Frameworks */,
+				8F73B0A8282CEA1E00F333E6 /* Headers */,
+				8F73B0AB282CEA1E00F333E6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Crossroad-macOS";
+			productName = "Crossroad-macOS";
+			productReference = 8F73B0AD282CEA1E00F333E6 /* Crossroad.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		8F73B0B5282CEA1E00F333E6 /* CrossroadTests-macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8F73B0C3282CEA1E00F333E6 /* Build configuration list for PBXNativeTarget "CrossroadTests-macOS" */;
+			buildPhases = (
+				8F73B0B2282CEA1E00F333E6 /* Sources */,
+				8F73B0B3282CEA1E00F333E6 /* Frameworks */,
+				8F73B0B4282CEA1E00F333E6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8F73B0B9282CEA1E00F333E6 /* PBXTargetDependency */,
+			);
+			name = "CrossroadTests-macOS";
+			productName = "Crossroad-macOSTests";
+			productReference = 8F73B0B6282CEA1E00F333E6 /* CrossroadTests-macOS.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		FF4DE6FC238C9B7600FAC931 /* Crossroad-tvOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = FF4DE709238C9B7600FAC931 /* Build configuration list for PBXNativeTarget "Crossroad-tvOS" */;
@@ -289,7 +388,7 @@
 		546DEA7120AD77F800923325 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0930;
+				LastSwiftUpdateCheck = 1330;
 				LastUpgradeCheck = 1300;
 				ORGANIZATIONNAME = giginet;
 				TargetAttributes = {
@@ -300,6 +399,12 @@
 					546DEA8220AD77F800923325 = {
 						CreatedOnToolsVersion = 9.3;
 						LastSwiftMigration = 1300;
+					};
+					8F73B0AC282CEA1E00F333E6 = {
+						CreatedOnToolsVersion = 13.3.1;
+					};
+					8F73B0B5282CEA1E00F333E6 = {
+						CreatedOnToolsVersion = 13.3.1;
 					};
 					FF4DE6FC238C9B7600FAC931 = {
 						LastSwiftMigration = 1300;
@@ -324,8 +429,10 @@
 			targets = (
 				546DEA7920AD77F800923325 /* Crossroad-iOS */,
 				FF4DE6FC238C9B7600FAC931 /* Crossroad-tvOS */,
+				8F73B0AC282CEA1E00F333E6 /* Crossroad-macOS */,
 				546DEA8220AD77F800923325 /* CrossroadTests-iOS */,
 				FF4DE70F238CA19200FAC931 /* CrossroadTests-tvOS */,
+				8F73B0B5282CEA1E00F333E6 /* CrossroadTests-macOS */,
 			);
 		};
 /* End PBXProject section */
@@ -339,6 +446,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		546DEA8120AD77F800923325 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F73B0AB282CEA1E00F333E6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F73B0B4282CEA1E00F333E6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -395,6 +516,39 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8F73B0A9282CEA1E00F333E6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F73B0CF282CFC5300F333E6 /* Context.swift in Sources */,
+				8F73B0D0282CFC5300F333E6 /* ContextParser.swift in Sources */,
+				8F73B0D2282CFC5300F333E6 /* DSL.swift in Sources */,
+				8F73B0D3282CFC5300F333E6 /* OpenURLOption.swift in Sources */,
+				8F73B0D4282CFC5300F333E6 /* Parsable.swift in Sources */,
+				8F73B0D5282CFC5300F333E6 /* Pattern.swift in Sources */,
+				8F73B0D6282CFC5300F333E6 /* Route.swift in Sources */,
+				8F73B0D7282CFC5300F333E6 /* Router.swift in Sources */,
+				8F73B0D8282CFC5300F333E6 /* Utils.swift in Sources */,
+				8F73B0D9282CFC5300F333E6 /* Validator.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F73B0B2282CEA1E00F333E6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F73B0C4282CFB4C00F333E6 /* ContextTests.swift in Sources */,
+				8F73B0C5282CFB4C00F333E6 /* DSLTests.swift in Sources */,
+				8F73B0C6282CFB4C00F333E6 /* OpenURLOptionTests.swift in Sources */,
+				8F73B0C7282CFB4C00F333E6 /* ParsableTests.swift in Sources */,
+				8F73B0C8282CFB4C00F333E6 /* ParserTests.swift in Sources */,
+				8F73B0C9282CFB4C00F333E6 /* PatternTests.swift in Sources */,
+				8F73B0CA282CFB4C00F333E6 /* Router_AcceptanceTests.swift in Sources */,
+				8F73B0CB282CFB4C00F333E6 /* Router_ValidationTests.swift in Sources */,
+				8F73B0CC282CFB4C00F333E6 /* RouterTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FF4DE6FD238C9B7600FAC931 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -435,6 +589,11 @@
 			isa = PBXTargetDependency;
 			target = 546DEA7920AD77F800923325 /* Crossroad-iOS */;
 			targetProxy = 546DEA8520AD77F800923325 /* PBXContainerItemProxy */;
+		};
+		8F73B0B9282CEA1E00F333E6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8F73B0AC282CEA1E00F333E6 /* Crossroad-macOS */;
+			targetProxy = 8F73B0B8282CEA1E00F333E6 /* PBXContainerItemProxy */;
 		};
 		FF4DE723238DCFE600FAC931 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -498,6 +657,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -556,6 +716,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -669,6 +830,114 @@
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		8F73B0BE282CEA1E00F333E6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 giginet. All rights reserved.";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.giginet.Crossroad;
+				PRODUCT_NAME = Crossroad;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		8F73B0BF282CEA1E00F333E6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 giginet. All rights reserved.";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.giginet.Crossroad;
+				PRODUCT_NAME = Crossroad;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		8F73B0C0282CEA1E00F333E6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.giginet.CrossroadTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		8F73B0C1282CEA1E00F333E6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.giginet.CrossroadTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -798,6 +1067,24 @@
 			buildConfigurations = (
 				546DEA9220AD77F800923325 /* Debug */,
 				546DEA9320AD77F800923325 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8F73B0C2282CEA1E00F333E6 /* Build configuration list for PBXNativeTarget "Crossroad-macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F73B0BE282CEA1E00F333E6 /* Debug */,
+				8F73B0BF282CEA1E00F333E6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8F73B0C3282CEA1E00F333E6 /* Build configuration list for PBXNativeTarget "CrossroadTests-macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F73B0C0282CEA1E00F333E6 /* Debug */,
+				8F73B0C1282CEA1E00F333E6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
