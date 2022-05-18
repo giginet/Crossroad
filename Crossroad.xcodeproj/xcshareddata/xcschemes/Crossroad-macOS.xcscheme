@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8F73B0AC282CEA1E00F333E6"
-               BuildableName = "Crossroad_macOS.framework"
+               BuildableName = "Crossroad.framework"
                BlueprintName = "Crossroad-macOS"
                ReferencedContainer = "container:Crossroad.xcodeproj">
             </BuildableReference>
@@ -65,7 +65,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8F73B0AC282CEA1E00F333E6"
-            BuildableName = "Crossroad_macOS.framework"
+            BuildableName = "Crossroad.framework"
             BlueprintName = "Crossroad-macOS"
             ReferencedContainer = "container:Crossroad.xcodeproj">
          </BuildableReference>

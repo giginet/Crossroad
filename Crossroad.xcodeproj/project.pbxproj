@@ -122,10 +122,7 @@
 		546DEA7A20AD77F800923325 /* Crossroad.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Crossroad.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		546DEA8320AD77F800923325 /* CrossroadTests-iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CrossroadTests-iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F73B0AD282CEA1E00F333E6 /* Crossroad.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Crossroad.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8F73B0AF282CEA1E00F333E6 /* Crossroad_macOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Crossroad_macOS.h; sourceTree = "<group>"; };
-		8F73B0B0282CEA1E00F333E6 /* Crossroad_macOS.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Crossroad_macOS.docc; sourceTree = "<group>"; };
 		8F73B0B6282CEA1E00F333E6 /* CrossroadTests-macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CrossroadTests-macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8F73B0BB282CEA1E00F333E6 /* Crossroad_macOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crossroad_macOSTests.swift; sourceTree = "<group>"; };
 		FF4DE70C238C9B7600FAC931 /* Crossroad.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Crossroad.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF4DE720238CA19200FAC931 /* CrossroadTests-tvOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CrossroadTests-tvOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -184,8 +181,6 @@
 			children = (
 				546DEAAA20B098BF00923325 /* Crossroad */,
 				546DEAAB20B098C800923325 /* CrossroadTests */,
-				8F73B0AE282CEA1E00F333E6 /* Crossroad-macOS */,
-				8F73B0BA282CEA1E00F333E6 /* Crossroad-macOSTests */,
 				546DEA7B20AD77F800923325 /* Products */,
 				8F73B0CD282CFBCE00F333E6 /* Frameworks */,
 			);
@@ -240,23 +235,6 @@
 			);
 			name = CrossroadTests;
 			path = Tests/CrossroadTests;
-			sourceTree = "<group>";
-		};
-		8F73B0AE282CEA1E00F333E6 /* Crossroad-macOS */ = {
-			isa = PBXGroup;
-			children = (
-				8F73B0AF282CEA1E00F333E6 /* Crossroad_macOS.h */,
-				8F73B0B0282CEA1E00F333E6 /* Crossroad_macOS.docc */,
-			);
-			path = "Crossroad-macOS";
-			sourceTree = "<group>";
-		};
-		8F73B0BA282CEA1E00F333E6 /* Crossroad-macOSTests */ = {
-			isa = PBXGroup;
-			children = (
-				8F73B0BB282CEA1E00F333E6 /* Crossroad_macOSTests.swift */,
-			);
-			path = "Crossroad-macOSTests";
 			sourceTree = "<group>";
 		};
 		8F73B0CD282CFBCE00F333E6 /* Frameworks */ = {
