@@ -89,6 +89,28 @@ func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>)
 }
 ```
 
+### Using NSApplicationDelegate (for macOS)
+
+If you develop macOS applications:
+
+```swift
+class AppDelegate: NSObject, NSApplicationDelegate {
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
+        let appleEventManager = NSAppleEventManager.shared()
+        appleEventManager.setEventHandler(self,
+                                          andSelector: #selector(handleURLEvent(event:replyEvent:)),
+                                          forEventClass: AEEventClass(kInternetEventClass),
+                                          andEventID: AEEventID(kAEGetURL))
+    }
+
+    @objc func handleURLEvent(event: NSAppleEventDescriptor?, replyEvent: NSAppleEventDescriptor?) {
+        guard let urlString = event?.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))?.stringValue else { return }
+        guard let url = URL(string: urlString) else { return }
+        router.openIfPossible(context.url, options: [:])
+    }
+}
+```
+
 ## Argument and Parameter
 
 ### Argument
