@@ -6,7 +6,7 @@ protocol ValidationRule {
 
 extension Router {
     private struct UnknownLinkSourceRule: ValidationRule {
-        func validate<UserInfo>(for router: Router<UserInfo>) throws {
+        func validate<U>(for router: Router<U>) throws {
             for route in router.routes {
                 guard case let .only(acceptSources) = route.acceptPolicy else {
                     continue
@@ -20,7 +20,7 @@ extension Router {
     }
 
     private struct DuplicatedRouteRule: ValidationRule {
-        func validate<UserInfo>(for router: Router<UserInfo>) throws {
+        func validate<U>(for router: Router<U>) throws {
             for route in router.routes {
                 let acceptSources: Set<LinkSource>
                 switch route.acceptPolicy {
@@ -46,7 +46,7 @@ extension Router {
     }
 
     private struct InvalidLinkSourceRule: ValidationRule {
-        func validate<UserInfo>(for router: Router<UserInfo>) throws {
+        func validate<U>(for router: Router<U>) throws {
             for route in router.routes {
                 guard let patternLinkSource = route.pattern.linkSource else {
                     continue
@@ -70,7 +70,7 @@ extension Router {
     }
 
     private struct InvalidUniversalLinkSourceRule: ValidationRule {
-        func validate<UserInfo>(for router: Router<UserInfo>) throws {
+        func validate<U>(for router: Router<U>) throws {
             for linkSource in router.linkSources {
                 switch linkSource {
                 case .customURLScheme:
@@ -101,7 +101,7 @@ extension Router {
             "mailto",
         ]
 
-        func validate<UserInfo>(for router: Router<UserInfo>) throws {
+        func validate<U>(for router: Router<U>) throws {
             for linkSource in router.linkSources {
                 switch linkSource {
                 case .customURLScheme(let scheme):
